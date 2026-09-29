@@ -67,16 +67,30 @@ React.useEffect(() => {
 }, []);
 
 if (!enableEffects) {
+  const isWide = slide.isWideComposite;
+
   return (
-    <div className="relative mx-auto flex h-[340px] w-full max-w-[300px] items-center justify-center">
-      <div className="relative h-[280px] w-[240px]">
+    <div className="relative mx-auto flex w-full items-center justify-center overflow-visible py-2">
+      {/* lightweight static glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1B4DFF]/10 blur-[55px]"
+      />
+
+      <div
+        className={
+          isWide
+            ? "relative h-[240px] w-[min(94vw,360px)]"
+            : "relative h-[360px] w-[min(82vw,300px)]"
+        }
+      >
         <Image
           src={slide.image}
           alt={`NOVYX ${slide.name}`}
           fill
           priority
-          sizes="240px"
-          className="object-contain p-3"
+          sizes={isWide ? "94vw" : "82vw"}
+          className="object-contain"
         />
       </div>
     </div>
