@@ -47,8 +47,13 @@ export async function codeCraftJson(prompt: string, maxTokens = 900): Promise<Re
   const data = (await response.json().catch(() => null)) as
     | { choices?: Array<{ message?: { content?: string } }>; error?: { message?: string } }
     | null;
-  if (!response.ok) throw new Error(data?.error?.message || `CodeCraft request failed with HTTP ${response.status}.`);
-  const content = data?.choices?.[0]?.message?.content || "";
+// اعمل كده عشان الـ status يتمرر صح:
+if (!response.ok) {
+  const msg = data?.error?.message || `CodeCraft request failed with HTTP ${response.status}.`;
+  const err = new Error(msg) as Error & { status: number };
+  err.status = response.status;
+  throw err;
+}  const content = data?.choices?.[0]?.message?.content || "";
   return extractJson(content);
 }
 
