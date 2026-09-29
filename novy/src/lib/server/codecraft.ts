@@ -5,7 +5,7 @@ import type { Product, ProductTranslation } from "@/lib/api/types";
 function getConfig() {
   const apiKey = process.env.CODECRAFT_API_KEY?.trim();
   const baseUrl = (process.env.CODECRAFT_BASE_URL?.trim() || "https://codecraftapi.com/v1").replace(/\/$/, "");
-  const model = process.env.CODECRAFT_MODEL?.trim() || "claude-opus-4.8";
+  const model = process.env.CODECRAFT_MODEL?.trim() || "gpt-5.6-luna";
   if (!apiKey) throw new Error("CODECRAFT_API_KEY is not configured.");
   return { apiKey, baseUrl, model };
 }
