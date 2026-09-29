@@ -3,8 +3,17 @@
 import * as React from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
-import { HeroCosmicCanvas } from "./hero-cosmic-canvas";
-import { HeroProduct3DScene } from "./hero-product-3d-scene";
+import dynamic from "next/dynamic";
+
+const HeroCosmicCanvas = dynamic(
+  () => import("./hero-cosmic-canvas").then((mod) => mod.HeroCosmicCanvas),
+  { ssr: false },
+);
+
+const HeroProduct3DScene = dynamic(
+  () => import("./hero-product-3d-scene").then((mod) => mod.HeroProduct3DScene),
+  { ssr: false },
+);
 import { HeroSlideContent } from "./hero-slide-content";
 import { HeroSliderPagination } from "./hero-slider-pagination";
 import { HeroBrandPillars } from "./hero-brand-pillars";
@@ -19,11 +28,28 @@ import { HERO_SLIDES, type HeroSlide } from "./hero-slide-data";
  * - Seamless White/Dark mode adaptation with luxury ambient glows
  * - Clean modular component architecture
  */
-export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) {
+export function HeroSection({
+  initialSlides,
+}: {
+  initialSlides?: HeroSlide[];
+}) {
   const slides = initialSlides?.length ? initialSlides : HERO_SLIDES;
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const [isPaused, setIsPaused] = React.useState(false);
+  const [isDesktop, setIsDesktop] = React.useState(false);
 
+  React.useEffect(() => {
+    const media = window.matchMedia(
+      "(min-width: 769px) and (hover: hover) and (pointer: fine)",
+    );
+
+    const update = () => setIsDesktop(media.matches);
+
+    update();
+    media.addEventListener("change", update);
+
+    return () => media.removeEventListener("change", update);
+  }, []);
   // Auto-advance slides every 7 seconds, pauses when hovering over the hero
   React.useEffect(() => {
     if (isPaused) return;
@@ -39,7 +65,7 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#F7F8FA] dark:bg-[#040711] text-foreground dark:text-white pt-28 pb-8 transition-colors duration-500"
+      className="relative min-h-[100svh] md:min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#F7F8FA] dark:bg-[#040711] text-foreground dark:text-white pt-28 pb-8 transition-colors duration-500"
     >
       {/* 1. Scientific Ambient Backdrop (Adaptive Cosmic/Laboratory Lighting) */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -53,8 +79,9 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
           alt="NOVYX Cosmic Scientific Laboratory Environment"
           fill
           priority
-          quality={90}
-          className="object-cover object-bottom opacity-15 dark:opacity-85 filter brightness-105 contrast-105 transition-opacity duration-500"
+          quality={80}
+          sizes="100vw"
+          className="object-cover object-center md:object-bottom opacity-20 dark:opacity-80"
         />
 
         {/* Adaptive Gradient Overlays for Smooth Horizon Blending */}
@@ -62,8 +89,9 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
       </div>
 
       {/* 2. Interactive 60fps HTML5 Animated Cosmic & Molecular Canvas */}
-      <HeroCosmicCanvas className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-40 dark:opacity-100 transition-opacity duration-500" />
-
+      {isDesktop ? (
+        <HeroCosmicCanvas className="absolute inset-0 z-[1] h-full w-full pointer-events-none opacity-40 dark:opacity-100" />
+      ) : null}
       {/* 3. Main Hero Two-Column Grid */}
       <Container size="xl" className="relative z-10 my-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
@@ -74,7 +102,20 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
 
           {/* Right Column: Dynamic 3D Interactive Product Presentation */}
           <div className="lg:col-span-6 xl:col-span-5 flex items-center justify-center relative">
-            <HeroProduct3DScene slide={activeSlide} />
+            {isDesktop ? (
+              <HeroProduct3DScene slide={activeSlide} />
+            ) : (
+              <div className="relative mx-auto h-[370px] w-[min(88vw,320px)]">
+                <Image
+                  src={activeSlide.image}
+                  alt={`NOVYX ${activeSlide.name}`}
+                  fill
+                  priority
+                  sizes="88vw"
+                  className="object-contain"
+                />
+              </div>
+            )}
           </div>
         </div>
       </Container>
