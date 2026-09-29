@@ -44,8 +44,8 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
       {/* 1. Scientific Ambient Backdrop (Adaptive Cosmic/Laboratory Lighting) */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Soft Ambient Light Glows in Light Mode */}
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#1B4DFF]/10 rounded-full blur-[140px] pointer-events-none dark:hidden" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#00D2FF]/10 rounded-full blur-[120px] pointer-events-none dark:hidden" />
+        <div className="hidden md:block absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#1B4DFF]/10 rounded-full blur-[140px] pointer-events-none dark:hidden" />
+        <div className="hidden md:block absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#00D2FF]/10 rounded-full blur-[120px] pointer-events-none dark:hidden" />
 
         {/* Cosmic Deep Space Image for Dark Mode with delicate presence in Light Mode */}
         <Image

@@ -62,7 +62,7 @@ export function Navbar() {
           className={cn(
             "relative transition-all duration-500 ease-out flex items-center justify-between gap-4",
             scrolled
-              ? "px-5 py-2 rounded-2xl bg-background/80 dark:bg-[#07090e]/85 backdrop-blur-2xl border border-border/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
+              ? "px-5 py-2 rounded-2xl bg-background dark:bg-[#07090e] md:bg-background/80  md:dark:bg-[#07090e]/85 backdrop-blur-none md:backdrop-blur-none border border-border/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
               : "px-2 py-1 bg-transparent"
           )}
         >

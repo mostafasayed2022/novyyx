@@ -51,6 +51,38 @@ export function HeroProduct3DScene({
     mouseY.set(0);
   };
 
+const [enableEffects, setEnableEffects] = React.useState(false);
+
+React.useEffect(() => {
+  const media = window.matchMedia(
+    "(min-width: 769px) and (hover: hover) and (pointer: fine)"
+  );
+
+  setEnableEffects(media.matches);
+
+  const handler = () => setEnableEffects(media.matches);
+  media.addEventListener("change", handler);
+
+  return () => media.removeEventListener("change", handler);
+}, []);
+
+if (!enableEffects) {
+  return (
+    <div className="relative mx-auto flex h-[340px] w-full max-w-[300px] items-center justify-center">
+      <div className="relative h-[280px] w-[240px]">
+        <Image
+          src={slide.image}
+          alt={`NOVYX ${slide.name}`}
+          fill
+          priority
+          sizes="240px"
+          className="object-contain p-3"
+        />
+      </div>
+    </div>
+  );
+}
+
   return (
     <div
       ref={containerRef}

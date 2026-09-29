@@ -12,7 +12,14 @@ import {
   CATALOG_PRODUCT_SLUGS,
   getProductPresentation,
 } from "@/config/product-presentation";
-import { AlertTriangle, ChevronLeft, ChevronRight, Filter, RefreshCw, Search } from "lucide-react";
+import {
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  RefreshCw,
+  Search,
+} from "lucide-react";
 
 interface ProductCatalogProps {
   initialProducts?: Product[];
@@ -51,7 +58,10 @@ function getPaginationItems(currentPage: number, totalPages: number) {
   return pages;
 }
 
-export function ProductCatalog({ initialProducts, productType }: ProductCatalogProps) {
+export function ProductCatalog({
+  initialProducts,
+  productType,
+}: ProductCatalogProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,12 +78,14 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
   } = useProductCatalog({ initialProducts, productType });
 
   const visibleProducts = [...filteredProducts].sort(
-    (a, b) =>
-      (slugOrder.get(a.slug) ?? 999) - (slugOrder.get(b.slug) ?? 999),
+    (a, b) => (slugOrder.get(a.slug) ?? 999) - (slugOrder.get(b.slug) ?? 999),
   );
 
   const requestedPage = Number(searchParams.get("page") || "1");
-  const totalPages = Math.max(1, Math.ceil(visibleProducts.length / PRODUCTS_PER_PAGE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(visibleProducts.length / PRODUCTS_PER_PAGE),
+  );
   const currentPage = Number.isFinite(requestedPage)
     ? Math.min(Math.max(Math.trunc(requestedPage), 1), totalPages)
     : 1;
@@ -114,7 +126,9 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
       const params = new URLSearchParams(searchParams.toString());
       params.delete("page");
       const query = params.toString();
-      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
     }
   };
 
@@ -126,7 +140,8 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
             { label: "Peptides", href: ROUTES.peptides },
             { label: "Skin Boosters", href: ROUTES.skinBoosters },
           ].map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active =
+              pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
               <Link
@@ -182,7 +197,10 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
         <div className="rounded-xl border border-border bg-surface p-10 text-center">
           <AlertTriangle className="mx-auto mb-4 h-7 w-7 text-amber-500" />
           <h3 className="font-semibold text-foreground">
-            {tr("Unable to load products", "Produkte konnten nicht geladen werden")}
+            {tr(
+              "Unable to load products",
+              "Produkte konnten nicht geladen werden",
+            )}
           </h3>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
             {error?.message ||
@@ -225,7 +243,9 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
               product.translations?.de?.description,
             );
             const presentation = getProductPresentation(product, locale);
-            const isBlend = product.specifications?.Series === "NOVYX Blend Series";
+            const isBlend =
+              product.specifications?.Series === "NOVYX Blend Series";
+            const imageSrc = product.imageUrl;
 
             return (
               <Link
@@ -250,18 +270,20 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
                     </>
                   ) : null}
 
-                  <div className={`relative aspect-[4/3] overflow-hidden ${isBlend ? "px-3 pt-5" : "px-5 pt-5"}`}>
+                  <div
+                    className={`relative aspect-square overflow-hidden px-6 pt-6`}
+                  >
                     {product.imageUrl ? (
                       <Image
                         src={product.imageUrl}
-                        alt={`${product.name} — NOVYX research product`}
+                        alt={product.name}
                         fill
                         loading="lazy"
-                        quality={80}
                         sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        placeholder="blur"
-                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjRmMGY4Ii8+PC9zdmc+"
-                        className={`object-contain transition-transform duration-500 ease-out group-hover:scale-[1.045] ${isBlend ? "p-2" : "p-5"}`}
+                        className="object-contain p-10 sm:p-12 transition-transform duration-300 group-hover:scale-[1.02]"
+                        unoptimized={product.imageUrl.includes(
+                          "res.cloudinary.com",
+                        )}
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center">
@@ -274,9 +296,13 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
 
                   <div className="relative flex flex-1 flex-col items-center px-6 pb-7 pt-2 text-center">
                     <p className="mb-2 text-[9px] font-mono font-semibold uppercase tracking-[0.16em] text-brand">
-                      {isBlend ? "NOVYX · Blend Research" : presentation.eyebrow}
+                      {isBlend
+                        ? "NOVYX · Blend Research"
+                        : presentation.eyebrow}
                     </p>
-                    <h2 className={`font-medium tracking-[-0.01em] text-foreground ${isBlend ? "text-[16px] leading-6" : "text-[17px]"}`}>
+                    <h2
+                      className={`font-medium tracking-[-0.01em] text-foreground ${isBlend ? "text-[16px] leading-6" : "text-[17px]"}`}
+                    >
                       {product.name}
                     </h2>
                     <p className="mt-2 line-clamp-2 max-w-[32ch] text-[12px] leading-5 text-muted-foreground">
@@ -287,7 +313,9 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
                         <span className="rounded-full border border-brand/15 bg-brand/[0.06] px-2.5 py-1 text-[9px] font-semibold text-brand">
                           {product.vialSizeMg} mg
                         </span>
-                        <span className="text-[9px] uppercase tracking-[0.12em] text-muted-foreground">5 mL × 1 vial</span>
+                        <span className="text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+                          5 mL × 1 vial
+                        </span>
                       </div>
                     ) : (
                       <p className="mt-4 max-w-[34ch] text-[10px] leading-4 text-foreground/75">
@@ -302,13 +330,18 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
         </div>
       )}
 
-      {!isLoading && !isError && visibleProducts.length > 0 && totalPages > 1 ? (
+      {!isLoading &&
+      !isError &&
+      visibleProducts.length > 0 &&
+      totalPages > 1 ? (
         <nav
           className="flex flex-col items-center justify-between gap-4 border-t border-border/70 pt-6 sm:flex-row"
           aria-label={tr("Product pagination", "Produktseiten-Navigation")}
         >
           <p className="text-[11px] text-muted-foreground">
-            {tr("Showing", "Anzeige")} {pageStart + 1}–{Math.min(pageStart + PRODUCTS_PER_PAGE, visibleProducts.length)} {tr("of", "von")} {visibleProducts.length}
+            {tr("Showing", "Anzeige")} {pageStart + 1}–
+            {Math.min(pageStart + PRODUCTS_PER_PAGE, visibleProducts.length)}{" "}
+            {tr("of", "von")} {visibleProducts.length}
           </p>
 
           <div className="flex items-center gap-1.5">
@@ -320,7 +353,9 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
               aria-label={tr("Previous page", "Vorherige Seite")}
             >
               <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
-              <span className="hidden sm:inline">{tr("Previous", "Zurück")}</span>
+              <span className="hidden sm:inline">
+                {tr("Previous", "Zurück")}
+              </span>
             </button>
 
             {paginationItems.map((item) =>
