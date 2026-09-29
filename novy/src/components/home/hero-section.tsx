@@ -53,7 +53,7 @@ export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) 
           alt="NOVYX Cosmic Scientific Laboratory Environment"
           fill
           priority
-          quality={60}
+          quality={90}
           className="object-cover object-bottom opacity-15 dark:opacity-85 filter brightness-105 contrast-105 transition-opacity duration-500"
         />
 

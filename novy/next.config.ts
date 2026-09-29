@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   images: {
-    qualities: [60, 75, 80],
+    qualities: [60, 75, 80, 90],
     deviceSizes: [640, 750, 1080, 1920],
     imageSizes: [16, 32, 64, 128, 256],
     formats: ["image/avif", "image/webp"],
