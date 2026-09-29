@@ -1,0 +1,26 @@
+import { z } from "zod";
+
+export const heroSlideSchema = z.object({
+  id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only."),
+  number: z.string().min(1),
+  name: z.string().min(1),
+  brand: z.string().min(1).default("NOVYX"),
+  eyebrow: z.string().min(2),
+  eyebrowDe: z.string().optional().default(""),
+  headlineMain: z.string().min(1),
+  headlineSub: z.string().min(1),
+  headlineSubDe: z.string().optional().default(""),
+  category: z.string().min(1),
+  categoryDe: z.string().optional().default(""),
+  description: z.string().min(10),
+  descriptionDe: z.string().optional().default(""),
+  image: z.string().min(1),
+  isWideComposite: z.boolean().optional(),
+  badge: z.string().min(1),
+  badgeDe: z.string().optional().default(""),
+  metrics: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })).min(1).max(4),
+  productLink: z.string().min(1),
+  published: z.boolean().default(true),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+});

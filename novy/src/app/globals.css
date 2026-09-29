@@ -1,0 +1,305 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  /* ==============================================================================
+     NOVYX BRAND DESIGN SYSTEM — THEME FOUNDATION & TOKENS
+     Source of Truth: Official NOVYX Brand Board (Engineered for Longevity)
+     Palette: Pearl (#F7F8FA), Graphite (#1A1A1A), Platinum (#A7ADB5),
+              Nexus Blue (#1B4DFF), Ice (#DCE6F5)
+     ============================================================================== */
+
+  /* LIGHT MODE (Pearl Background, Ice Surfaces, Graphite Typography, Platinum Details) */
+  :root {
+    color-scheme: light;
+
+    /* Resilient font stacks.
+       Keep typography usable without a build-time Google Fonts fetch. */
+    --font-montserrat: "Montserrat", "Avenir Next", "Segoe UI", Arial, sans-serif;
+    --font-inter: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-geist-mono: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    /* Brand Foundation Palette */
+    --pearl: #f7f8fa;
+    --graphite: #1a1a1a;
+    --platinum: #a7adb5;
+    --nexus-blue: #1b4dff;
+    --ice: #dce6f5;
+
+    /* Semantic Theme Tokens */
+    --background: #f7f8fa;
+    --background-subtle: #eef2f7;
+    --surface: #ffffff;
+    --surface-elevated: #f1f5fa;
+    --foreground: #1a1a1a;
+    --foreground-secondary: #3b424d;
+    --muted: #e2e8f0;
+    --muted-foreground: #5a6372;
+    --border: rgba(26, 26, 26, 0.08);
+    --border-highlight: rgba(27, 77, 255, 0.28);
+    --brand: #1b4dff;
+    --brand-hover: #133ecb;
+    --brand-glow: rgba(27, 77, 255, 0.16);
+    --metal: #a7adb5;
+    --ring: #1b4dff;
+
+    /* Structural & Optical Shadows */
+    --card-shadow: 0 1px 3px 0 rgba(26, 26, 26, 0.04), 0 4px 16px -2px rgba(26, 26, 26, 0.04);
+    --card-hover-shadow: 0 8px 24px -4px rgba(27, 77, 255, 0.10), 0 2px 6px 0 rgba(26, 26, 26, 0.04);
+    --grid-line: rgba(26, 26, 26, 0.035);
+    --hero-overlay: radial-gradient(ellipse 70% 45% at 50% -10%, rgba(27, 77, 255, 0.05), transparent 70%);
+
+    /* Architectural Radii System (Precise & Engineered, not bubbly) */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --radius-xl: 14px;
+  }
+
+  /* DARK MODE (Graphite / Near-Black Panel, Platinum, Pearl Typography, Controlled Nexus Glow) */
+  .dark {
+    color-scheme: dark;
+    /* Brand Foundation Palette */
+    --pearl: #f7f8fa;
+    --graphite: #1a1a1a;
+    --platinum: #a7adb5;
+    --nexus-blue: #1b4dff;
+    --ice: #dce6f5;
+
+    /* Semantic Theme Tokens */
+    --background: #0b0c10;
+    --background-subtle: #101217;
+    --surface: #14161c;
+    --surface-elevated: #1b1e26;
+    --foreground: #f7f8fa;
+    --foreground-secondary: #a7adb5;
+    --muted: #181b22;
+    --muted-foreground: #7e8794;
+    --border: rgba(167, 173, 181, 0.12);
+    --border-highlight: rgba(27, 77, 255, 0.38);
+    --brand: #1b4dff;
+    --brand-hover: #3d6bff;
+    --brand-glow: rgba(27, 77, 255, 0.26);
+    --metal: #a7adb5;
+    --ring: #1b4dff;
+
+    /* Structural & Optical Shadows */
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+    --card-hover-shadow: 0 12px 32px -4px rgba(27, 77, 255, 0.20), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+    --grid-line: rgba(247, 248, 250, 0.03);
+    --hero-overlay: radial-gradient(ellipse 70% 45% at 50% -10%, rgba(27, 77, 255, 0.12), transparent 70%);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Headings & Display Moments use Montserrat */
+  h1, h2, h3, h4, h5, h6, .font-display, .editorial-headline {
+    font-family: var(--font-montserrat), sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  /* Body text, UI, Navigation, Forms use Inter */
+  p, span, nav, button, input, select, textarea, .font-sans {
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  }
+
+  /* Technical specifications, data, and telemetry use Mono */
+  .font-mono, code, pre {
+    font-family: var(--font-geist-mono), monospace;
+  }
+
+  header,
+  footer,
+  nav,
+  .surface-card,
+  .surface-elevated {
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::selection {
+    background-color: rgba(27, 77, 255, 0.22);
+    color: var(--foreground);
+  }
+}
+
+/* Tailwind v4 CSS Variables Mapping */
+@theme inline {
+  --color-background: var(--background);
+  --color-background-subtle: var(--background-subtle);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-border: var(--border);
+  --color-border-highlight: var(--border-highlight);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-glow: var(--brand-glow);
+  --color-accent: var(--brand);
+  --color-metal: var(--metal);
+  --color-pearl: var(--pearl);
+  --color-graphite: var(--graphite);
+  --color-platinum: var(--platinum);
+  --color-ice: var(--ice);
+  --color-nexus-blue: var(--nexus-blue);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-montserrat);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Precision Architectural Surfaces (Engineered, not bubbly SaaS cards) */
+.surface-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-lg);
+}
+
+.surface-elevated {
+  background-color: var(--surface-elevated);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-lg);
+}
+
+/* Optical Grid */
+.biotech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+/* Editorial Headlines & Micro-Labels */
+.editorial-headline {
+  font-family: var(--font-montserrat), sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-weight: 700;
+}
+
+.micro-label {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+.brand-glow-subtle {
+  box-shadow: 0 0 24px -4px rgba(27, 77, 255, 0.20);
+}
+
+/* Section Blend Gradients */
+.section-blend-top {
+  background: linear-gradient(180deg, var(--background) 0%, transparent 100%);
+}
+
+.section-blend-bottom {
+  background: linear-gradient(0deg, var(--background) 0%, transparent 100%);
+}
+
+/* Custom Architectural Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 2px;
+  opacity: 0.35;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
+}
+
+/* ==============================================================================
+   MOBILE / iOS SAFARI FIXES
+   ============================================================================== */
+
+/* (A) iPhone 100vh fix — dvh respects the dynamic address bar height */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.h-screen {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* (B) iOS Safari backdrop-filter compatibility */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur);
+  }
+}
+
+/* (C) Hover effects only on devices with a real pointer (not touch) */
+@media (hover: none) {
+  .group-hover\:scale-\[1\.02\],
+  .group-hover\:scale-105,
+  .hover\:scale-\[1\.02\],
+  .hover\:-translate-y-1 {
+    transform: none !important;
+  }
+}
+
+/* (D) Smoother touch scrolling */
+@layer base {
+  html {
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
