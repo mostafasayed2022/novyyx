@@ -149,7 +149,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await response.json().catch(() => null)) as { detail?: string; errors?: Record<string, string[]> } | null;
+      const data = (await response.json().catch(() => null)) as { translationWarning?: string; detail?: string; errors?: Record<string, string[]> } | null;
       if (!response.ok) {
         const fieldError = data?.errors
           ? Object.entries(data.errors).find(([, messages]) => messages?.length)
@@ -157,7 +157,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
         const fieldMessage = fieldError ? `${fieldError[0]}: ${fieldError[1][0]}` : "";
         throw new Error(fieldMessage || data?.detail || "Unable to save product.");
       }
-      router.push("/admin/products");
+      router.push(data?.translationWarning ? "/admin/products?translation=unavailable" : "/admin/products");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to save product.");

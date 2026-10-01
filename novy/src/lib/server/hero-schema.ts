@@ -1,3 +1,4 @@
+import { imageSourceSchema } from "./media-schema";
 import { z } from "zod";
 
 export const heroSlideSchema = z.object({
@@ -14,12 +15,12 @@ export const heroSlideSchema = z.object({
   categoryDe: z.string().optional().default(""),
   description: z.string().min(10),
   descriptionDe: z.string().optional().default(""),
-  image: z.string().min(1),
+  image: imageSourceSchema.refine(Boolean, "Image is required."),
   isWideComposite: z.boolean().optional(),
   badge: z.string().min(1),
   badgeDe: z.string().optional().default(""),
   metrics: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })).min(1).max(4),
-  productLink: z.string().min(1),
+  productLink: z.string().regex(/^\/(?!\/)[^\\\s]*$/, "Use an internal /page link."),
   published: z.boolean().default(true),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),

@@ -45,7 +45,8 @@ apiClient.interceptors.request.use(
       }
 
       // 2. JWT / Token Auth from Storage if applicable
-      const authToken = window.localStorage.getItem("novyx_auth_token");
+      let authToken: string | null = null;
+      try { authToken = window.localStorage.getItem("novyx_auth_token"); } catch { /* Storage may be unavailable in private/embedded browsers. */ }
       if (authToken && config.headers && !config.headers.Authorization) {
         config.headers.Authorization = `Bearer ${authToken}`;
       }

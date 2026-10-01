@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const rootDir = path.resolve("./");
-const log = [];
 
 const pathsToDelete = [
   // Obsolete routes

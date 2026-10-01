@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useHasMounted } from "@/hooks/use-visual-capabilities";
 
 interface ThreeCanvasProps {
   children?: React.ReactNode;
@@ -17,11 +18,8 @@ export function ThreeCanvas({
   className,
   fallback,
 }: ThreeCanvasProps) {
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useHasMounted();
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useVisualActivity } from "@/hooks/use-visual-capabilities";
 import { Container } from "@/components/layout/container";
 import {
   Droplets,
@@ -28,6 +29,8 @@ import { useLocale } from "@/i18n/locale-provider";
  */
 export function StandardSection() {
   const { tr } = useLocale();
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const active = useVisualActivity(sectionRef);
   const threeValues = [
     {
       title: tr("No unnecessary complexity.", "Keine unnötige Komplexität."),
@@ -134,7 +137,7 @@ export function StandardSection() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section ref={sectionRef} data-visual-active={active} className="relative w-full overflow-hidden">
       {/* ========================================================================= */}
       {/* 1. UPPER WHITE / BIOTECHNOLOGY SCIENCE BANNER                             */}
       {/* ========================================================================= */}
@@ -145,6 +148,7 @@ export function StandardSection() {
             src="/backgrounds/novyx_bg_04_01.webp"
             alt="Laboratory Glass Caustics"
             fill
+            sizes="100vw"
             loading="lazy"
             quality={60}
             className="object-cover object-center"
@@ -152,8 +156,8 @@ export function StandardSection() {
         </div>
 
         {/* Ambient subtle light glows */}
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-[#1B4DFF]/5 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#00D2FF]/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-[#1B4DFF]/5 ambient-glow rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#00D2FF]/5 ambient-glow rounded-full blur-[120px] pointer-events-none" />
 
         <Container size="xl" className="relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
@@ -213,9 +217,7 @@ export function StandardSection() {
             <div className="lg:col-span-3 xl:col-span-3 flex items-center justify-center lg:justify-end gap-5">
               {/* DNA Helix Model with slight floating oscillation */}
               <motion.div
-                animate={{
-                  y: [-4, 4, -4],
-                }}
+                animate={active ? { y: [-4, 4, -4] } : { y: 0 }}
                 transition={{
                   duration: 6,
                   repeat: Infinity,
@@ -255,6 +257,7 @@ export function StandardSection() {
             src="/backgrounds/novyx_hero_cosmic_bg.webp"
             alt="Earth Limb Cosmic Atmosphere Horizon"
             fill
+            sizes="100vw"
             quality={60}
             loading="lazy"
             className="object-cover object-bottom opacity-75 filter brightness-110 contrast-115 pointer-events-none select-none"

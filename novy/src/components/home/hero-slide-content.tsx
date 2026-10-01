@@ -10,16 +10,17 @@ import { useLocale } from "@/i18n/locale-provider";
 
 interface HeroSlideContentProps {
   slide: HeroSlide;
+  active?: boolean;
 }
 
-export function HeroSlideContent({ slide }: HeroSlideContentProps) {
+export function HeroSlideContent({ slide, active = false }: HeroSlideContentProps) {
   const { locale, tr } = useLocale();
   return (
     <div className="space-y-7 text-left">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={slide.id}
-          initial={{ opacity: 0, y: 16 }}
+          initial={active ? { opacity: 0, y: 16 } : false}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
@@ -28,11 +29,11 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
           {/* Eyebrow Pill + Scientific Category */}
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="font-mono text-xs sm:text-sm tracking-[0.24em] uppercase text-brand dark:text-[#DCE6F5]/90 font-semibold dark:font-medium drop-shadow-sm dark:drop-shadow-[0_0_12px_rgba(0,210,255,0.4)]">
-              {locale === "de" ? slide.eyebrowDe : slide.eyebrow}
+              {locale === "de" ? slide.eyebrowDe || slide.eyebrow : slide.eyebrow}
             </span>
             <span className="opacity-30 text-xs font-mono">•</span>
             <span className="px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider bg-brand/10 text-brand dark:bg-brand/20 dark:text-[#00D2FF] border border-brand/25 font-bold uppercase">
-              {locale === "de" ? slide.badgeDe : slide.badge}
+              {locale === "de" ? slide.badgeDe || slide.badge : slide.badge}
             </span>
           </div>
 
@@ -47,14 +48,14 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
                 {slide.name}
               </span>
               <span className="text-2xl sm:text-4xl xl:text-5xl font-light text-[#525B6C] dark:text-white/90 mt-1 tracking-wide transition-colors duration-300">
-                {locale === "de" ? slide.headlineSubDe : slide.headlineSub}
+                {locale === "de" ? slide.headlineSubDe || slide.headlineSub : slide.headlineSub}
               </span>
             </h1>
           </div>
 
           {/* Narrative Statement */}
           <p className="text-base sm:text-lg text-[#4B5565] dark:text-[#A7ADB5] font-normal dark:font-light max-w-xl leading-relaxed transition-colors duration-300">
-            {locale === "de" ? slide.descriptionDe : slide.description}
+            {locale === "de" ? slide.descriptionDe || slide.description : slide.description}
           </p>
 
           {/* Live Telemetry Metrics Pills */}
@@ -79,27 +80,21 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
       {/* Action Pill Buttons (Static interactive controls) */}
       <div className="flex flex-wrap items-center gap-4 pt-2">
         {/* Primary Pill Button: Explore Our Products */}
-        <Link href={ROUTES.products}>
-          <button
-            type="button"
+        <Link href={slide.productLink || ROUTES.products}
             className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-brand text-white hover:bg-brand-hover dark:bg-white dark:text-[#111625] font-semibold text-sm transition-all duration-300 hover:scale-[1.03] shadow-[0_4px_20px_rgba(27,77,255,0.35)] dark:hover:shadow-[0_0_28px_rgba(255,255,255,0.55)] active:scale-[0.98] cursor-pointer"
           >
             <span>{tr("Explore Products", "Produkte entdecken")}</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
         </Link>
 
         {/* Secondary Pill Button: Discover NOVYX */}
-        <Link href={ROUTES.science}>
-          <button
-            type="button"
+        <Link href={ROUTES.science}
             className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-surface/90 hover:bg-surface-elevated border border-border text-foreground dark:bg-white/10 dark:hover:bg-white/15 dark:border-white/20 dark:text-white font-medium text-sm backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand/40 active:scale-[0.98] cursor-pointer shadow-sm"
           >
             <span>{tr("Analytical Rigor", "Analytische Präzision")}</span>
             <div className="w-5 h-5 rounded-full bg-brand/10 dark:bg-white/20 text-brand dark:text-white flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
             </div>
-          </button>
         </Link>
       </div>
 
@@ -107,7 +102,7 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
       <div className="pt-4 hidden sm:flex items-center gap-3">
         <div className="w-7 h-11 rounded-full border border-border dark:border-white/30 flex items-start justify-center p-1.5 backdrop-blur-sm">
           <motion.div
-            animate={{ y: [0, 12, 0] }}
+            animate={active ? { y: [0, 12, 0] } : { y: 0 }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="w-1.5 h-2.5 rounded-full bg-brand dark:bg-[#00D2FF] shadow-[0_0_8px_rgba(27,77,255,0.6)] dark:shadow-[0_0_8px_#00D2FF]"
           />

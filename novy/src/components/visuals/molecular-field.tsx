@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useRichVisuals } from "@/hooks/use-visual-capabilities";
+import { startCanvasLoop } from "@/lib/visuals/canvas-loop";
 import { cn } from "@/lib/utils/cn";
 
 interface MolecularFieldProps {
@@ -31,13 +33,15 @@ export function MolecularField({
 }: MolecularFieldProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
+  const enabled = useRichVisuals();
+
   React.useEffect(() => {
+    if (!enabled) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationFrameId: number;
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -142,20 +146,19 @@ export function MolecularField({
         }
       }
 
-      if (!prefersReducedMotion) {
-        animationFrameId = requestAnimationFrame(render);
-      }
     };
 
-    render();
+    const stopLoop = startCanvasLoop(canvas, render);
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("mouseleave", handlePointerLeave);
-      cancelAnimationFrame(animationFrameId);
+      stopLoop();
     };
-  }, [nodeCount, connectionDistance, enablePointerReaction]);
+  }, [nodeCount, connectionDistance, enablePointerReaction, enabled]);
+
+  if (!enabled) return null;
 
   return (
     <canvas

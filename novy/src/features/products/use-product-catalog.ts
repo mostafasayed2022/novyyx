@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import { useProducts } from "@/lib/api/hooks";
-import type { Product } from "@/lib/api/types";
+import type { PublicProduct as Product } from "@/lib/utils/public-product";
+
+const EMPTY_PRODUCTS: Product[] = [];
 
 interface UseProductCatalogOptions {
   initialProducts?: Product[];
@@ -21,7 +23,7 @@ export function useProductCatalog({
     initialData: initialProducts,
   });
 
-  const products = productsQuery.data || initialProducts || [];
+  const products = productsQuery.data ?? initialProducts ?? EMPTY_PRODUCTS;
 
   const filteredProducts = React.useMemo(() => {
     const query = searchQuery.toLowerCase().trim();

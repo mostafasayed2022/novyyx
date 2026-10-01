@@ -12,12 +12,10 @@ import { tr, type Locale } from "@/i18n/config";
 import { localizeProductField } from "@/i18n/product-localization";
 import { getProductPresentation } from "@/config/product-presentation";
 import type { Product } from "@/lib/api/types";
-import { optimizeCloudinaryImage } from "@/lib/cloudinary";
+
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
-
-
 
 export const dynamic = "force-dynamic";
 
@@ -55,8 +53,6 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     return { title: tr(locale, "Product not found", "Produkt nicht gefunden") };
   }
 
-  const imageSrc = optimizeCloudinaryImage(product.imageUrl);
-
   const description = localizeProductField(
     locale,
     product.slug,
@@ -83,7 +79,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  const imageSrc = optimizeCloudinaryImage(product.imageUrl);
   const presentation = getProductPresentation(product, locale);
   const description = localizeProductField(
     locale,
@@ -170,13 +165,17 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               {isBlend ? "NOVYX BLEND SERIES" : "NOVYX"}
             </div>
             {product.imageUrl ? (
-<Image
-  src={imageSrc}
-  alt={product.name}
-  width={700}
-  height={700}
-  unoptimized={imageSrc.includes("res.cloudinary.com")}
-/>
+              <Image
+                src={product.imageUrl}
+                alt={`${product.name} — NOVYX research product`}
+                fill
+                priority
+                quality={75}
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmNGYwZjgiLz48L3N2Zz4="
+                className="object-contain p-10 sm:p-14 lg:p-16"
+              />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center px-8 text-center">
                 <div>

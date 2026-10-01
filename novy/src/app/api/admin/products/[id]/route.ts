@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/server/admin-auth";
-import { deleteProduct, updateProduct } from "@/lib/server/content-store";
+import { deleteProduct, updateProduct, findProductById } from "@/lib/server/content-store";
 import { productSchema } from "@/lib/server/product-schema";
 import type { Product } from "@/lib/api/types";
-import { translateProductToGerman } from "@/lib/server/codecraft";
+import { translateProductToGerman, optionalTranslation } from "@/lib/server/codecraft";
 
 export const runtime = "nodejs";
 
@@ -27,13 +27,15 @@ export async function PUT(
 
   try {
     const draft = { ...parsed.data, id } as Product;
-    const german = await translateProductToGerman(draft);
+    const existing = await findProductById(id);
+    if (!existing) return NextResponse.json({ detail: "Product not found." }, { status: 404 });
+    const { translation: german, translationWarning } = await optionalTranslation(() => translateProductToGerman(draft), existing.translations?.de || {});
     const product = await updateProduct(id, {
       ...draft,
       translations: { ...(draft.translations || {}), de: german },
     });
     if (!product) return NextResponse.json({ detail: "Product not found." }, { status: 404 });
-    return NextResponse.json(product);
+    return NextResponse.json({ ...product, translationWarning });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to update product.";
     const status = message.includes("CodeCraft") || message.includes("CODECRAFT") ? 502 : 409;

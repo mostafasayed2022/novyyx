@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useVisualActivity, useHasMounted } from "@/hooks/use-visual-capabilities";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { novaxVisuals, SectionVisualKey, VisualAsset } from "@/config/visuals";
@@ -37,13 +38,12 @@ export function AnimatedScientificBackground({
   blurStrength,
   className,
 }: AnimatedScientificBackgroundProps) {
+  const backgroundRef = React.useRef<HTMLDivElement>(null);
+  const active = useVisualActivity(backgroundRef);
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-  const [imageError, setImageError] = React.useState(false);
+  const mounted = useHasMounted();
+  const [failedSource, setFailedSource] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const isDark = !mounted || resolvedTheme === "dark";
 
@@ -67,6 +67,8 @@ export function AnimatedScientificBackground({
 
   return (
     <div
+      ref={backgroundRef}
+      data-visual-active={active}
       aria-hidden="true"
       className={cn(
         "absolute inset-0 pointer-events-none select-none overflow-hidden -z-20 bg-background transition-colors duration-300",
@@ -77,7 +79,7 @@ export function AnimatedScientificBackground({
       <GradientMesh intensity={isDark ? "subtle" : "medium"} />
 
       {/* Layer 2: Theme-Aware Scientific Image Layer with Contrast Masking */}
-      {!imageError && (
+      {failedSource !== activeAsset.path && (
         <div
           className={cn(
             "absolute inset-0 transition-opacity duration-700 overflow-hidden",
@@ -90,9 +92,9 @@ export function AnimatedScientificBackground({
             alt={activeAsset.description}
             fill
             sizes="100vw"
-            priority={section === "hero"}
+            preload={section === "hero"}
             quality={60}
-            onError={() => setImageError(true)}
+            onError={() => setFailedSource(activeAsset.path)}
             className="object-cover object-center transform scale-105 motion-safe:hover:scale-100 transition-transform duration-1000"
           />
         </div>

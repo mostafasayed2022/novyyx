@@ -1,9 +1,15 @@
 "use client";
 
 import * as React from "react";
+import { useRichVisuals } from "@/hooks/use-visual-capabilities";
 import { motion, useScroll, useSpring } from "framer-motion";
 
 export function ScrollProgress() {
+  const enabled = useRichVisuals();
+  return enabled ? <AnimatedScrollProgress /> : null;
+}
+
+function AnimatedScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 280,

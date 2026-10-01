@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useVisualActivity } from "@/hooks/use-visual-capabilities";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { HeroSlide, HERO_SLIDES } from "./hero-slide-data";
 
@@ -23,6 +24,7 @@ export function HeroProduct3DScene({
   slide?: HeroSlide;
 }) {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const active = useVisualActivity(containerRef);
 
   // Mouse coordinate motion values for smooth 3D tilt
   const mouseX = useMotionValue(0);
@@ -38,7 +40,7 @@ export function HeroProduct3DScene({
   const lightShiftY = useTransform(smoothY, [-0.5, 0.5], [-50, 50]);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!active || e.pointerType !== "mouse" || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
@@ -51,58 +53,13 @@ export function HeroProduct3DScene({
     mouseY.set(0);
   };
 
-const [enableEffects, setEnableEffects] = React.useState(false);
-
-React.useEffect(() => {
-  const media = window.matchMedia(
-    "(min-width: 769px) and (hover: hover) and (pointer: fine)"
-  );
-
-  setEnableEffects(media.matches);
-
-  const handler = () => setEnableEffects(media.matches);
-  media.addEventListener("change", handler);
-
-  return () => media.removeEventListener("change", handler);
-}, []);
-
-if (!enableEffects) {
-  const isWide = slide.isWideComposite;
-
-  return (
-    <div className="relative mx-auto flex w-full items-center justify-center overflow-visible py-2">
-      {/* lightweight static glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1B4DFF]/10 blur-[55px]"
-      />
-
-      <div
-        className={
-          isWide
-            ? "relative h-[240px] w-[min(94vw,360px)]"
-            : "relative h-[360px] w-[min(82vw,300px)]"
-        }
-      >
-        <Image
-          src={slide.image}
-          alt={`NOVYX ${slide.name}`}
-          fill
-          priority
-          sizes={isWide ? "94vw" : "82vw"}
-          className="object-contain"
-        />
-      </div>
-    </div>
-  );
-}
-
   return (
     <div
       ref={containerRef}
+      data-visual-active={active}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className={`relative w-full max-w-[640px] aspect-[4/4.3] flex items-center justify-center select-none perspective-[1300px] ${className || ""}`}
+      className={`hero-product-scene relative w-full max-w-[640px] aspect-[4/4.3] flex items-center justify-center select-none perspective-[1300px] ${className || ""}`}
     >
       {/* 1. Deep Core Nexus Blue Radial Glow behind product */}
       <motion.div
@@ -110,7 +67,7 @@ if (!enableEffects) {
           x: lightShiftX,
           y: lightShiftY,
         }}
-        className="absolute inset-x-4 top-10 bottom-24 rounded-full bg-radial from-[#1B4DFF]/45 via-[#00D2FF]/25 to-transparent blur-[90px] pointer-events-none -z-10"
+        className="absolute inset-x-4 top-10 bottom-24 ambient-glow rounded-full bg-radial from-[#1B4DFF]/45 via-[#00D2FF]/25 to-transparent blur-[90px] pointer-events-none -z-10"
       />
 
       {/* 2. Background Swirling 3D Energy Ribbon Vortex */}
@@ -126,15 +83,13 @@ if (!enableEffects) {
         style={{
           rotateX,
           rotateY,
-          transformStyle: "preserve-3d",
+          transformStyle: active ? "preserve-3d" : "flat",
         }}
         className="relative w-full h-full flex flex-col items-center justify-end pb-4"
       >
         {/* Floating Idle Sine Oscillation Wrapper */}
         <motion.div
-          animate={{
-            y: [-6, 6, -6],
-          }}
+          animate={active ? { y: [-6, 6, -6] } : { y: 0 }}
           transition={{
             duration: 6,
             repeat: Infinity,
@@ -177,10 +132,10 @@ if (!enableEffects) {
           </div>
 
           {/* A. Product Image Presentation with Dynamic Slide Switching */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={slide.id}
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              initial={active ? { opacity: 0, scale: 0.94, y: 12 } : false}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: -12 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
@@ -189,28 +144,17 @@ if (!enableEffects) {
               <div
                 className={
                   slide.isWideComposite
-                    ? "relative w-[340px] sm:w-[440px] md:w-[500px] aspect-[1024/677]"
+                    ? "relative w-[min(340px,85vw)] sm:w-[440px] md:w-[500px] aspect-[1024/677]"
                     : "relative w-[240px] sm:w-[300px] md:w-[340px] aspect-[1200/1600] -mb-6"
                 }
               >
-                {/* Ambient Cyan/Blue Rim Glow around transparent silhouette */}
-                <div className="absolute inset-0 filter drop-shadow-[0_0_45px_rgba(0,210,255,0.45)] pointer-events-none">
-                  <Image
-                    src={slide.image}
-                    alt={`NOVYX ${slide.name}`}
-                    fill
-                    priority
-                    quality={75}
-                    className="object-contain pointer-events-none"
-                  />
-                </div>
-
                 {/* Crisp Foreground Transparent Product */}
                 <Image
                   src={slide.image}
                   alt={`NOVYX ${slide.name}`}
                   fill
-                  priority
+                  preload={slide.id === HERO_SLIDES[0].id}
+                  sizes={slide.isWideComposite ? "(max-width: 640px) 85vw, (max-width: 768px) 440px, 500px" : "(max-width: 640px) 240px, (max-width: 768px) 300px, 340px"}
                   quality={75}
                   className="object-contain relative z-20 transition-transform duration-300 group-hover:scale-[1.02]"
                 />
@@ -261,6 +205,7 @@ if (!enableEffects) {
                 alt="Obsidian Laboratory Display Pedestal"
                 fill
                 quality={60}
+                sizes="(max-width: 640px) 360px, (max-width: 768px) 460px, 520px"
                 className="object-cover object-top filter brightness-105 contrast-125 drop-shadow-[0_12px_32px_rgba(0,0,0,0.95)]"
               />
             </div>
@@ -272,10 +217,7 @@ if (!enableEffects) {
 
         {/* 4. Lower Right Secondary Molecule Cluster */}
         <motion.div
-          animate={{
-            y: [4, -8, 4],
-            rotate: [0, 6, 0],
-          }}
+          animate={active ? { y: [4, -8, 4], rotate: [0, 6, 0] } : { y: 0, rotate: 0 }}
           transition={{
             duration: 8,
             repeat: Infinity,

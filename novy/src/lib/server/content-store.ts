@@ -1,6 +1,7 @@
 import "server-only";
 
 import path from "node:path";
+import { cache } from "react";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import type { InquiryStatus, Product, ProductQueryParams } from "@/lib/api/types";
@@ -54,7 +55,9 @@ const dataDirectory =
     : path.join(process.cwd(), ".novyx-data"));
 const dataFile = path.join(dataDirectory, "content.json");
 let writeQueue = Promise.resolve();
-let remoteInitialized = false;
+let remoteInitialization: Promise<void> | undefined;
+const remoteSnapshots = new WeakMap<ContentStore, string>();
+class StoreConflictError extends Error {}
 
 function seedStore(): ContentStore {
   return {
@@ -225,6 +228,7 @@ async function tursoExecute(
       ],
     }),
     cache: "no-store",
+    signal: AbortSignal.timeout(8000),
   });
 
   const data = (await response.json().catch(() => null)) as
@@ -245,85 +249,91 @@ async function tursoExecute(
 }
 
 async function ensureRemoteStore() {
-  if (remoteInitialized) return;
-
-  await tursoExecute(
-    "CREATE TABLE IF NOT EXISTS novyx_content_store (id TEXT PRIMARY KEY, data TEXT NOT NULL, updated_at TEXT NOT NULL)",
-    [],
-    false,
-  );
-
-  // Multiple Server Components / requests can initialize the store at the same
-  // time in development or serverless environments. Make initialization atomic
-  // so concurrent requests never fail on the `main` primary key.
-  await tursoExecute(
-    "INSERT INTO novyx_content_store (id, data, updated_at) VALUES (?, ?, ?) ON CONFLICT(id) DO NOTHING",
-    ["main", JSON.stringify(seedStore()), new Date().toISOString()],
-    false,
-  );
-
-  remoteInitialized = true;
+  if (!remoteInitialization) {
+    remoteInitialization = (async () => {
+      await tursoExecute(
+        "CREATE TABLE IF NOT EXISTS novyx_content_store (id TEXT PRIMARY KEY, data TEXT NOT NULL, updated_at TEXT NOT NULL)", [], false,
+      );
+      await tursoExecute(
+        "INSERT INTO novyx_content_store (id, data, updated_at) VALUES (?, ?, ?) ON CONFLICT(id) DO NOTHING",
+        ["main", JSON.stringify(seedStore()), new Date().toISOString()], false,
+      );
+    })().catch((error) => { remoteInitialization = undefined; throw error; });
+  }
+  await remoteInitialization;
 }
 
 async function ensureLocalStore(): Promise<void> {
   await mkdir(dataDirectory, { recursive: true });
   try {
     await readFile(dataFile, "utf8");
-  } catch {
-    await writeFile(dataFile, JSON.stringify(seedStore(), null, 2), "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    try {
+      await writeFile(dataFile, JSON.stringify(seedStore(), null, 2), { encoding: "utf8", flag: "wx" });
+    } catch (writeError) {
+      if ((writeError as NodeJS.ErrnoException).code !== "EEXIST") throw writeError;
+    }
   }
 }
 
 async function readStore(): Promise<ContentStore> {
+  let raw: string;
   if (useTurso) {
     await ensureRemoteStore();
     const rows = await tursoExecute("SELECT data FROM novyx_content_store WHERE id = ?", ["main"]);
-    const raw = rows[0]?.data;
-    if (typeof raw !== "string") return seedStore();
-    try {
-      const parsed = JSON.parse(raw) as Partial<ContentStore>;
-      const normalized = normalizeStore(parsed);
-      if (parsed.version !== CURRENT_STORE_VERSION) {
-        await writeStore(normalized);
-      }
-      return normalized;
-    } catch {
-      return seedStore();
-    }
+    if (typeof rows[0]?.data !== "string") throw new Error("Content store is missing.");
+    raw = rows[0].data;
+  } else {
+    await ensureLocalStore();
+    raw = await readFile(dataFile, "utf8");
   }
-
-  await ensureLocalStore();
-  const raw = await readFile(dataFile, "utf8");
-  try {
-    const parsed = JSON.parse(raw) as Partial<ContentStore>;
-    const normalized = normalizeStore(parsed);
-    if (parsed.version !== CURRENT_STORE_VERSION) {
-      await writeStore(normalized);
-    }
-    return normalized;
-  } catch {
-    return seedStore();
+  // Never silently replace corrupted content with seed data during a write.
+  const parsed = JSON.parse(raw) as Partial<ContentStore>;
+  if (!parsed || !Array.isArray(parsed.products) || !Array.isArray(parsed.heroSlides) || !Array.isArray(parsed.inquiries)) {
+    throw new Error("Invalid content store. Restore a valid backup before editing.");
   }
+  const store = normalizeStore(parsed);
+  if (useTurso) remoteSnapshots.set(store, raw);
+  return store;
 }
+
+// Deduplicate metadata/page reads within a render; no persistent stale cache.
+const readStoreForRender = cache(readStore);
 
 async function writeStore(store: ContentStore): Promise<void> {
   if (useTurso) {
-    await ensureRemoteStore();
-    await tursoExecute(
-      "INSERT INTO novyx_content_store (id, data, updated_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at",
-      ["main", JSON.stringify(store), new Date().toISOString()],
-      false,
+    const expected = remoteSnapshots.get(store);
+    if (expected === undefined) throw new Error("Missing content store revision.");
+    const rows = await tursoExecute(
+      "UPDATE novyx_content_store SET data = ?, updated_at = ? WHERE id = ? AND data = ? RETURNING id",
+      [JSON.stringify(store), new Date().toISOString(), "main", expected],
     );
+    if (rows.length !== 1) throw new StoreConflictError("Content changed concurrently. Please retry.");
     return;
   }
+  const tmp = `${dataFile}.${randomUUID()}.tmp`;
+  await writeFile(tmp, JSON.stringify(store, null, 2), "utf8");
+  await rename(tmp, dataFile);
+}
 
-  writeQueue = writeQueue.then(async () => {
-    await mkdir(dataDirectory, { recursive: true });
-    const tmp = `${dataFile}.${process.pid}.tmp`;
-    await writeFile(tmp, JSON.stringify(store, null, 2), "utf8");
-    await rename(tmp, dataFile);
+function mutateStore<T>(mutate: (store: ContentStore) => T): Promise<T> {
+  // Serialize the whole read/modify/write, and recover after a failed write.
+  const operation = writeQueue.then(async () => {
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const store = await readStore();
+      const result = mutate(store);
+      try {
+        await writeStore(store);
+        return result;
+      } catch (error) {
+        if (!(error instanceof StoreConflictError) || attempt === 4) throw error;
+      }
+    }
+    throw new StoreConflictError("Content changed concurrently. Please retry.");
   });
-  return writeQueue;
+  writeQueue = operation.then(() => {}, () => {});
+  return operation;
 }
 
 export function getContentStoreInfo() {
@@ -335,7 +345,7 @@ export function getContentStoreInfo() {
 }
 
 export async function listProducts(params?: ProductQueryParams): Promise<Product[]> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   let products = [...store.products].filter((item) => item.published !== false);
 
   if (params?.category) products = products.filter((item) => item.category === params.category);
@@ -370,143 +380,143 @@ export async function listProducts(params?: ProductQueryParams): Promise<Product
 }
 
 export async function listAllProducts(): Promise<Product[]> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   return [...store.products];
 }
 
 export async function findProductBySlug(slug: string): Promise<Product | null> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   return store.products.find((product) => product.slug === slug && product.published !== false) ?? null;
 }
 
 export async function findProductById(id: string): Promise<Product | null> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   return store.products.find((product) => product.id === id) ?? null;
 }
 
 export async function createProduct(input: Product): Promise<Product> {
-  const store = await readStore();
-  if (store.products.some((item) => item.slug === input.slug)) throw new Error("A product with this slug already exists.");
-  const now = new Date().toISOString();
-  const product: Product = {
-    ...input,
-    id: input.id || randomUUID(),
-    productType: input.productType || "peptide",
-    published: input.published ?? true,
-    certificates: input.certificates ?? [],
-    specifications: input.specifications ?? {},
-    createdAt: input.createdAt ?? now,
-    updatedAt: now,
-  };
-  store.products.push(product);
-  await writeStore(store);
-  return product;
+  return mutateStore((store) => {
+    if (store.products.some((item) => item.slug === input.slug)) throw new Error("A product with this slug already exists.");
+    const now = new Date().toISOString();
+    const product: Product = {
+      ...input,
+      id: input.id || randomUUID(),
+      productType: input.productType || "peptide",
+      published: input.published ?? true,
+      certificates: input.certificates ?? [],
+      specifications: input.specifications ?? {},
+      createdAt: input.createdAt ?? now,
+      updatedAt: now,
+    };
+    store.products.push(product);
+    return product;
+  });
 }
 
 export async function updateProduct(id: string, input: Product): Promise<Product | null> {
-  const store = await readStore();
-  const index = store.products.findIndex((item) => item.id === id);
-  if (index === -1) return null;
-  if (store.products.some((item) => item.slug === input.slug && item.id !== id)) throw new Error("A product with this slug already exists.");
+  return mutateStore((store) => {
+    const index = store.products.findIndex((item) => item.id === id);
+    if (index === -1) return null;
+    if (store.products.some((item) => item.slug === input.slug && item.id !== id)) throw new Error("A product with this slug already exists.");
 
-  const current = store.products[index];
-  const product: Product = {
-    ...input,
-    id,
-    productType: input.productType || current.productType || "peptide",
-    published: input.published ?? current.published ?? true,
-    certificates: input.certificates ?? current.certificates ?? [],
-    specifications: input.specifications ?? current.specifications ?? {},
-    createdAt: current.createdAt,
-    updatedAt: new Date().toISOString(),
-  };
-  store.products[index] = product;
-  await writeStore(store);
-  return product;
+    const current = store.products[index];
+    const product: Product = {
+      ...input,
+      id,
+      productType: input.productType || current.productType || "peptide",
+      published: input.published ?? current.published ?? true,
+      certificates: input.certificates ?? current.certificates ?? [],
+      specifications: input.specifications ?? current.specifications ?? {},
+      createdAt: current.createdAt,
+      updatedAt: new Date().toISOString(),
+    };
+    store.products[index] = product;
+    return product;
+  });
 }
 
 export async function deleteProduct(id: string): Promise<boolean> {
-  const store = await readStore();
-  const nextProducts = store.products.filter((item) => item.id !== id);
-  if (nextProducts.length === store.products.length) return false;
-  store.products = nextProducts;
-  await writeStore(store);
-  return true;
+  return mutateStore((store) => {
+    const nextProducts = store.products.filter((item) => item.id !== id);
+    if (nextProducts.length === store.products.length) return false;
+    store.products = nextProducts;
+    return true;
+  });
 }
 
 export async function createInquiry(kind: StoredInquiry["kind"], payload: Record<string, unknown>): Promise<StoredInquiry> {
-  const store = await readStore();
-  const inquiry: StoredInquiry = {
-    id: `${kind === "contact" ? "NX" : "NP"}-${Date.now().toString(36).toUpperCase()}-${randomUUID().slice(0, 6).toUpperCase()}`,
-    kind,
-    payload,
-    status: "new",
-    createdAt: new Date().toISOString(),
-  };
-  store.inquiries.unshift(inquiry);
-  await writeStore(store);
-  return inquiry;
+  return mutateStore((store) => {
+    const inquiry: StoredInquiry = {
+      id: `${kind === "contact" ? "NX" : "NP"}-${Date.now().toString(36).toUpperCase()}-${randomUUID().slice(0, 6).toUpperCase()}`,
+      kind,
+      payload,
+      status: "new",
+      createdAt: new Date().toISOString(),
+    };
+    store.inquiries.unshift(inquiry);
+    return inquiry;
+  });
 }
 
 export async function listInquiries(): Promise<StoredInquiry[]> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   return [...store.inquiries].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function updateInquiryStatus(id: string, status: StoredInquiry["status"]): Promise<StoredInquiry | null> {
-  const store = await readStore();
-  const index = store.inquiries.findIndex((item) => item.id === id);
-  if (index === -1) return null;
-  const inquiry = { ...store.inquiries[index], status };
-  store.inquiries[index] = inquiry;
-  await writeStore(store);
-  return inquiry;
+  return mutateStore((store) => {
+    const index = store.inquiries.findIndex((item) => item.id === id);
+    if (index === -1) return null;
+    const inquiry = { ...store.inquiries[index], status };
+    store.inquiries[index] = inquiry;
+    return inquiry;
+  });
 }
 
 
 export async function listHeroSlides(includeDrafts = false): Promise<HeroSlide[]> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   const slides = includeDrafts ? store.heroSlides : store.heroSlides.filter((slide) => slide.published !== false);
   return [...slides].sort((a, b) => a.number.localeCompare(b.number, undefined, { numeric: true }));
 }
 
 export async function findHeroSlideById(id: string): Promise<HeroSlide | null> {
-  const store = await readStore();
+  const store = await readStoreForRender();
   return store.heroSlides.find((slide) => slide.id === id) ?? null;
 }
 
 export async function createHeroSlide(input: HeroSlide): Promise<HeroSlide> {
-  const store = await readStore();
-  if (store.heroSlides.some((slide) => slide.id === input.id)) throw new Error("A hero slide with this ID already exists.");
-  const now = new Date().toISOString();
-  const slide: HeroSlide = { ...input, published: input.published ?? true, createdAt: now, updatedAt: now };
-  store.heroSlides.push(slide);
-  await writeStore(store);
-  return slide;
+  return mutateStore((store) => {
+    if (store.heroSlides.some((slide) => slide.id === input.id)) throw new Error("A hero slide with this ID already exists.");
+    const now = new Date().toISOString();
+    const slide: HeroSlide = { ...input, published: input.published ?? true, createdAt: now, updatedAt: now };
+    store.heroSlides.push(slide);
+    return slide;
+  });
 }
 
 export async function updateHeroSlide(id: string, input: HeroSlide): Promise<HeroSlide | null> {
-  const store = await readStore();
-  const index = store.heroSlides.findIndex((slide) => slide.id === id);
-  if (index === -1) return null;
-  const current = store.heroSlides[index];
-  const slide: HeroSlide = {
-    ...input,
-    id,
-    published: input.published ?? current.published ?? true,
-    createdAt: current.createdAt,
-    updatedAt: new Date().toISOString(),
-  };
-  store.heroSlides[index] = slide;
-  await writeStore(store);
-  return slide;
+  return mutateStore((store) => {
+    const index = store.heroSlides.findIndex((slide) => slide.id === id);
+    if (index === -1) return null;
+    const current = store.heroSlides[index];
+    const slide: HeroSlide = {
+      ...input,
+      id,
+      published: input.published ?? current.published ?? true,
+      createdAt: current.createdAt,
+      updatedAt: new Date().toISOString(),
+    };
+    store.heroSlides[index] = slide;
+    return slide;
+  });
 }
 
 export async function deleteHeroSlide(id: string): Promise<boolean> {
-  const store = await readStore();
-  const nextSlides = store.heroSlides.filter((slide) => slide.id !== id);
-  if (nextSlides.length === store.heroSlides.length) return false;
-  store.heroSlides = nextSlides;
-  await writeStore(store);
-  return true;
+  return mutateStore((store) => {
+    const nextSlides = store.heroSlides.filter((slide) => slide.id !== id);
+    if (nextSlides.length === store.heroSlides.length) return false;
+    store.heroSlides = nextSlides;
+    return true;
+  });
 }

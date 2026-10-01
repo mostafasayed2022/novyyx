@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useRichVisuals } from "@/hooks/use-visual-capabilities";
+import { startCanvasLoop } from "@/lib/visuals/canvas-loop";
 import { cn } from "@/lib/utils/cn";
 
 interface ParticleFieldProps {
@@ -18,44 +20,40 @@ interface Particle {
   pulseSpeed: number;
 }
 
+/**
+ * ParticleField
+ * Lightweight canvas particle system simulating floating peptide micro-nodes.
+ * Automatically halts animation when prefers-reduced-motion is active and optimizes for mobile.
+ */
 export function ParticleField({
   particleCount = 28,
   className,
 }: ParticleFieldProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
-  React.useEffect(() => {
-    // Disable completely on phones / tablets
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const enabled = useRichVisuals();
 
-    // Also disable for users requesting reduced motion
+  React.useEffect(() => {
+    if (!enabled) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (isMobile || prefersReducedMotion) {
-      return;
-    }
+    // Responsive count: fewer particles on mobile screens
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? Math.floor(particleCount * 0.45) : particleCount;
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId = 0;
-
-    let width =
-      (canvas.width =
-        canvas.parentElement?.clientWidth || window.innerWidth);
-
-    let height =
-      (canvas.height =
-        canvas.parentElement?.clientHeight || 600);
+    let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
+    let height = (canvas.height = canvas.parentElement?.clientHeight || 600);
 
     const particles: Particle[] = [];
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -68,20 +66,18 @@ export function ParticleField({
     }
 
     const handleResize = () => {
-      if (!canvas.parentElement) return;
-
+      if (!canvas || !canvas.parentElement) return;
       width = canvas.width = canvas.parentElement.clientWidth;
       height = canvas.height = canvas.parentElement.clientHeight;
     };
 
-    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("resize", handleResize);
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      const now = performance.now();
-
-      for (let i = 0; i < particles.length; i++) {
+      // Render particles
+      for (let i = 0; i < count; i++) {
         const p = particles[i];
 
         ctx.beginPath();
@@ -89,42 +85,42 @@ export function ParticleField({
         ctx.fillStyle = `rgba(40, 123, 255, ${p.opacity * 0.7})`;
         ctx.fill();
 
-        p.x += p.speedX;
-        p.y += p.speedY;
+        if (!prefersReducedMotion) {
+          p.x += p.speedX;
+          p.y += p.speedY;
 
-        if (p.y < 0) {
-          p.y = height;
-          p.x = Math.random() * width;
+          // Wrap edges
+          if (p.y < 0) {
+            p.y = height;
+            p.x = Math.random() * width;
+          }
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+
+          // Gentle breathing pulse
+          p.opacity += Math.sin(Date.now() * p.pulseSpeed * 0.001) * 0.005;
+          p.opacity = Math.max(0.15, Math.min(0.65, p.opacity));
         }
-
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-
-        p.opacity += Math.sin(now * p.pulseSpeed * 0.001) * 0.005;
-        p.opacity = Math.max(0.15, Math.min(0.65, p.opacity));
       }
 
-      animationFrameId = requestAnimationFrame(render);
     };
 
-    animationFrameId = requestAnimationFrame(render);
+    const stopLoop = startCanvasLoop(canvas, render);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      stopLoop();
     };
-  }, [particleCount]);
+  }, [particleCount, enabled]);
+
+  if (!enabled) return null;
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
       className={cn(
-        // Important: do not even display the canvas on mobile
-        "absolute inset-0 -z-10 hidden h-full w-full select-none pointer-events-none md:block",
+        "absolute inset-0 pointer-events-none select-none -z-10 w-full h-full",
         className
       )}
     />

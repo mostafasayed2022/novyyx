@@ -5,7 +5,7 @@ import type { Product, ProductTranslation } from "@/lib/api/types";
 function getConfig() {
   const apiKey = process.env.CODECRAFT_API_KEY?.trim();
   const baseUrl = (process.env.CODECRAFT_BASE_URL?.trim() || "https://codecraftapi.com/v1").replace(/\/$/, "");
-  const model = process.env.CODECRAFT_MODEL?.trim() || "gpt-5.6-luna";
+  const model = process.env.CODECRAFT_MODEL?.trim() || "claude-opus-4.8";
   if (!apiKey) throw new Error("CODECRAFT_API_KEY is not configured.");
   return { apiKey, baseUrl, model };
 }
@@ -42,18 +42,14 @@ export async function codeCraftJson(prompt: string, maxTokens = 900): Promise<Re
       response_format: { type: "json_object" },
     }),
     cache: "no-store",
+    signal: AbortSignal.timeout(20000),
   });
 
   const data = (await response.json().catch(() => null)) as
     | { choices?: Array<{ message?: { content?: string } }>; error?: { message?: string } }
     | null;
-// اعمل كده عشان الـ status يتمرر صح:
-if (!response.ok) {
-  const msg = data?.error?.message || `CodeCraft request failed with HTTP ${response.status}.`;
-  const err = new Error(msg) as Error & { status: number };
-  err.status = response.status;
-  throw err;
-}  const content = data?.choices?.[0]?.message?.content || "";
+  if (!response.ok) throw new Error(data?.error?.message || `CodeCraft request failed with HTTP ${response.status}.`);
+  const content = data?.choices?.[0]?.message?.content || "";
   return extractJson(content);
 }
 
@@ -99,4 +95,15 @@ export async function translateHeroSlideToGerman(slide: {
     descriptionDe: String(result.descriptionDe || slide.description),
     badgeDe: String(result.badgeDe || slide.badge),
   };
+}
+
+export async function optionalTranslation<T>(translate: () => Promise<T>, fallback: T): Promise<{ translation: T; translationWarning?: string }> {
+  if (!process.env.CODECRAFT_API_KEY?.trim()) {
+    return { translation: fallback, translationWarning: "English content was saved. Automatic German translation is not configured; existing German copy was preserved." };
+  }
+  try {
+    return { translation: await translate() };
+  } catch {
+    return { translation: fallback, translationWarning: "English content was saved. Automatic German translation is temporarily unavailable; existing German copy was preserved." };
+  }
 }

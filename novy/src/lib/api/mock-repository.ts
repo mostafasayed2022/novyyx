@@ -495,6 +495,7 @@ export const mockRepository = {
   async submitContact(
     payload: ContactPayload
   ): Promise<{ success: boolean; ticketId: string; message: string }> {
+    if (!payload.email || !payload.message) throw new Error("Email and message are required.");
     await delay(350);
     const ticketId = `NVX-INQ-${Math.floor(100000 + Math.random() * 900000)}`;
     return {
@@ -510,6 +511,7 @@ export const mockRepository = {
   async submitPartnerInquiry(
     payload: PartnerInquiryPayload
   ): Promise<{ success: boolean; inquiryId: string; message: string }> {
+    if (!payload.email) throw new Error("Email is required.");
     await delay(350);
     const inquiryId = `NVX-PARTNER-${Math.floor(10000 + Math.random() * 90000)}`;
     return {

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useVisualActivity } from "@/hooks/use-visual-capabilities";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { motion } from "framer-motion";
@@ -10,6 +11,8 @@ import { ShieldCheck, FileCheck, Award, ArrowUpRight } from "lucide-react";
 
 export function QualityPartnershipSection() {
   const { tr } = useLocale();
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const active = useVisualActivity(sectionRef);
   const trustPoints = [
     {
       icon: Award,
@@ -29,17 +32,17 @@ export function QualityPartnershipSection() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-white dark:bg-[#070B14] py-16 sm:py-20 lg:py-28 transition-colors duration-500 border-b border-border/70 dark:border-white/10">
-      <div className="absolute top-1/3 left-1/4 w-[550px] h-[550px] bg-brand/5 dark:bg-brand/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-[#1B4DFF]/5 dark:bg-[#00D2FF]/5 rounded-full blur-[130px] pointer-events-none" />
+    <section ref={sectionRef} data-visual-active={active} className="relative w-full overflow-hidden bg-white dark:bg-[#070B14] py-16 sm:py-20 lg:py-28 transition-colors duration-500 border-b border-border/70 dark:border-white/10">
+      <div className="absolute top-1/3 left-1/4 w-[550px] h-[550px] bg-brand/5 dark:bg-brand/10 ambient-glow rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-[#1B4DFF]/5 dark:bg-[#00D2FF]/5 ambient-glow rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.04]" style={{ backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`, backgroundSize: "48px 48px" }} />
 
       <Container size="xl" className="relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-5 xl:col-span-6 flex items-center justify-center">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative w-full max-w-[480px] sm:max-w-[540px] aspect-[4/3] flex items-center justify-center group">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/5 to-brand/10 dark:via-brand/15 dark:to-brand/10 rounded-3xl blur-2xl transform scale-90 -z-10" />
-              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/5 to-brand/10 dark:via-brand/15 dark:to-brand/10 ambient-glow rounded-3xl blur-2xl transform scale-90 -z-10" />
+              <motion.div animate={active ? { y: [-5, 5, -5] } : { y: 0 }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-full h-full flex items-center justify-center">
                 <Image src="/products/novyx_cutis_box_vial.webp" alt="NOVYX Cutis Box and Vial — GHK-Cu Peptide Skin Booster" fill quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px" className="object-contain filter drop-shadow-[0_22px_32px_rgba(15,23,42,0.14)] dark:drop-shadow-[0_28px_44px_rgba(0,0,0,0.65)] select-none transition-transform duration-500 group-hover:scale-[1.02]" />
               </motion.div>
               <div className="absolute bottom-2 left-2 sm:left-4 bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-md border border-brand/10 dark:border-brand/20 px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-2">

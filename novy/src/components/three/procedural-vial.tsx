@@ -76,7 +76,7 @@ export function ProceduralVial({
     ctx.fillText("NOVYX", logoX, 200);
 
     ctx.font = "900 42px sans-serif";
-    ctx.fillText("CUTIS", logoX, 246);
+    ctx.fillText(productName.replace(/^NOVYX\s*/i, ""), logoX, 246);
 
     // 3. Formula Active Ingredients List
     ctx.textAlign = "left";

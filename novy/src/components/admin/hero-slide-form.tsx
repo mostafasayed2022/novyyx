@@ -86,9 +86,9 @@ export function HeroSlideForm({ slide }: { slide?: HeroSlide | null }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await response.json().catch(() => null)) as { detail?: string } | null;
+      const data = (await response.json().catch(() => null)) as { translationWarning?: string; detail?: string } | null;
       if (!response.ok) throw new Error(data?.detail || "Unable to save hero slide.");
-      router.push("/admin/hero");
+      router.push(data?.translationWarning ? "/admin/hero?translation=unavailable" : "/admin/hero");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to save hero slide.");
@@ -102,7 +102,7 @@ export function HeroSlideForm({ slide }: { slide?: HeroSlide | null }) {
       <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">{isEdit ? `Edit ${form.name}` : "New hero slide"}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">English-only editor. German fields are generated automatically with CodeCraft when you save.</p>
+          <p className="mt-1 text-sm text-muted-foreground">English-only editor. German fields are generated when automatic translation is available. English content can always be saved.</p>
         </div>
         <button type="submit" disabled={saving} className="inline-flex h-10 items-center gap-2 self-start rounded-xl bg-brand px-4 text-xs font-semibold text-white disabled:opacity-50">
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save slide

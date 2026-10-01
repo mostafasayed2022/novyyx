@@ -1,31 +1,29 @@
+import { z } from "zod";
+import { toPublicProduct } from "@/lib/utils/public-product";
 import { NextRequest, NextResponse } from "next/server";
 import { listProducts } from "@/lib/server/content-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const querySchema = z.object({
+  category: z.string().optional(),
+  productType: z.enum(["peptide", "skin-booster"]).optional(),
+  search: z.string().max(200).optional(),
+  featured: z.enum(["true", "false"]).transform((value) => value === "true").optional(),
+  inStock: z.enum(["true", "false"]).transform((value) => value === "true").optional(),
+  limit: z.coerce.number().int().min(1).max(1000).optional(),
+  offset: z.coerce.number().int().min(0).optional(),
+  ordering: z.enum(["price", "-price", "purity", "-purity", "name", "-name"]).optional(),
+});
+
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const products = await listProducts({
-    category: searchParams.get("category") || undefined,
-    productType: (searchParams.get("productType") || undefined) as "peptide" | "skin-booster" | undefined,
-    search: searchParams.get("search") || undefined,
-    featured: searchParams.has("featured") ? searchParams.get("featured") === "true" : undefined,
-    inStock: searchParams.has("inStock") ? searchParams.get("inStock") === "true" : undefined,
-    limit: searchParams.get("limit") ? Number(searchParams.get("limit")) : undefined,
-    offset: searchParams.get("offset") ? Number(searchParams.get("offset")) : undefined,
-    ordering: (searchParams.get("ordering") || undefined) as
-      | "price"
-      | "-price"
-      | "purity"
-      | "-purity"
-      | "name"
-      | "-name"
-      | undefined,
-  });
+  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  if (!parsed.success) return NextResponse.json({ detail: "Invalid product query." }, { status: 400 });
+  const products = await listProducts(parsed.data);
 
   // Keep the real price in Turso/Admin only; strip it from every public product payload.
-  const publicProducts = products.map(({ price: _price, ...product }) => product);
+  const publicProducts = products.map(toPublicProduct);
 
   return NextResponse.json(publicProducts, {
     headers: { "Cache-Control": "no-store" },

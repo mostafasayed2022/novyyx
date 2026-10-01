@@ -1,3 +1,4 @@
+import { toPublicProduct } from "@/lib/utils/public-product";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PageWrapper } from "@/components/layout/page-wrapper";
@@ -29,7 +30,7 @@ export default async function PeptidesPage() {
     >
       <Container size="xl">
         <Suspense fallback={<div className="min-h-[560px]" aria-hidden="true" />}>
-          <ProductCatalog initialProducts={initialProducts} productType="peptide" />
+          <ProductCatalog initialProducts={initialProducts.map(toPublicProduct)} productType="peptide" />
         </Suspense>
       </Container>
     </PageWrapper>

@@ -54,13 +54,7 @@ export function AdminProductList({
                     <div className="flex items-center gap-3">
                       <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-border bg-background">
                         {product.imageUrl ? (
-                          <Image
-                            src={product.imageUrl}
-                            alt={product.name}
-                            width={700}
-                            height={1000}
-                            unoptimized={product.imageUrl.includes("res.cloudinary.com")}
-                          />
+                          <Image src={product.imageUrl} alt="" fill sizes="48px" className="object-contain p-1.5" />
                         ) : (
                           <div className="flex h-full items-center justify-center text-center text-[8px] font-semibold uppercase tracking-wide text-muted-foreground">No image</div>
                         )}

@@ -303,3 +303,29 @@
     -webkit-tap-highlight-color: transparent;
   }
 }
+
+/* Decorative motion is opt-in. CSS loops follow the same lifecycle as JS loops. */
+[data-visual-active="false"] *,
+[data-visual-active="false"] *::before,
+[data-visual-active="false"] *::after {
+  animation-play-state: paused !important;
+}
+
+/* Touch devices keep the artwork and colors without costly live filter layers. */
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  html { scroll-behavior: auto; }
+  .hero-section { min-height: 100svh; }
+  #main-content [class*="backdrop-blur"],
+  header [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Keep the fixed navigation opaque enough to read over every section. */
+  header > div > div { background-color: var(--background); }
+  .ambient-glow { display: none; }
+  #main-content [class*="drop-shadow"] { filter: none !important; }
+  .hero-product-scene { perspective: none; }
+  .hero-product-scene [class*="transform-style"] { transform-style: flat; }
+  #main-content [class*="animate-"] { animation: none !important; }
+  input, select, textarea { font-size: max(16px, 1em); }
+}

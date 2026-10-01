@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import dynamic from "next/dynamic";
+import { useVisualActivity } from "@/hooks/use-visual-capabilities";
 import { InteractiveHeroProduct } from "@/components/home/interactive-hero-product";
 import { Dna, Activity } from "lucide-react";
 import { useLocale } from "@/i18n/locale-provider";
@@ -47,45 +48,13 @@ export function ProductSceneWrapper({
   forceStaticFallback = false,
 }: ProductSceneWrapperProps) {
   const { tr } = useLocale();
-  const [useFallback, setUseFallback] = React.useState(true);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-
-    if (forceStaticFallback) {
-      setUseFallback(true);
-      return;
-    }
-
-    // Check prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    // Check mobile viewport width
-    const isMobile = window.innerWidth < 768;
-
-    // If mobile or prefers-reduced-motion, use the lightweight CSS 3D fallback
-    if (prefersReducedMotion || isMobile) {
-      setUseFallback(true);
-    } else {
-      setUseFallback(false);
-    }
-  }, [forceStaticFallback]);
-
-  if (!mounted) {
-    return <ProductSceneSkeleton />;
-  }
-
-  if (useFallback) {
-    return <InteractiveHeroProduct />;
-  }
+  const sceneRef = React.useRef<HTMLDivElement>(null);
+  const active = useVisualActivity(sceneRef);
 
   return (
-    <div className={className}>
+    <div ref={sceneRef} data-visual-active={active} className={className}>
       {/* Dynamic 3D WebGL Canvas */}
-      <DynamicProductScene className="w-full h-full min-h-[460px]" />
+      {active && !forceStaticFallback ? <DynamicProductScene className="w-full h-full min-h-[460px]" /> : <InteractiveHeroProduct />}
 
       {/* Floating Telemetry Satellite Cards (HTML Overlays on 3D Canvas) */}
       <div className="absolute top-4 left-0 p-3 surface-card bg-surface/90 backdrop-blur-md shadow-xl rounded-xl border border-border/80 flex items-center gap-2.5 pointer-events-none z-10">

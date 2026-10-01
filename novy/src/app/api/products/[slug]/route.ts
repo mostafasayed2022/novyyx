@@ -1,3 +1,4 @@
+import { toPublicProduct } from "@/lib/utils/public-product";
 import { NextResponse } from "next/server";
 import { findProductBySlug } from "@/lib/server/content-store";
 
@@ -16,7 +17,7 @@ export async function GET(
   }
 
   // Price stays available in the admin/Turso store but is never exposed by the public API.
-  const { price: _price, ...publicProduct } = product;
+  const publicProduct = toPublicProduct(product);
 
   return NextResponse.json(publicProduct, {
     headers: { "Cache-Control": "no-store" },

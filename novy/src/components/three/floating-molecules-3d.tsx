@@ -69,6 +69,10 @@ export function FloatingMolecules3D({
   const lineColors = React.useMemo(() => new Float32Array(maxBonds * 6), [maxBonds]);
 
   useFrame((state) => {
+    if (!pointsRef.current || !linesRef.current) return;
+    const pointBuffer = pointsRef.current.geometry.attributes.position.array as Float32Array;
+    const positionBuffer = linesRef.current.geometry.attributes.position.array as Float32Array;
+    const colorBuffer = linesRef.current.geometry.attributes.color.array as Float32Array;
     const time = state.clock.getElapsedTime();
 
     // Rotate ambient orbital rings
@@ -95,9 +99,9 @@ export function FloatingMolecules3D({
       }
 
       // Update points buffer
-      particlePositions[i * 3] = node.pos.x;
-      particlePositions[i * 3 + 1] = node.pos.y;
-      particlePositions[i * 3 + 2] = node.pos.z;
+      pointBuffer[i * 3] = node.pos.x;
+      pointBuffer[i * 3 + 1] = node.pos.y;
+      pointBuffer[i * 3 + 2] = node.pos.z;
 
       // Check distance to other nodes to draw covalent bonds
       for (let j = i + 1; j < count; j++) {
@@ -107,19 +111,19 @@ export function FloatingMolecules3D({
         if (dist < maxDistance) {
           const alpha = (1 - dist / maxDistance) * 0.35;
 
-          linePositions[lineIdx * 6] = node.pos.x;
-          linePositions[lineIdx * 6 + 1] = node.pos.y;
-          linePositions[lineIdx * 6 + 2] = node.pos.z;
+          positionBuffer[lineIdx * 6] = node.pos.x;
+          positionBuffer[lineIdx * 6 + 1] = node.pos.y;
+          positionBuffer[lineIdx * 6 + 2] = node.pos.z;
 
-          linePositions[lineIdx * 6 + 3] = other.pos.x;
-          linePositions[lineIdx * 6 + 4] = other.pos.y;
-          linePositions[lineIdx * 6 + 5] = other.pos.z;
+          positionBuffer[lineIdx * 6 + 3] = other.pos.x;
+          positionBuffer[lineIdx * 6 + 4] = other.pos.y;
+          positionBuffer[lineIdx * 6 + 5] = other.pos.z;
 
           // Azure color with distance alpha
           for (let k = 0; k < 2; k++) {
-            lineColors[lineIdx * 6 + k * 3] = 0.15 * alpha; // R
-            lineColors[lineIdx * 6 + k * 3 + 1] = 0.5 * alpha; // G
-            lineColors[lineIdx * 6 + k * 3 + 2] = 1.0 * alpha; // B
+            colorBuffer[lineIdx * 6 + k * 3] = 0.15 * alpha; // R
+            colorBuffer[lineIdx * 6 + k * 3 + 1] = 0.5 * alpha; // G
+            colorBuffer[lineIdx * 6 + k * 3 + 2] = 1.0 * alpha; // B
           }
 
           lineIdx++;
@@ -128,9 +132,9 @@ export function FloatingMolecules3D({
     }
 
     // Clear unused line segments
-    for (let i = lineIdx * 6; i < linePositions.length; i++) {
-      linePositions[i] = 0;
-      lineColors[i] = 0;
+    for (let i = lineIdx * 6; i < positionBuffer.length; i++) {
+      positionBuffer[i] = 0;
+      colorBuffer[i] = 0;
     }
 
     if (pointsRef.current) {

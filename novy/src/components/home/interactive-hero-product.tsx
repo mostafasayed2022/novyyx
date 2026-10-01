@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useVisualActivity } from "@/hooks/use-visual-capabilities";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ShieldCheck, Dna, Activity, CheckCircle2, Sparkles, Layers } from "lucide-react";
+import { ShieldCheck, Dna, Activity, CheckCircle2, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLocale } from "@/i18n/locale-provider";
 
@@ -16,13 +17,13 @@ import { useLocale } from "@/i18n/locale-provider";
 export function InteractiveHeroProduct() {
   const { tr } = useLocale();
   const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const [activePin, setActivePin] = React.useState<number | null>(null);
   const imageSrc = "/products/novyx_cutis_box_vial.webp";
 
   // Mouse coordinate motion values for smooth 3D tilt
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
+  const active = useVisualActivity(containerRef);
   const springConfig = { damping: 25, stiffness: 120 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
@@ -31,7 +32,7 @@ export function InteractiveHeroProduct() {
   const rotateX = useTransform(smoothY, [-0.5, 0.5], [16, -16]);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!active || e.pointerType !== "mouse" || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
@@ -47,12 +48,13 @@ export function InteractiveHeroProduct() {
   return (
     <div
       ref={containerRef}
+      data-visual-active={active}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className="relative w-full max-w-[540px] aspect-square mx-auto flex items-center justify-center select-none perspective-[1400px]"
     >
       {/* Background Volumetric Optical Glow */}
-      <div className="absolute inset-0 rounded-full bg-radial from-brand/25 via-brand/8 to-transparent blur-[90px] pointer-events-none" />
+      <div className="absolute inset-0 ambient-glow rounded-full bg-radial from-brand/25 via-brand/8 to-transparent blur-[90px] pointer-events-none" />
 
       {/* Orbital Scientific Rings */}
       <div className="absolute inset-2 rounded-full border border-brand/20 animate-[spin_36s_linear_infinite] pointer-events-none" />
@@ -64,7 +66,7 @@ export function InteractiveHeroProduct() {
         style={{
           rotateX,
           rotateY,
-          transformStyle: "preserve-3d",
+          transformStyle: active ? "preserve-3d" : "flat",
         }}
         className="relative z-10 w-80 sm:w-96 flex flex-col items-center justify-center"
       >

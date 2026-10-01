@@ -1,3 +1,4 @@
+import type { PublicProduct } from "@/lib/utils/public-product";
 import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
 import {
   Product,
@@ -46,12 +47,12 @@ import { queryKeys } from "./queryKeys";
  */
 export function useProducts(
   params?: ProductQueryParams | string,
-  options?: Omit<UseQueryOptions<Product[], ApiError>, "queryKey" | "queryFn">
+  options?: Omit<UseQueryOptions<PublicProduct[], ApiError>, "queryKey" | "queryFn">
 ) {
   const normalizedParams: ProductQueryParams | undefined =
     typeof params === "string" ? { category: params } : params;
 
-  return useQuery<Product[], ApiError>({
+  return useQuery<PublicProduct[], ApiError>({
     queryKey: queryKeys.products.list(params),
     queryFn: () => getProducts(normalizedParams),
     ...options,

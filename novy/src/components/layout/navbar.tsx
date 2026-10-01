@@ -50,6 +50,22 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setIsOpen(false); };
+    const closeOnDesktop = (event: MediaQueryListEvent) => { if (event.matches) setIsOpen(false); };
+    const desktop = window.matchMedia("(min-width: 1280px)");
+    document.addEventListener("keydown", closeOnEscape);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [isOpen]);
+
   return (
     <header
       className={cn(
@@ -62,7 +78,7 @@ export function Navbar() {
           className={cn(
             "relative transition-all duration-500 ease-out flex items-center justify-between gap-4",
             scrolled
-              ? "px-5 py-2 rounded-2xl bg-background dark:bg-[#07090e] md:bg-background/80  md:dark:bg-[#07090e]/85 backdrop-blur-none md:backdrop-blur-none border border-border/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
+              ? "px-5 py-2 rounded-2xl bg-background/80 dark:bg-[#07090e]/85 backdrop-blur-2xl border border-border/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
               : "px-2 py-1 bg-transparent"
           )}
         >
@@ -161,7 +177,7 @@ export function Navbar() {
                             transition={{ type: "spring", stiffness: 380, damping: 32 }}
                           />
                         )}
-                        <span>Peptides &amp; Skin Boosters</span>
+                        <span>{tr("Peptides & Skin Boosters", "Peptide & Skin Booster")}</span>
                         <ChevronDown
                           className={cn(
                             "h-3.5 w-3.5 transition-transform duration-200",
@@ -199,7 +215,7 @@ export function Navbar() {
                                 >
                                   <div>
                                     <div className="text-xs font-mono font-semibold uppercase tracking-[0.12em]">
-                                      {productItem.title}
+                                      {locale === "de" ? productItem.titleDe || productItem.title : productItem.title}
                                     </div>
                                     {productItem.description && (
                                       <div className="mt-1 text-[10px] normal-case leading-relaxed text-muted-foreground line-clamp-2">
@@ -224,7 +240,7 @@ export function Navbar() {
           </nav>
 
           {/* Right: Haute Actions Suite */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="hidden xl:flex items-center gap-3 shrink-0">
             {/* Quick Catalog Search Jewel */}
             <Link
               href={ROUTES.products}
@@ -258,7 +274,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile Right Cluster */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex xl:hidden items-center gap-2">
             <ThemeToggle variant="desktop" />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -283,7 +299,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="lg:hidden fixed inset-x-4 top-20 bg-background/95 dark:bg-[#07090e]/95 backdrop-blur-2xl border border-border/80 rounded-2xl p-6 transition-all shadow-[0_24px_50px_-12px_rgba(0,0,0,0.5)] z-50 max-h-[85vh] overflow-y-auto"
+            className="xl:hidden fixed inset-x-4 top-28 bg-background/95 dark:bg-[#07090e]/95 backdrop-blur-2xl border border-border/80 rounded-2xl p-6 transition-all shadow-[0_24px_50px_-12px_rgba(0,0,0,0.5)] z-50 max-h-[calc(100svh-8rem)] overflow-y-auto"
           >
             <div className="flex flex-col gap-2">
               {primaryItems.map((item) => (
@@ -319,7 +335,7 @@ export function Navbar() {
                             : "text-foreground hover:text-brand"
                         )}
                       >
-                        <span>Peptides &amp; Skin Boosters</span>
+                        <span>{tr("Peptides & Skin Boosters", "Peptide & Skin Booster")}</span>
                         <ChevronDown
                           className={cn(
                             "h-4 w-4 transition-transform duration-200",
@@ -352,7 +368,7 @@ export function Navbar() {
                                       : "text-muted-foreground hover:bg-surface-elevated hover:text-brand"
                                   )}
                                 >
-                                  <span>{productItem.title}</span>
+                                  <span>{locale === "de" ? productItem.titleDe || productItem.title : productItem.title}</span>
                                   <ArrowUpRight className="h-3.5 w-3.5" />
                                 </Link>
                               ))}

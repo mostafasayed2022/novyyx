@@ -4,7 +4,7 @@ import { isAdminAuthenticated } from "@/lib/server/admin-auth";
 import { createProduct, listAllProducts } from "@/lib/server/content-store";
 import { productSchema } from "@/lib/server/product-schema";
 import type { Product } from "@/lib/api/types";
-import { translateProductToGerman } from "@/lib/server/codecraft";
+import { translateProductToGerman, optionalTranslation } from "@/lib/server/codecraft";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,12 +35,12 @@ export async function POST(request: Request) {
       ...parsed.data,
       id: parsed.data.id || randomUUID(),
     } as Product;
-    const german = await translateProductToGerman(draft);
+    const { translation: german, translationWarning } = await optionalTranslation(() => translateProductToGerman(draft), draft.translations?.de || {});
     const product = await createProduct({
       ...draft,
       translations: { ...(draft.translations || {}), de: german },
     });
-    return NextResponse.json(product, { status: 201 });
+    return NextResponse.json({ ...product, translationWarning }, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to create product.";
     const status = message.includes("CodeCraft") || message.includes("CODECRAFT") ? 502 : 409;

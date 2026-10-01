@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useHasMounted } from "@/hooks/use-visual-capabilities";
 import { useTheme } from "next-themes";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
@@ -17,12 +18,9 @@ export function ThemeToggle({
 }: ThemeToggleProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { tr } = useLocale();
-  const [mounted, setMounted] = React.useState(false);
+  const mounted = useHasMounted();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return (

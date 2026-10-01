@@ -82,10 +82,7 @@ export function ProfessionalsSection() {
 
   return (
     <section className="relative overflow-hidden bg-background py-24 sm:py-28">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-40 top-0 h-[520px] w-[520px] rounded-full bg-brand/7 blur-[120px]" />
-        <div className="absolute -left-40 bottom-0 h-[420px] w-[420px] rounded-full bg-brand/5 blur-[120px]" />
-      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(27,77,255,0.05),transparent_55%)]" />
 
       <Container size="xl" className="relative z-10">
         <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -139,83 +136,39 @@ export function ProfessionalsSection() {
             </Link>
           </div>
 
-          <div className="relative min-h-[520px] lg:min-h-[610px]">
-            <div className="absolute inset-0 overflow-hidden rounded-[32px] border border-border/70 bg-[radial-gradient(circle_at_64%_26%,rgba(27,77,255,0.14),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.88),rgba(236,244,255,0.62))] dark:bg-[radial-gradient(circle_at_64%_26%,rgba(27,77,255,0.20),transparent_30%),linear-gradient(135deg,rgba(10,17,31,0.96),rgba(7,14,27,0.84))]">
-              <div className="absolute right-[-12%] top-[-5%] h-[460px] w-[460px] rounded-full border border-brand/15" />
-              <div className="absolute right-[-3%] top-[5%] h-[380px] w-[380px] rounded-full border border-brand/10" />
-              <div className="absolute right-[7%] top-[15%] h-[300px] w-[300px] rounded-full border border-brand/10" />
+          <figure
+            data-product-showcase
+            className="relative isolate flex aspect-[4/5] w-full flex-col overflow-hidden rounded-[28px] border border-border/70 bg-[radial-gradient(ellipse_at_50%_52%,#d7e6ff_0%,#edf3fb_48%,#f8fafc_85%)] text-slate-900 dark:bg-[radial-gradient(ellipse_at_50%_52%,#142b50_0%,#0a172a_48%,#060d19_85%)] dark:text-white sm:rounded-[32px] lg:aspect-auto lg:min-h-[610px]"
+          >
+            <div className="relative z-10 px-6 pt-8 text-center sm:pt-10">
+              <p className="text-xl font-semibold tracking-[0.35em] sm:text-2xl">NOVYX</p>
+              <p className="mx-auto mt-3 max-w-[28em] font-mono text-[9px] uppercase leading-relaxed tracking-[0.18em] text-slate-500 dark:text-blue-100/55 sm:text-[10px]">
+                {tr("Engineered for longevity", "Entwickelt für Langlebigkeit")}
+              </p>
+            </div>
 
-              <div className="absolute right-[15%] top-[12%] h-3 w-3 rounded-full bg-brand/55 shadow-[0_0_24px_rgba(27,77,255,0.45)]" />
-              <div className="absolute right-[5%] top-[38%] h-2.5 w-2.5 rounded-full bg-brand/40" />
-              <div className="absolute right-[37%] top-[7%] h-2 w-2 rounded-full bg-brand/40" />
-
-              <div className="absolute left-[10%] top-[10%] max-w-[220px]">
-                <p className="font-mono text-[10px] uppercase tracking-[0.26em] text-brand">
-                  NOVYX Institutional
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {tr(
-                    "Structured support for professional research supply.",
-                    "Strukturierte Unterstützung für professionelle Forschungsversorgung."
-                  )}
-                </p>
-              </div>
-
-              <div className="absolute bottom-[10%] left-1/2 h-16 w-[78%] -translate-x-1/2 rounded-[50%] bg-black/10 blur-2xl dark:bg-black/35" />
-
-              <div className="absolute bottom-[12%] left-1/2 h-[78px] w-[76%] -translate-x-1/2 rounded-[50%] border border-brand/20 bg-gradient-to-b from-white/70 to-white/25 shadow-[0_20px_45px_rgba(15,23,42,0.16)] backdrop-blur-md dark:from-white/10 dark:to-white/[0.02]" />
-
-              <div className="absolute bottom-[19%] left-[18%] h-[210px] w-[150px] rounded-[12px] border border-border/90 bg-gradient-to-br from-white via-slate-50 to-slate-200 shadow-[0_25px_50px_rgba(15,23,42,0.16)] dark:from-slate-200 dark:via-slate-100 dark:to-slate-300">
-                <div className="absolute inset-x-0 top-[44%] h-px bg-slate-300" />
-                <div className="absolute left-1/2 top-[26%] -translate-x-1/2">
-                  <Image
-                    src="/logos/novyx_logo_mark.webp"
-                    alt="NOVYX"
-                    width={64}
-                    height={64}
-                    loading="lazy"
-                    className="h-12 w-12 object-contain opacity-80"
-                  />
-                </div>
-                <span className="absolute bottom-8 left-0 right-0 text-center font-mono text-[11px] tracking-[0.28em] text-slate-600">
-                  NOVYX
-                </span>
-              </div>
-
-              <div className="absolute bottom-[18%] left-[42%] h-[250px] w-[118px] rounded-[40px_40px_26px_26px] border border-white/70 bg-gradient-to-r from-white/70 via-blue-50/35 to-white/55 shadow-[0_25px_55px_rgba(27,77,255,0.18)] backdrop-blur-md dark:border-white/20 dark:from-white/14 dark:via-brand/10 dark:to-white/8">
-                <div className="absolute -top-8 left-1/2 h-12 w-[76px] -translate-x-1/2 rounded-[16px_16px_8px_8px] border border-slate-300 bg-gradient-to-b from-slate-100 to-slate-400 shadow-md" />
-                <div className="absolute left-1/2 top-16 -translate-x-1/2">
-                  <Image
-                    src="/logos/novyx_logo_mark.webp"
-                    alt="NOVYX"
-                    width={58}
-                    height={58}
-                    loading="lazy"
-                    className="h-11 w-11 object-contain"
-                  />
-                </div>
-                <span className="absolute bottom-16 left-0 right-0 text-center font-mono text-[11px] tracking-[0.3em] text-slate-700 dark:text-white/80">
-                  NOVYX
-                </span>
-              </div>
-
-              <div className="absolute bottom-[19%] right-[12%] h-[150px] w-[155px] rounded-[10px] border border-border/90 bg-gradient-to-br from-white via-slate-50 to-slate-200 shadow-[0_22px_44px_rgba(15,23,42,0.14)] dark:from-slate-200 dark:via-slate-100 dark:to-slate-300">
-                <div className="absolute left-1/2 top-8 -translate-x-1/2">
-                  <Image
-                    src="/logos/novyx_logo_mark.webp"
-                    alt="NOVYX"
-                    width={52}
-                    height={52}
-                    loading="lazy"
-                    className="h-9 w-9 object-contain opacity-75"
-                  />
-                </div>
-                <span className="absolute bottom-7 left-0 right-0 text-center font-mono text-[10px] tracking-[0.24em] text-slate-600">
-                  PEPTIDE SCIENCE
-                </span>
+            <div className="relative mx-auto min-h-0 w-full flex-1" aria-hidden="true">
+              <div className="absolute inset-x-[13%] bottom-[5%] h-[17%] rounded-[3px] border-t border-slate-400/50 bg-[linear-gradient(155deg,#48515f,#202833_55%,#101720)] shadow-[0_18px_28px_rgba(0,0,0,0.22)] dark:border-blue-100/20 dark:bg-[linear-gradient(155deg,#303b4d,#172132_55%,#0b111c)]" />
+              <div className="absolute inset-x-[13%] bottom-[22%] h-[7%] origin-bottom [transform:skewX(-14deg)] rounded-t-[3px] border-t border-slate-400/60 bg-[linear-gradient(135deg,#596474,#2b3645)] dark:border-blue-100/25 dark:bg-[linear-gradient(135deg,#455267,#263347)]" />
+              <div className="absolute inset-x-[14%] bottom-[21%] top-[2%]">
+                <Image
+                  src="/products/novyx_cutis_box_vial.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 639px) 72vw, (max-width: 1023px) 60vw, 480px"
+                  loading="lazy"
+                  className="object-contain object-bottom"
+                />
               </div>
             </div>
-          </div>
+
+            <figcaption className="relative z-10 px-5 pb-8 pt-4 text-center sm:pb-10">
+              <p className="font-mono text-sm font-medium tracking-[0.22em] sm:text-base">NOVYX CUTIS</p>
+              <p className="mt-2 text-xs tracking-wide text-slate-500 dark:text-blue-100/55 sm:text-sm">
+                {tr("Precision. Purity. Confidence.", "Präzision. Reinheit. Vertrauen.")}
+              </p>
+            </figcaption>
+          </figure>
         </div>
 
         <div className="mt-10 overflow-hidden rounded-[24px] border border-brand/20 bg-[#071426] shadow-[0_18px_60px_rgba(7,20,38,0.20)]">

@@ -65,7 +65,7 @@ const PRESENTATION: Record<string, ProductPresentation> = {
   },
 };
 
-export function getProductPresentation(product: Product, locale: Locale) {
+export function getProductPresentation(product: Omit<Product, "price">, locale: Locale) {
   const presentation = PRESENTATION[product.slug];
 
   return {
