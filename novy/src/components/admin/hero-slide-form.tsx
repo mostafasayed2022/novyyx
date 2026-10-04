@@ -20,7 +20,7 @@ const emptySlide: HeroSlide = {
   categoryDe: "",
   description: "",
   descriptionDe: "",
-  image: "/products/novyx_cutis_box_vial.webp",
+  image: "/products/Novyx Labs GHK-Cu Product Set.png",
   badge: "",
   badgeDe: "",
   metrics: [

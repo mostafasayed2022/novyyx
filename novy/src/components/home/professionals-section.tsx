@@ -152,7 +152,7 @@ export function ProfessionalsSection() {
               <div className="absolute inset-x-[13%] bottom-[22%] h-[7%] origin-bottom [transform:skewX(-14deg)] rounded-t-[3px] border-t border-slate-400/60 bg-[linear-gradient(135deg,#596474,#2b3645)] dark:border-blue-100/25 dark:bg-[linear-gradient(135deg,#455267,#263347)]" />
               <div className="absolute inset-x-[14%] bottom-[21%] top-[2%]">
                 <Image
-                  src="/products/novyx_cutis_box_vial.webp"
+                  src="/products/Novyx Labs GHK-Cu Product Set.png"
                   alt=""
                   fill
                   sizes="(max-width: 639px) 72vw, (max-width: 1023px) 60vw, 480px"
@@ -163,7 +163,7 @@ export function ProfessionalsSection() {
             </div>
 
             <figcaption className="relative z-10 px-5 pb-8 pt-4 text-center sm:pb-10">
-              <p className="font-mono text-sm font-medium tracking-[0.22em] sm:text-base">NOVYX CUTIS</p>
+              <p className="font-mono text-sm font-medium tracking-[0.22em] sm:text-base">NOVYX LABS</p>
               <p className="mt-2 text-xs tracking-wide text-slate-500 dark:text-blue-100/55 sm:text-sm">
                 {tr("Precision. Purity. Confidence.", "Präzision. Reinheit. Vertrauen.")}
               </p>

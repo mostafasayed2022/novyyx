@@ -34,7 +34,7 @@ export const MOCK_PRODUCTS: PeptideProduct[] = [
     vialSizeMg: 25,
     inStock: true,
     featured: true,
-    imageUrl: "/products/novyx_cutis_box_vial.webp",
+    imageUrl: "/products/Novyx Labs GHK-Cu Product Set.png",
   }),
   createProduct({
     id: "nx-tzp-pen",

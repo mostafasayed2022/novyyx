@@ -38,7 +38,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     category: "DERMAL BIOTECHNOLOGY", categoryDe: "DERMALE BIOTECHNOLOGIE",
     description: "Dual-vector extracellular matrix activation and type-I collagen synthesis with pharmaceutical-grade analytical purity.",
     descriptionDe: "Dualvektor-Aktivierung der extrazellulären Matrix und Typ-I-Kollagensynthese mit analytischer Reinheit auf pharmazeutischem Niveau.",
-    image: "/products/novyx_cutis_box_vial.webp", isWideComposite: true,
+    image: "/products/Novyx Labs GHK-Cu Product Set.png", isWideComposite: true,
     badge: "FLAGSHIP MATRIX // 99.82% HPLC", badgeDe: "FLAGGSCHIFF-MATRIX // 99,82% HPLC",
     metrics: [{ label: "PURITY", value: "99.82%" }, { label: "VECTOR", value: "DUAL GHK" }],
     productLink: ROUTES.products,

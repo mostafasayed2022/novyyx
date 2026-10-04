@@ -17,7 +17,7 @@ import { useLocale } from "@/i18n/locale-provider";
 export function InteractiveHeroProduct() {
   const { tr } = useLocale();
   const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const imageSrc = "/products/novyx_cutis_box_vial.webp";
+  const imageSrc = "/products/Novyx Labs GHK-Cu Product Set.png";
 
   // Mouse coordinate motion values for smooth 3D tilt
   const mouseX = useMotionValue(0);
@@ -94,7 +94,7 @@ export function InteractiveHeroProduct() {
             <div className="relative w-full h-full flex items-center justify-center">
               <Image
                 src={imageSrc}
-                alt="NOVYX CUTIS™ Dual Borosilicate Glass Vials"
+                alt="NOVYX LABS™ Dual Borosilicate Glass Vials"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 450px"
