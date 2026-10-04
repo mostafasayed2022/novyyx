@@ -32,7 +32,7 @@ export interface HeroSlide {
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
-    id: "cutis", number: "01", name: "CUTIS™", brand: "NOVYX",
+    id: "cutis", number: "01", name: "Labs™", brand: "NOVYX",
     eyebrow: "ENGINEERED FOR LONGEVITY", eyebrowDe: "ENTWICKELT FÜR LANGLEBIGKEIT",
     headlineMain: "SCIENCE", headlineSub: "BEYOND TIME", headlineSubDe: "JENSEITS DER ZEIT",
     category: "DERMAL BIOTECHNOLOGY", categoryDe: "DERMALE BIOTECHNOLOGIE",
