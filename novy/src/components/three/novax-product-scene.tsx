@@ -53,7 +53,7 @@ function ProductContainer({
     <group ref={groupRef}>
       {/* 3D Laboratory Physical Glass Vial */}
       <ProceduralVial
-        productName="NOVYX CUTIS™"
+        productName="NOVYX Labs™"
         purity={99.82}
         lotId="NVX-2026-CUT-0042"
       />

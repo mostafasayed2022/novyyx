@@ -30,7 +30,7 @@ export const FOOTER_SECTIONS: NavSection[] = [
       { title: "Metabolic Research", titleDe: "Stoffwechselforschung", href: "/products?cat=metabolic" },
       { title: "Tissue Regeneration", titleDe: "Geweberegeneration", href: "/products?cat=cellular-repair" },
       { title: "Neuro-Cognitive", titleDe: "Neurokognitiv", href: "/products?cat=cognitive" },
-      { title: "NOVYX CUTIS™ Flagship", titleDe: "NOVYX CUTIS™ Flaggschiff", href: "/products/novax-cutis" },
+      { title: "NOVYX Labs™ Flagship", titleDe: "NOVYX Labs™ Flagship", href: "/products/novax-cutis" },
     ],
   },
   {

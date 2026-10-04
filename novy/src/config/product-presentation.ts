@@ -60,8 +60,8 @@ const PRESENTATION: Record<string, ProductPresentation> = {
   "novax-cutis": {
     eyebrowEn: "NOVYX · Flagship Peptide System",
     eyebrowDe: "NOVYX · Flaggschiff-Peptidsystem",
-    packEn: "Pack: NOVYX CUTIS™ professional research presentation",
-    packDe: "Packung: NOVYX CUTIS™ professionelle Forschungspräsentation",
+    packEn: "Pack: NOVYX Labs™ professional research presentation",
+    packDe: "Packung: NOVYX Labs™ professionelle Forschungspräsentation",
   },
 };
 

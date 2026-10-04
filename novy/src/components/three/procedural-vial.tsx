@@ -12,12 +12,12 @@ interface ProceduralVialProps {
 
 /**
  * ProceduralVial
- * Precision-machined 3D pharmaceutical laboratory vial for NOVYX CUTIS™.
+ * Precision-machined 3D pharmaceutical laboratory vial for NOVYX Labs™.
  * Features physical borosilicate glass transmission, aluminium crimp cap,
  * butyl septum stopper, internal peptide matrix, and pharmaceutical label.
  */
 export function ProceduralVial({
-  productName = "NOVYX CUTIS™",
+  productName = "NOVYX Labs™",
   purity = 99.82,
   lotId = "NVX-2026-CUT-0042",
   glowColor = "#00D2FF",
