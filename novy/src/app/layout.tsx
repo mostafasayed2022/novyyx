@@ -69,12 +69,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = await getServerLocale();
+
   return (
-    <html
-      lang={locale}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-brand/20 selection:text-foreground font-sans">
+    <html lang={locale} suppressHydrationWarning>
+      <body className="relative min-h-screen bg-transparent dark:bg-background text-foreground flex flex-col antialiased selection:bg-brand/20 selection:text-foreground font-sans">
         <Providers locale={locale}>
           <SiteShell>{children}</SiteShell>
         </Providers>

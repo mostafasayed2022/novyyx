@@ -18,17 +18,17 @@ export function CtaSection() {
       <Container size="xl" className="relative z-10">
         <GlassCard glow="brand" className="p-10 sm:p-16 text-center max-w-4xl mx-auto space-y-8 relative overflow-hidden border-brand/40">
           <div className="absolute inset-0 biotech-grid opacity-30 pointer-events-none" />
-          <div className="inline-flex items-center gap-2 relative z-10"><Badge variant="brand" className="font-mono text-xs">{tr("Enterprise Collaboration Gateway", "Zugang für Unternehmenskooperationen")}</Badge></div>
+          <div className="inline-flex items-center gap-2 relative z-10"><Badge variant="brand" className="font-mono text-xs">{tr("─ Let’s Collaborate", "Zugang für Unternehmenskooperationen")}</Badge></div>
           <div className="space-y-4 relative z-10">
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-sans editorial-headline">
               {tr("PARTNER WITH", "PARTNERSCHAFT MIT")} <br /><span className="text-brand">NOVYX LABS</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
-              {tr("Whether reserving certified production lots, designing proprietary custom peptides, or establishing institutional distributor channels, our scientific advisory team is ready.", "Ob zertifizierte Produktionschargen reserviert, individuelle Peptide entwickelt oder institutionelle Vertriebskanäle aufgebaut werden — unser wissenschaftliches Beratungsteam steht bereit.")}
+              {tr("For product specifications, wholesale enquiries, distribution opportunities and analytical documentation,contact your Peptigen representative", "Ob zertifizierte Produktionschargen reserviert, individuelle Peptide entwickelt oder institutionelle Vertriebskanäle aufgebaut werden — unser wissenschaftliches Beratungsteam steht bereit.")}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4 relative z-10">
-            <Link href={ROUTES.contact}><Button size="lg" variant="glow" className="gap-2 font-mono text-xs"><span>{tr("Initiate Scientific Inquiry", "Wissenschaftliche Anfrage starten")}</span><ArrowUpRight className="w-4 h-4" /></Button></Link>
+            <Link href={ROUTES.contact}><Button size="lg" variant="glow" className="gap-2 font-mono text-xs"><span>{tr("CONTACT US", "Wissenschaftliche Anfrage starten")}</span><ArrowUpRight className="w-4 h-4" /></Button></Link>
             <Link href={ROUTES.products}><Button size="lg" variant="outline" className="gap-2 font-mono text-xs"><span>{tr("Explore Peptide Library", "Peptidbibliothek entdecken")}</span></Button></Link>
           </div>
           <div className="pt-8 border-t border-border/80 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-muted-foreground relative z-10">

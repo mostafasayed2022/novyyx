@@ -44,17 +44,17 @@ export function HeroSlideContent({ slide, active = false }: HeroSlideContentProp
               <span className="text-5xl sm:text-7xl xl:text-8xl font-black text-[#1B4DFF] drop-shadow-[0_2px_20px_rgba(27,77,255,0.35)] dark:drop-shadow-[0_0_40px_rgba(27,77,255,0.7)] tracking-tight">
                 {slide.brand}
               </span>
-              <span className="text-4xl sm:text-6xl xl:text-7xl font-extrabold text-[#0E131F] dark:text-[#E2ECF8] mt-1.5 tracking-tight transition-colors duration-300 drop-shadow-sm dark:drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+              <span className="text-4xl sm:text-6xl xl:text-7xl font-extrabold text-white dark:text-[#E2ECF8] mt-1.5 tracking-tight transition-colors duration-300 drop-shadow-sm dark:drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
                 {slide.name}
               </span>
-              <span className="text-2xl sm:text-4xl xl:text-5xl font-light text-[#525B6C] dark:text-white/90 mt-1 tracking-wide transition-colors duration-300">
+              <span className="text-2xl sm:text-4xl xl:text-5xl font-light text-white/90 dark:text-white/90 mt-1 tracking-wide transition-colors duration-300">
                 {locale === "de" ? slide.headlineSubDe || slide.headlineSub : slide.headlineSub}
               </span>
             </h1>
           </div>
 
           {/* Narrative Statement */}
-          <p className="text-base sm:text-lg text-[#4B5565] dark:text-[#A7ADB5] font-normal dark:font-light max-w-xl leading-relaxed transition-colors duration-300">
+          <p className="text-base sm:text-lg text-white/80 dark:text-[#A7ADB5] font-normal dark:font-light max-w-xl leading-relaxed transition-colors duration-300">
             {locale === "de" ? slide.descriptionDe || slide.description : slide.description}
           </p>
 
@@ -83,7 +83,7 @@ export function HeroSlideContent({ slide, active = false }: HeroSlideContentProp
         <Link href={slide.productLink || ROUTES.products}
             className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-brand text-white hover:bg-brand-hover dark:bg-white dark:text-[#111625] font-semibold text-sm transition-all duration-300 hover:scale-[1.03] shadow-[0_4px_20px_rgba(27,77,255,0.35)] dark:hover:shadow-[0_0_28px_rgba(255,255,255,0.55)] active:scale-[0.98] cursor-pointer"
           >
-            <span>{tr("Explore Products", "Produkte entdecken")}</span>
+            <span>{tr("Explore Our Peptides", "Unsere Peptide entdecken")}</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
 

@@ -10,9 +10,14 @@ import { useLocale } from "@/i18n/locale-provider";
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { tr } = useLocale();
-  const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
 
-  if (isAdmin) return <>{children}</>;
+  const isAdmin =
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/");
+
+  if (isAdmin) {
+    return <>{children}</>;
+  }
 
   return (
     <>
@@ -22,11 +27,14 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       >
         {tr("Skip to main content", "Zum Hauptinhalt springen")}
       </a>
+
       <ScrollProgress />
       <Navbar />
+
       <main id="main-content" className="flex-1 flex flex-col">
         <Suspense fallback={null}>{children}</Suspense>
       </main>
+
       <Footer />
     </>
   );

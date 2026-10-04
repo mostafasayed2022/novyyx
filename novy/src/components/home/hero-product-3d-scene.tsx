@@ -194,11 +194,9 @@ export function HeroProduct3DScene({
           </div>
 
           {/* B. Dark Obsidian Mineral Pedestal Plinth Base */}
-          <div className="relative w-[360px] sm:w-[460px] md:w-[520px] h-[170px] -mt-32 sm:-mt-40 md:-mt-48 z-10 pointer-events-none">
-            {/* Deep Contact Shadow directly beneath the vial and box base */}
+          {/* <div className="relative w-[360px] sm:w-[460px] md:w-[520px] h-[170px] -mt-32 sm:-mt-40 md:-mt-48 z-10 pointer-events-none">
             <div className="absolute top-12 inset-x-8 h-14 rounded-full bg-black/95 blur-md" />
 
-            {/* Mineral Rock Image with smooth bottom fade-out into the horizon */}
             <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_65%,transparent_100%)]">
               <Image
                 src="/products/novyx_rock_pedestal.webp"
@@ -210,9 +208,8 @@ export function HeroProduct3DScene({
               />
             </div>
 
-            {/* Top Rim Light Reflection Line on the rock edge */}
             <div className="absolute top-10 inset-x-10 h-[2px] bg-gradient-to-r from-transparent via-[#00D2FF] to-transparent blur-[0.5px] opacity-85" />
-          </div>
+          </div> */}
         </motion.div>
 
         {/* 4. Lower Right Secondary Molecule Cluster */}

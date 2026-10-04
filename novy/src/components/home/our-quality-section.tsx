@@ -8,9 +8,10 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { ROUTES } from "@/lib/constants/routes";
 import { useLocale } from "@/i18n/locale-provider";
 import {
-  Building2,
-  FlaskConical,
-  PackageCheck,
+  ShieldCheck,
+  FileCheck2,
+  ScanSearch,
+  BadgeCheck,
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
@@ -18,32 +19,40 @@ import {
 export function OurQualitySection() {
   const { tr } = useLocale();
 
-  const qualitySteps = [
-    {
-      title: tr("Controlled Environment", "Kontrollierte Umgebung"),
-      desc: tr(
-        "Peptides are prepared and handled in carefully controlled laboratory spaces designed to support clean, consistent work.",
-        "Peptide werden in sorgfältig kontrollierten Laborbereichen vorbereitet und verarbeitet, die sauberes und konsistentes Arbeiten unterstützen."
-      ),
-      icon: Building2,
-    },
-    {
-      title: tr("Precision Process", "Präziser Prozess"),
-      desc: tr(
-        "Each stage follows a defined workflow so synthesis, review, and documentation stay clear and repeatable.",
-        "Jeder Schritt folgt einem klar definierten Ablauf, damit Synthese, Prüfung und Dokumentation nachvollziehbar und wiederholbar bleiben."
-      ),
-      icon: FlaskConical,
-    },
-    {
-      title: tr("Careful Handling", "Sorgfältige Handhabung"),
-      desc: tr(
-        "Products are prepared, sealed, and stored with attention to stability and traceability from batch to batch.",
-        "Produkte werden mit Blick auf Stabilität und Rückverfolgbarkeit vorbereitet, versiegelt und gelagert."
-      ),
-      icon: PackageCheck,
-    },
-  ];
+const qualitySteps = [
+  {
+    title: tr("Third-Party Verified", "Von Dritten verifiziert"),
+    desc: tr(
+      "Independent analytical testing provides objective verification of product purity and quality.",
+      "Unabhängige analytische Tests ermöglichen eine objektive Überprüfung der Reinheit und Qualität unserer Produkte."
+    ),
+    icon: ShieldCheck,
+  },
+  {
+    title: tr("Certificate of Analysis", "Analysezertifikat"),
+    desc: tr(
+      "Clear, accessible COAs give our professional partners visibility into the quality of the products they source.",
+      "Klare und zugängliche Analysezertifikate geben unseren professionellen Partnern Einblick in die Qualität der von ihnen bezogenen Produkte."
+    ),
+    icon: FileCheck2,
+  },
+  {
+    title: tr("Batch-Level Transparency", "Transparenz auf Chargenebene"),
+    desc: tr(
+      "Products are identifiable by batch, connecting the product in your hands with the analytical documentation behind it.",
+      "Produkte sind anhand ihrer Charge identifizierbar und können direkt mit der zugehörigen analytischen Dokumentation verknüpft werden."
+    ),
+    icon: ScanSearch,
+  },
+  {
+    title: tr("Consistency by Design", "Konsistenz durch Design"),
+    desc: tr(
+      "Our quality standards are built around one simple principle: every batch should earn the NOVYX name.",
+      "Unsere Qualitätsstandards basieren auf einem einfachen Prinzip: Jede Charge sollte den Namen NOVYX verdienen."
+    ),
+    icon: BadgeCheck,
+  },
+];
 
   return (
     <section className="relative overflow-hidden bg-background-subtle/40 py-24">
@@ -76,7 +85,7 @@ export function OurQualitySection() {
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-4">
             {qualitySteps.map((step, index) => {
               const Icon = step.icon;
 
@@ -106,12 +115,12 @@ export function OurQualitySection() {
                       </p>
                     </div>
 
-                    <div className="mt-auto pt-6">
+                    {/* <div className="mt-auto pt-6">
                       <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.14em] text-brand">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                         <span>{tr("NOVYX quality standard", "NOVYX Qualitätsstandard")}</span>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </GlassCard>
               );

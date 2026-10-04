@@ -258,7 +258,7 @@ export function Navbar() {
               >
                 {/* Micro-shimmer shine reflection */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-                <span className="relative z-10">{tr("Scientific Dossier", "Wissenschaftliches Dossier")}</span>
+                <span className="relative z-10">{tr("Research Intelligence", "Forschungsintelligenz")}</span>
                 <span className="relative z-10 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5">
                   <ArrowRight className="w-2.5 h-2.5" />
                 </span>

@@ -2,101 +2,325 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { useVisualActivity } from "@/hooks/use-visual-capabilities";
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+
 import { Container } from "@/components/layout/container";
-import { HeroCosmicCanvas } from "./hero-cosmic-canvas";
-import { HeroProduct3DScene } from "./hero-product-3d-scene";
 import { HeroSlideContent } from "./hero-slide-content";
 import { HeroSliderPagination } from "./hero-slider-pagination";
 import { HeroBrandPillars } from "./hero-brand-pillars";
 import { HERO_SLIDES, type HeroSlide } from "./hero-slide-data";
+import { HeroLightVideoBackground } from "./hero-light-video-background";
 
-/**
- * HeroSection
- * Flagship interactive showroom banner for NOVYX — Engineered for Longevity:
- * - Interactive 01—04 slider showcasing NOVYX CUTIS™, GHK-Cu, BPC-157, Retatrutide
- * - Dynamic 3D perspective parallax with ambient lighting and molecular structures
- * - Signature "NOVYX" typography in official Brand Blue (#1B4DFF)
- * - Seamless White/Dark mode adaptation with luxury ambient glows
- * - Clean modular component architecture
- */
-export function HeroSection({ initialSlides }: { initialSlides?: HeroSlide[] }) {
-  const slides = initialSlides ?? HERO_SLIDES;
-  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
-  const [isPaused, setIsPaused] = React.useState(false);
-  const sectionRef = React.useRef<HTMLElement>(null);
-  const active = useVisualActivity(sectionRef);
+const HeroCosmicCanvas = dynamic(
+  () =>
+    import("./hero-cosmic-canvas").then(
+      (mod) => mod.HeroCosmicCanvas,
+    ),
+  {
+    ssr: false,
+  },
+);
 
-  // Auto-advance slides every 7 seconds, pauses when hovering over the hero
+const HeroProduct3DScene = dynamic(
+  () =>
+    import("./hero-product-3d-scene").then(
+      (mod) => mod.HeroProduct3DScene,
+    ),
+  {
+    ssr: false,
+  },
+);
+
+export function HeroSection({
+  initialSlides,
+}: {
+  initialSlides?: HeroSlide[];
+}) {
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
+
+  const slides =
+    initialSlides?.length ? initialSlides : HERO_SLIDES;
+
+  const [currentSlideIndex, setCurrentSlideIndex] =
+    React.useState(0);
+
+  const [isPaused, setIsPaused] =
+    React.useState(false);
+
+  const [isDesktop, setIsDesktop] =
+    React.useState(false);
+
   React.useEffect(() => {
-    if (isPaused || !active || slides.length < 2) return;
-    const interval = setInterval(() => {
-      setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
+    const media = window.matchMedia(
+      "(min-width: 901px) and (hover: hover) and (pointer: fine)",
+    );
+
+    const update = () => {
+      setIsDesktop(media.matches);
+    };
+
+    update();
+
+    media.addEventListener("change", update);
+
+    return () => {
+      media.removeEventListener("change", update);
+    };
+  }, []);
+
+
+  React.useEffect(() => {
+    if (
+      !isDesktop ||
+      isPaused ||
+      slides.length <= 1
+    ) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setCurrentSlideIndex(
+        (previous) =>
+          (previous + 1) % slides.length,
+      );
     }, 7000);
-    return () => clearInterval(interval);
-  }, [isPaused, active, slides.length]);
 
-  const activeSlide = slides[currentSlideIndex] ?? slides[0];
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [
+    isDesktop,
+    isPaused,
+    slides.length,
+  ]);
 
-  if (!activeSlide) return null;
+  /**
+   * Protect against an out-of-range slide index if the
+   * dashboard changes the number of slides.
+   */
+  React.useEffect(() => {
+    if (
+      currentSlideIndex >= slides.length &&
+      slides.length > 0
+    ) {
+      setCurrentSlideIndex(0);
+    }
+  }, [
+    currentSlideIndex,
+    slides.length,
+  ]);
+
+  const activeSlide =
+    slides[currentSlideIndex] ?? slides[0];
+
+  if (!activeSlide) {
+    return null;
+  }
+
+  const mobileProductClass =
+    activeSlide.isWideComposite
+      ? "relative mx-auto h-[280px] w-[min(94vw,380px)]"
+      : "relative mx-auto h-[390px] w-[min(90vw,340px)]";
 
   return (
     <section
-      ref={sectionRef}
-      data-visual-active={active}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false); }}
-      className="relative hero-section min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#F7F8FA] dark:bg-[#040711] text-foreground dark:text-white pt-28 pb-8 transition-colors duration-500"
+      onMouseEnter={() => {
+        if (isDesktop) {
+          setIsPaused(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (isDesktop) {
+          setIsPaused(false);
+        }
+      }}
+      className="
+        relative
+        flex
+        min-h-[100svh]
+        w-full
+        flex-col
+        justify-between
+        overflow-hidden
+        bg-transparent
+        pb-5
+        pt-20
+        text-foreground
+        dark:bg-[#040711]
+        dark:text-white
+        md:min-h-screen
+        md:pb-8
+        md:pt-28
+        md:transition-colors
+        md:duration-500
+      "
     >
-      {/* 1. Scientific Ambient Backdrop (Adaptive Cosmic/Laboratory Lighting) */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Soft Ambient Light Glows in Light Mode */}
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#1B4DFF]/10 ambient-glow rounded-full blur-[140px] pointer-events-none dark:hidden" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#00D2FF]/10 ambient-glow rounded-full blur-[120px] pointer-events-none dark:hidden" />
+      {/* Background
+          Light mode: Mux video on BOTH desktop and mobile.
+          Dark mode: keep the current cosmic image exactly as before. */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* This replaces the old light-mode image/background. */}
+        <HeroLightVideoBackground />
 
-        {/* Cosmic Deep Space Image for Dark Mode with delicate presence in Light Mode */}
+        {/* Dark mode keeps the existing NOVYX cosmic background. */}
         <Image
           src="/backgrounds/novyx_hero_cosmic_bg.webp"
-          alt="NOVYX Cosmic Scientific Laboratory Environment"
+          alt=""
           fill
-          preload
+          priority
+          quality={80}
           sizes="100vw"
-          quality={60}
-          className="object-cover object-bottom opacity-15 dark:opacity-85 filter brightness-105 contrast-105 transition-opacity duration-500"
+          className="
+            hidden
+            object-cover
+            object-center
+            opacity-80
+            dark:block
+            md:object-bottom
+          "
         />
 
-        {/* Adaptive Gradient Overlays for Smooth Horizon Blending */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F7F8FA]/90 via-[#F7F8FA]/40 to-[#F7F8FA] dark:from-[#040711]/80 dark:via-transparent dark:to-[#040711]/60 transition-colors duration-500" />
+        {/* Dark-mode blend only. The light video has its own tiny overlay. */}
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            inset-0
+            hidden
+            bg-gradient-to-b
+            from-[#040711]/80
+            via-[#040711]/20
+            to-[#040711]/70
+            dark:block
+          "
+        />
       </div>
 
-      {/* 2. Interactive 60fps HTML5 Animated Cosmic & Molecular Canvas */}
-      <HeroCosmicCanvas className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-40 dark:opacity-100 transition-opacity duration-500" />
+      {/* Heavy animated canvas: desktop only */}
+      {isDesktop && isDarkMode ? (
+        <HeroCosmicCanvas
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-[1]
+            h-full
+            w-full
+            opacity-100
+          "
+        />
+      ) : null}
 
-      {/* 3. Main Hero Two-Column Grid */}
-      <Container size="xl" className="relative z-10 my-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
-          {/* Left Column: Modular Slide Typography & Interactive CTAs */}
-          <div className="lg:col-span-6 xl:col-span-7">
-            <HeroSlideContent slide={activeSlide} active={active} />
+      {/* Main hero content */}
+      <Container
+        size="xl"
+        className="
+          relative
+          z-10
+          my-auto
+          w-full
+        "
+      >
+        <div
+          className="
+            grid
+            grid-cols-1
+            items-center
+            gap-3
+            md:gap-5
+            lg:grid-cols-12
+            lg:gap-4
+          "
+        >
+          {/* Copy */}
+          <div
+            className="
+              order-1
+              lg:col-span-6
+              xl:col-span-7
+            "
+          >
+            <HeroSlideContent
+              slide={activeSlide}
+            />
           </div>
 
-          {/* Right Column: Dynamic 3D Interactive Product Presentation */}
-          <div className="lg:col-span-6 xl:col-span-5 flex items-center justify-center relative">
-            <HeroProduct3DScene slide={activeSlide} />
+          {/* Product */}
+          <div
+            className="
+              order-2
+              relative
+              flex
+              items-center
+              justify-center
+              lg:col-span-6
+              xl:col-span-5
+            "
+          >
+            {isDesktop ? (
+              <HeroProduct3DScene
+                slide={activeSlide}
+              />
+            ) : (
+              <div className="relative flex w-full items-center justify-center overflow-visible py-1">
+                {/* Product glow is dark-mode only; light mode shows the raw video background. */}
+                {isDarkMode ? (
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none
+                      absolute
+                      left-1/2
+                      top-1/2
+                      h-[300px]
+                      w-[300px]
+                      -translate-x-1/2
+                      -translate-y-1/2
+                      rounded-full
+                      bg-[radial-gradient(circle_at_center,rgba(27,77,255,0.15)_0%,rgba(0,210,255,0.06)_38%,transparent_72%)]
+                    "
+                  />
+                ) : null}
+
+                <div
+                  className={mobileProductClass}
+                >
+                  <Image
+                    src={activeSlide.image}
+                    alt={`NOVYX ${activeSlide.name}`}
+                    fill
+                    priority={
+                      currentSlideIndex === 0
+                    }
+                    quality={75}
+                    sizes={
+                      activeSlide.isWideComposite
+                        ? "(max-width: 900px) 94vw, 380px"
+                        : "(max-width: 900px) 90vw, 340px"
+                    }
+                    className="
+                      object-contain
+                      object-center
+                    "
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Container>
 
-      {/* 4. Interactive Vertical Pagination Controller (01 — 04) */}
+      {/* Manual pagination remains available on mobile */}
       <HeroSliderPagination
         slides={slides}
         currentIndex={currentSlideIndex}
-        onSelectSlide={setCurrentSlideIndex}
+        onSelectSlide={
+          setCurrentSlideIndex
+        }
       />
 
-      {/* 5. Modular Bottom 4 Brand Pillars Bar */}
       <HeroBrandPillars />
     </section>
   );
