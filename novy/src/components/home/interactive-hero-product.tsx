@@ -113,7 +113,7 @@ export function InteractiveHeroProduct() {
               <span>{tr("FLAGSHIP CLINICAL DUAL-VIAL MATRIX", "KLINISCHE DUAL-VIAL-FLAGGSCHIFFMATRIX")}</span>
             </div>
             <h3 className="text-xl font-bold text-foreground font-mono tracking-tight">
-              NOVYX CUTIS™
+              NOVYX Labs™
             </h3>
             <p className="text-[11px] font-mono text-muted-foreground leading-relaxed">
               GHK-Cu • PN • PDRN • Acetyl Octapeptide-3
