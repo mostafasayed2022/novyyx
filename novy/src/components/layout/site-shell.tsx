@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { HeroHelixBackdrop } from "@/components/about/HeroHelixBackdrop";
+// import { HeroHelixBackdrop } from "@/components/about/HeroHelixBackdrop";
 import { useLocale } from "@/i18n/locale-provider";
 
 export function SiteShell({
@@ -31,13 +31,13 @@ export function SiteShell({
     pathname === "/about" ||
     pathname.startsWith("/about/");
 
-  const showHelixBackground = !isHome && !isAbout;
+  // const showHelixBackground = !isHome && !isAbout;
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden">
 
       {/* Global Helix Background */}
-      {showHelixBackground && (
+      {/* {showHelixBackground && (
         <div
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 z-0"
@@ -47,7 +47,7 @@ export function SiteShell({
             className="absolute inset-0"
           />
         </div>
-      )}
+      )} */}
 
       {/* Skip Link */}
       <a

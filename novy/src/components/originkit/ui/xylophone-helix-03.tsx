@@ -1,3 +1,5 @@
+// Xylophone Helix 3 — Originkit
+
 "use client"
 
 import { useEffect, useRef } from "react"
@@ -1369,7 +1371,7 @@ export const XYLOPHONE_HELIX_DEFAULTS = {
     camera: CAMERA_DEFAULTS,
 }
 
-export default function XylophoneHelix(props: XylophoneHelixProps) {
+function __OriginkitBase_XylophoneHelix(props: XylophoneHelixProps) {
     const {
         background = "#000000",
         baseColor = "#FFF3F3",
@@ -1455,20 +1457,43 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
             return
         }
 
-        const floatColorBuffer = gl.getExtension("EXT_color_buffer_float")
-        const fluidEnabled = floatColorBuffer !== null
-        if (!fluidEnabled) {
-            console.warn("[XylophoneHelix] EXT_color_buffer_float unavailable — hover wake disabled")
-        }
-
         const isMobile =
             (window.matchMedia?.("(pointer: coarse)").matches ?? false) &&
             Math.min(window.innerWidth, window.innerHeight) < 900
-        const maxDpr = isMobile ? 1.5 : 2
+
+        // Background mode: keep the visual, remove the expensive fluid simulation.
+        // The wrapper uses pointer-events:none, so hover-fluid work is wasted.
+        const fluidEnabled: boolean = false
+
+        // Keep the canvas sharp enough without rendering at full Retina resolution.
+        const maxDpr = isMobile ? 1 : 1.5
         const dpr = Math.min(maxDpr, window.devicePixelRatio || 1)
 
         const reduceMotion =
             window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
+
+        // Cap rendering frequency. 20fps is enough for the mobile background,
+        // 30fps keeps desktop motion smooth while cutting GPU work substantially.
+        const targetFps = reduceMotion ? 8 : isMobile ? 20 : 30
+        const frameInterval = 1000 / targetFps
+        let lastRenderedAt = 0
+
+        // Pause heavy rendering when this hero is off-screen or the tab is hidden.
+        let isVisible = true
+        let pageVisible = !document.hidden
+
+        const intersectionObserver = new IntersectionObserver(
+            ([entry]) => {
+                isVisible = entry?.isIntersecting ?? true
+            },
+            { root: null, threshold: 0.01, rootMargin: "80px" }
+        )
+        intersectionObserver.observe(root)
+
+        const onVisibilityChange = () => {
+            pageVisible = !document.hidden
+        }
+        document.addEventListener("visibilitychange", onVisibilityChange)
 
         const mesh = decodeBarMesh()
 
@@ -2090,6 +2115,10 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
             return backdropTargets[source]
         }
 
+        // Keep the helper referenced for projects that enable noUnusedLocals.
+        // It is intentionally not executed in background mode.
+        void renderBackdrop
+
         const updateScroll = (delta: number, spinSpeed: number) => {
             phaseTarget += input.deltaScrollY * SCROLL.sensitivity
 
@@ -2144,7 +2173,12 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
         const frame = () => {
             rafId = requestAnimationFrame(frame)
 
+            if (!isVisible || !pageVisible) return
+
             const now = performance.now()
+            if (now - lastRenderedAt < frameInterval) return
+            lastRenderedAt = now
+
             const delta = Math.min((now - lastFrame) / 1e3, MAX_DELTA)
             lastFrame = now
             time += delta
@@ -2196,8 +2230,8 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
             updateStrike()
             if (fluidEnabled) solveFluid(delta)
 
-            const backdrop = renderBackdrop()
-
+            // Skip renderBackdrop(): the final frame draws the solid background directly,
+            // so those repeated offscreen blur passes are unnecessary here.
             gl.bindFramebuffer(gl.FRAMEBUFFER, null)
             gl.viewport(0, 0, viewWidth, viewHeight)
             gl.clearColor(0, 0, 0, 1)
@@ -2256,6 +2290,8 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
         return () => {
             cancelAnimationFrame(rafId)
             resizeObserver.disconnect()
+            intersectionObserver.disconnect()
+            document.removeEventListener("visibilitychange", onVisibilityChange)
 
             root.removeEventListener("pointerdown", onPointerDown)
             window.removeEventListener("pointermove", onWindowPointerMove)
@@ -2338,4 +2374,13 @@ export default function XylophoneHelix(props: XylophoneHelixProps) {
             />
         </div>
     )
+}
+
+const __originkitPresetProps = {
+  "background": "#333131",
+  "baseColor": "#5157C8"
+};
+
+export default function XylophoneHelix(props: Record<string, unknown>) {
+  return <__OriginkitBase_XylophoneHelix {...(__originkitPresetProps as Record<string, unknown>)} {...props} />;
 }
