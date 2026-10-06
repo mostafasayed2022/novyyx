@@ -42,3 +42,4 @@ next-env.d.ts
 
 # NOVYX local dashboard content store
 /.novyx-data/
+.originkit/

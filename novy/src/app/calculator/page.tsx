@@ -41,7 +41,7 @@ export default async function CalculatorPage() {
   return (
     <PageWrapper
       badge={tr(locale, "Laboratory Tools", "Laborwerkzeuge")}
-      title={tr(locale, "Peptide Reconstitution Calculator", "Peptid-Rekonstitutionsrechner")}
+      title={tr(locale, "Contact Your NOVYX Representative", "Peptid-Rekonstitutionsrechner")}
       subtitle={tr(locale, "Precision volumetric dilution calculator for laboratory research solutions. Computes exact solvent volume, aliquot concentration, and pipetting parameters.", "Präziser volumetrischer Verdünnungsrechner für Laborlösungen. Berechnet exaktes Lösungsmittelvolumen, Aliquot-Konzentration und Pipettierparameter.")}
       visualSection="science"
     >

@@ -1,9 +1,26 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 
 export function PageLoader() {
-  return (
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       role="status"
       aria-live="polite"
@@ -11,8 +28,10 @@ export function PageLoader() {
       className="
         fixed
         inset-0
-        z-[9999]
+        z-[2147483647]
         flex
+        min-h-[100dvh]
+        w-screen
         items-center
         justify-center
         bg-[#040711]
@@ -38,6 +57,7 @@ export function PageLoader() {
 
         <span className="sr-only">Loading...</span>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
