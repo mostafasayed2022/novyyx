@@ -65,38 +65,42 @@ export function HeroHelixBackdrop({
         className,
       )}
     >
-      <XylophoneHelix
-        width="100%"
-        height="100%"
-        background={dark ? "#040711" : "#f7f9fc"}
-        baseColor={dark ? "#5368ff" : "#b8c8e8"}
-        bars={isMobile ? 22 : 44}
-        shape="helix"
-        torusRadius={isMobile ? 1.1 : 1.38}
-        tubeRadius={isMobile ? 0.45 : 0.64}
-        speed={isMobile ? 45 : 72}
-        drag={0}
-        scale={isMobile ? 250 : 330}
-        hover={{
-          glow: isMobile ? 0 : 34,
-          tint: isMobile ? 0 : 42,
-          strength: isMobile ? 0 : 90,
-          colors: dark
-            ? ["#ffffff", "#3b5cff", "#00d2ff", "#071342"]
-            : ["#ffffff", "#c9d8ff", "#5879ff", "#dff7ff"],
-        }}
-        camera={{
-          tilt: isMobile ? 48 : 54,
-          sideTilt: isMobile ? 60 : 78,
-        }}
-        className={cn(
-          "h-full w-full",
-          // intensity === "soft"
-          //   ? "opacity-45 dark:opacity-50"
-          //   : "opacity-65 dark:opacity-70",
-          "opacity-100"
-        )}
-      />
+<XylophoneHelix
+  width="100%"
+  height="100%"
+  background={dark ? "#040711" : "#f7f9fc"}
+  baseColor={dark ? "#5368ff" : "#b8c8e8"}
+
+  bars={isMobile ? 16 : 44}
+
+  shape="helix"
+
+  torusRadius={isMobile ? 0.82 : 1.38}
+
+  tubeRadius={isMobile ? 0.3 : 0.64}
+
+  speed={isMobile ? 28 : 72}
+
+  drag={0}
+
+  scale={isMobile ? 165 : 330}
+
+  hover={{
+    glow: isMobile ? 0 : 34,
+    tint: isMobile ? 0 : 42,
+    strength: isMobile ? 0 : 90,
+    colors: dark
+      ? ["#ffffff", "#3b5cff", "#00d2ff", "#071342"]
+      : ["#ffffff", "#c9d8ff", "#5879ff", "#dff7ff"],
+  }}
+
+  camera={{
+    tilt: isMobile ? 44 : 54,
+    sideTilt: isMobile ? 52 : 78,
+  }}
+
+  className="h-full w-full opacity-100"
+/>
 
       {/* Keeps text readable while preserving the lab visual. */}
       <div
