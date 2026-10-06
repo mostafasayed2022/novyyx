@@ -45,7 +45,7 @@ export default async function CalculatorPage() {
       subtitle={tr(locale, "Precision volumetric dilution calculator for laboratory research solutions. Computes exact solvent volume, aliquot concentration, and pipetting parameters.", "Präziser volumetrischer Verdünnungsrechner für Laborlösungen. Berechnet exaktes Lösungsmittelvolumen, Aliquot-Konzentration und Pipettierparameter.")}
       visualSection="science"
     >
-      <Container size="xl" className="space-y-16">
+      <Container size="xl" className="space-y-10 px-3 sm:space-y-16 sm:px-6 lg:px-8">
         {/* 01 Reconstitution Calculator Widget */}
         <PeptideCalculator />
 
@@ -53,7 +53,7 @@ export default async function CalculatorPage() {
         <section className="pt-4">
           <GlassCard
             glow="brand"
-            className="p-8 sm:p-12 text-center max-w-3xl mx-auto space-y-6 rounded-2xl border border-border"
+            className="mx-auto max-w-3xl space-y-5 rounded-2xl border border-border p-5 text-center sm:space-y-6 sm:p-12"
           >
             <div className="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto">
               <HelpCircle className="w-6 h-6" />
@@ -68,17 +68,17 @@ export default async function CalculatorPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-              <Link href={ROUTES.contact}>
-                <Button variant="glow" size="md" className="gap-2 font-mono text-xs">
+            <div className="flex flex-col items-stretch justify-center gap-3 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link href={ROUTES.contact} className="w-full sm:w-auto">
+                <Button variant="glow" size="md" className="w-full gap-2 font-mono text-xs sm:w-auto">
                   <Mail className="w-4 h-4" />
                   <span>{tr(locale, "Inquire With Chemist", "Chemiker kontaktieren")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
 
-              <Link href={ROUTES.products}>
-                <Button variant="outline" size="md" className="font-mono text-xs">
+              <Link href={ROUTES.products} className="w-full sm:w-auto">
+                <Button variant="outline" size="md" className="w-full font-mono text-xs sm:w-auto">
                   <span>{tr(locale, "Browse Peptide Catalog", "Peptidkatalog durchsuchen")}</span>
                 </Button>
               </Link>
