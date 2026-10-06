@@ -61,8 +61,8 @@ export function TestedVerifiedSection() {
       key: "verified",
       title: tr("Verified", "Verifiziert"),
       subtitle: tr(
-        "Independent confirmation adds confidence",
-        "Unabhängige Bestätigung schafft Vertrauen"
+        "Independent confirmation",
+        "Unabhängige Bestätigung "
       ),
       desc: tr(
         "Independent review helps confirm that the final material aligns with the quality level expected for research use.",

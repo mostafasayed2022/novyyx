@@ -8,64 +8,78 @@ import { Search, FlaskConical, ShieldCheck, FileCheck2 } from "lucide-react";
 export function ProcessSection() {
   const { tr } = useLocale();
 
-  const steps = [
-    {
-      num: "01",
-      title: tr("IDENTIFY", "IDENTIFIZIEREN"),
-      subtitle: tr(
-        "Molecular Sequence Conformation",
-        "Molekulare Sequenzkonformation"
-      ),
-      desc: tr(
-        "Precursor amino acids and protecting groups are checked before synthesis, while automated monitoring follows the sequence assembly step by step.",
-        "Vor der Synthese werden Aminosäuren und Schutzgruppen geprüft, während die Sequenzbildung Schritt für Schritt automatisiert überwacht wird."
-      ),
-      icon: Search,
-      badge: tr("Stage 01: Pre-Synthesis", "Stufe 01: Vor der Synthese"),
-    },
-    {
-      num: "02",
-      title: tr("TEST", "PRÜFEN"),
-      subtitle: tr(
-        "Multi-Angle Spectroscopic Analysis",
-        "Mehrdimensionale spektroskopische Analyse"
-      ),
-      desc: tr(
-        "The synthesized peptide is evaluated with analytical HPLC and high-resolution mass spectrometry against reference standards.",
-        "Das synthetisierte Peptid wird mittels analytischer HPLC und hochauflösender Massenspektrometrie mit Referenzstandards verglichen."
-      ),
-      icon: FlaskConical,
-      badge: tr("Stage 02: Analytical Core", "Stufe 02: Analytikkern"),
-    },
-    {
-      num: "03",
-      title: tr("VERIFY", "VERIFIZIEREN"),
-      subtitle: tr(
-        "Blind Independent Laboratory Audit",
-        "Verblindete unabhängige Laborprüfung"
-      ),
-      desc: tr(
-        "Selected production samples are sent under coded identifiers for independent third-party laboratory validation.",
-        "Ausgewählte Produktionsproben werden unter codierten Kennungen zur unabhängigen Drittanbieterprüfung versendet."
-      ),
-      icon: ShieldCheck,
-      badge: tr("Stage 03: Third-Party", "Stufe 03: Drittanbieter"),
-    },
-    {
-      num: "04",
-      title: tr("DOCUMENT", "DOKUMENTIEREN"),
-      subtitle: tr(
-        "Public Cryptographic COA Issuance",
-        "Kryptografisch nachvollziehbare COA-Freigabe"
-      ),
-      desc: tr(
-        "After release checks are complete, the batch Certificate of Analysis is signed, archived, and linked to the product record.",
-        "Nach Abschluss der Freigabeprüfungen wird das chargenspezifische Analysezertifikat signiert, archiviert und mit dem Produktdatensatz verknüpft."
-      ),
-      icon: FileCheck2,
-      badge: tr("Stage 04: Release", "Stufe 04: Freigabe"),
-    },
-  ];
+
+const steps = [
+  {
+    num: "01",
+    title: tr("IDENTIFY", "IDENTIFIZIEREN"),
+    subtitle: tr(
+      "Molecular Sequence Preparation",
+      "Vorbereitung der Molekülsequenz"
+    ),
+    desc: tr(
+      "Precursor amino acids and protecting groups are reviewed before synthesis, while process monitoring follows the sequence assembly throughout production.",
+      "Vor der Synthese werden Ausgangsaminosäuren und Schutzgruppen geprüft. Die Prozessüberwachung begleitet den schrittweisen Aufbau der Sequenz."
+    ),
+    icon: Search,
+    badge: tr(
+      "Stage 01: Pre-Synthesis",
+      "Stufe 01: Vor der Synthese"
+    ),
+  },
+  {
+    num: "02",
+    title: tr("TEST", "PRÜFEN"),
+    subtitle: tr(
+      "Multi-Method Analytical Testing",
+      "Analytische Prüfung mit mehreren Methoden"
+    ),
+    desc: tr(
+      "The synthesized peptide is evaluated using analytical HPLC and high-resolution mass spectrometry against established reference criteria.",
+      "Das synthetisierte Peptid wird mithilfe analytischer HPLC und hochauflösender Massenspektrometrie anhand festgelegter Referenzkriterien untersucht."
+    ),
+    icon: FlaskConical,
+    badge: tr(
+      "Stage 02: Analytical Core",
+      "Stufe 02: Analytische Prüfung"
+    ),
+  },
+  {
+    num: "03",
+    title: tr("VERIFY", "VERIFIZIEREN"),
+    subtitle: tr(
+      "Independent Laboratory Review",
+      "Unabhängige Laborprüfung"
+    ),
+    desc: tr(
+      "Selected production samples undergo independent third-party laboratory review to provide an additional layer of quality verification.",
+      "Ausgewählte Produktionsproben werden von unabhängigen Drittlaboren geprüft, um eine zusätzliche Ebene der Qualitätsverifizierung zu gewährleisten."
+    ),
+    icon: ShieldCheck,
+    badge: tr(
+      "Stage 03: Third-Party Verification",
+      "Stufe 03: Unabhängige Verifizierung"
+    ),
+  },
+  {
+    num: "04",
+    title: tr("DOCUMENT", "DOKUMENTIEREN"),
+    subtitle: tr(
+      "Batch Certificate of Analysis",
+      "Chargenspezifisches Analysezertifikat"
+    ),
+    desc: tr(
+      "After release checks are completed, the batch Certificate of Analysis is recorded, archived, and linked to the relevant product documentation.",
+      "Nach Abschluss der Freigabeprüfungen wird das chargenspezifische Analysezertifikat dokumentiert, archiviert und der zugehörigen Produktdokumentation zugeordnet."
+    ),
+    icon: FileCheck2,
+    badge: tr(
+      "Stage 04: Release & Documentation",
+      "Stufe 04: Freigabe und Dokumentation"
+    ),
+  },
+];
+
 
   return (
     <section className="relative overflow-hidden bg-background py-24 sm:py-28">
