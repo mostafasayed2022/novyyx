@@ -50,36 +50,20 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  React.useEffect(() => {
-    if (!isOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setIsOpen(false); };
-    const closeOnDesktop = (event: MediaQueryListEvent) => { if (event.matches) setIsOpen(false); };
-    const desktop = window.matchMedia("(min-width: 1280px)");
-    document.addEventListener("keydown", closeOnEscape);
-    desktop.addEventListener("change", closeOnDesktop);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", closeOnEscape);
-      desktop.removeEventListener("change", closeOnDesktop);
-    };
-  }, [isOpen]);
-
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-        scrolled ? "pt-3 pb-3" : "pt-5 pb-3"
+        scrolled ? "pt-2 pb-2 xl:pt-3 xl:pb-3" : "pt-2 pb-2 xl:pt-5 xl:pb-3"
       )}
     >
-      <Container size="xl">
+      <Container size="xl" className="px-3 sm:px-6 lg:px-8">
         <div
           className={cn(
-            "relative transition-all duration-500 ease-out flex items-center justify-between gap-4",
+            "relative transition-all duration-500 ease-out flex items-center justify-between gap-2 sm:gap-4",
             scrolled
-              ? "px-5 py-2 rounded-2xl bg-background/80 dark:bg-[#07090e]/85 backdrop-blur-2xl border border-border/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
-              : "px-2 py-1 bg-transparent"
+              ? "px-3 py-1.5 xl:px-5 xl:py-2 rounded-2xl bg-background/92 dark:bg-[#07090e]/92 backdrop-blur-none sm:backdrop-blur-xl xl:backdrop-blur-2xl border border-border/80 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.28),0_1px_1px_0_rgba(255,255,255,0.08)_inset]"
+              : "px-1 py-0.5 sm:px-2 sm:py-1 bg-transparent"
           )}
         >
           {/* Hairline Top Specular Chamfer Reflection (Jewelry / Chronometer aesthetic) */}
@@ -98,7 +82,12 @@ export function Navbar() {
             className="flex items-center group select-none shrink-0 relative transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]"
             aria-label="NOVYX Home"
           >
-            <NovyxLogo variant="full" height={96} priority />
+            <span className="xl:hidden">
+              <NovyxLogo variant="full" height={54} priority />
+            </span>
+            <span className="hidden xl:inline-flex">
+              <NovyxLogo variant="full" height={96} priority />
+            </span>
           </Link>
 
           {/* Center: Precision Milled Navigation Track */}
@@ -177,7 +166,7 @@ export function Navbar() {
                             transition={{ type: "spring", stiffness: 380, damping: 32 }}
                           />
                         )}
-                        <span>{tr("Peptides & Skin Boosters", "Peptide & Skin Booster")}</span>
+                        <span>Peptides &amp; Skin Boosters</span>
                         <ChevronDown
                           className={cn(
                             "h-3.5 w-3.5 transition-transform duration-200",
@@ -215,7 +204,7 @@ export function Navbar() {
                                 >
                                   <div>
                                     <div className="text-xs font-mono font-semibold uppercase tracking-[0.12em]">
-                                      {locale === "de" ? productItem.titleDe || productItem.title : productItem.title}
+                                      {productItem.title}
                                     </div>
                                     {productItem.description && (
                                       <div className="mt-1 text-[10px] normal-case leading-relaxed text-muted-foreground line-clamp-2">
@@ -258,7 +247,7 @@ export function Navbar() {
               >
                 {/* Micro-shimmer shine reflection */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-                <span className="relative z-10">{tr("Research Intelligence", "Forschungsintelligenz")}</span>
+                <span className="relative z-10">{tr("Scientific Dossier", "Wissenschaftliches Dossier")}</span>
                 <span className="relative z-10 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5">
                   <ArrowRight className="w-2.5 h-2.5" />
                 </span>
@@ -274,11 +263,13 @@ export function Navbar() {
           </div>
 
           {/* Mobile Right Cluster */}
-          <div className="flex xl:hidden items-center gap-2">
-            <ThemeToggle variant="desktop" />
+          <div className="flex xl:hidden items-center gap-1.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/80 bg-surface/85 shadow-sm">
+              <ThemeToggle variant="desktop" />
+            </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2.5 rounded-xl border border-border/90 bg-surface/80 text-foreground hover:bg-surface-elevated transition-colors shadow-sm cursor-pointer"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/90 bg-surface/85 p-0 text-foreground hover:bg-surface-elevated transition-colors shadow-sm cursor-pointer"
               aria-label={tr("Toggle menu", "Menü öffnen oder schließen")}
             >
               {isOpen ? (
@@ -299,7 +290,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="xl:hidden fixed inset-x-4 top-28 bg-background/95 dark:bg-[#07090e]/95 backdrop-blur-2xl border border-border/80 rounded-2xl p-6 transition-all shadow-[0_24px_50px_-12px_rgba(0,0,0,0.5)] z-50 max-h-[calc(100svh-8rem)] overflow-y-auto"
+            className="xl:hidden fixed inset-x-3 top-[72px] sm:inset-x-4 sm:top-20 bg-background/98 dark:bg-[#07090e]/98 backdrop-blur-none sm:backdrop-blur-xl border border-border/80 rounded-2xl p-4 sm:p-6 transition-all shadow-[0_20px_44px_-14px_rgba(0,0,0,0.45)] z-50 max-h-[calc(100dvh-88px)] sm:max-h-[85vh] overflow-y-auto"
           >
             <div className="flex flex-col gap-2">
               {primaryItems.map((item) => (
@@ -335,7 +326,7 @@ export function Navbar() {
                             : "text-foreground hover:text-brand"
                         )}
                       >
-                        <span>{tr("Peptides & Skin Boosters", "Peptide & Skin Booster")}</span>
+                        <span>Peptides &amp; Skin Boosters</span>
                         <ChevronDown
                           className={cn(
                             "h-4 w-4 transition-transform duration-200",
@@ -368,7 +359,7 @@ export function Navbar() {
                                       : "text-muted-foreground hover:bg-surface-elevated hover:text-brand"
                                   )}
                                 >
-                                  <span>{locale === "de" ? productItem.titleDe || productItem.title : productItem.title}</span>
+                                  <span>{productItem.title}</span>
                                   <ArrowUpRight className="h-3.5 w-3.5" />
                                 </Link>
                               ))}

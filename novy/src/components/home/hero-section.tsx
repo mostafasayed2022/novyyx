@@ -32,6 +32,23 @@ const HeroProduct3DScene = dynamic(
   },
 );
 
+/**
+ * HeroSection
+ *
+ * NOVYX flagship hero.
+ *
+ * Mobile / iPhone:
+ * - Static background image
+ * - Static product image
+ * - No cosmic canvas
+ * - No 3D product scene
+ * - No automatic slide switching
+ *
+ * Desktop:
+ * - Cosmic canvas
+ * - Interactive 3D product scene
+ * - Automatic slide switching
+ */
 export function HeroSection({
   initialSlides,
 }: {
@@ -52,6 +69,13 @@ export function HeroSection({
   const [isDesktop, setIsDesktop] =
     React.useState(false);
 
+  /**
+   * Heavy visual effects are desktop-only.
+   *
+   * The hover / fine-pointer checks are important because
+   * large tablets and touch devices should still receive
+   * the lightweight version.
+   */
   React.useEffect(() => {
     const media = window.matchMedia(
       "(min-width: 901px) and (hover: hover) and (pointer: fine)",
@@ -70,7 +94,13 @@ export function HeroSection({
     };
   }, []);
 
-
+  /**
+   * Auto-advance only on desktop.
+   *
+   * On iPhone / touch devices the user changes slides
+   * manually. This avoids unnecessary hero re-renders
+   * every seven seconds.
+   */
   React.useEffect(() => {
     if (
       !isDesktop ||
@@ -121,8 +151,8 @@ export function HeroSection({
 
   const mobileProductClass =
     activeSlide.isWideComposite
-      ? "relative mx-auto h-[280px] w-[min(94vw,380px)]"
-      : "relative mx-auto h-[390px] w-[min(90vw,340px)]";
+      ? "relative mx-auto h-[220px] w-[min(92vw,320px)] min-[390px]:h-[245px] min-[390px]:w-[350px] sm:h-[280px] sm:w-[380px]"
+      : "relative mx-auto h-[285px] w-[min(82vw,250px)] min-[390px]:h-[320px] min-[390px]:w-[280px] sm:h-[360px] sm:w-[320px]";
 
   return (
     <section
@@ -145,14 +175,16 @@ export function HeroSection({
         justify-between
         overflow-hidden
         bg-transparent
-        pb-5
-        pt-20
+        pb-3
+        pt-28
         text-foreground
         dark:bg-[#040711]
         dark:text-white
-        md:min-h-screen
-        md:pb-8
-        md:pt-28
+        sm:pb-5
+        sm:pt-32
+        lg:min-h-screen
+        lg:pb-8
+        lg:pt-28
         md:transition-colors
         md:duration-500
       "
@@ -219,8 +251,12 @@ export function HeroSection({
         className="
           relative
           z-10
-          my-auto
+          my-0
           w-full
+          pt-1
+          sm:pt-2
+          lg:my-auto
+          lg:pt-0
         "
       >
         <div
@@ -228,7 +264,8 @@ export function HeroSection({
             grid
             grid-cols-1
             items-center
-            gap-3
+            gap-4
+            sm:gap-6
             md:gap-5
             lg:grid-cols-12
             lg:gap-4
@@ -252,9 +289,12 @@ export function HeroSection({
             className="
               order-2
               relative
+              mt-1
               flex
               items-center
               justify-center
+              sm:mt-2
+              lg:mt-0
               lg:col-span-6
               xl:col-span-5
             "
@@ -264,7 +304,7 @@ export function HeroSection({
                 slide={activeSlide}
               />
             ) : (
-              <div className="relative flex w-full items-center justify-center overflow-visible py-1">
+              <div className="relative flex w-full items-center justify-center overflow-visible py-0 sm:py-1">
                 {/* Product glow is dark-mode only; light mode shows the raw video background. */}
                 {isDarkMode ? (
                   <div

@@ -48,12 +48,23 @@
   }
 
   .group {
-    gap: 28px;
-    padding: 18px 14px;
+    gap: 22px;
+    padding: 14px 12px;
   }
 
   .item {
-    width: 270px;
+    width: 245px;
+    gap: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .group {
+    gap: 18px;
+    padding-inline: 10px;
+  }
+
+  .item {
+    width: 220px;
   }
 }
 

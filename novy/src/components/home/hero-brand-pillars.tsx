@@ -55,14 +55,16 @@ export function HeroBrandPillars() {
       className="
         relative
         z-20
-        mt-6
+        mt-4
+        sm:mt-6
         w-full
         overflow-hidden
         border-y
         border-border/80
         bg-white/75
         shadow-sm
-        backdrop-blur-md
+        backdrop-blur-none
+        sm:backdrop-blur-md
         dark:border-white/10
         dark:bg-[#040711]/60
       "

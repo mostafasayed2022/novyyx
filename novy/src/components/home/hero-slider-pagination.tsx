@@ -84,9 +84,9 @@ export function HeroSliderPagination({
       {/* 2. Mobile & Tablet Horizontal Slider Navigation */}
       <nav
         aria-label={tr("Mobile Hero Slider Navigation", "Mobile Slider-Navigation")}
-        className="lg:hidden flex items-center justify-center gap-2 relative z-30 pt-3 pb-1 select-none"
+        className="relative z-30 flex items-center justify-center gap-2 px-4 pb-2 pt-2 select-none lg:hidden"
       >
-        <div className="flex items-center gap-1.5 p-1 rounded-full bg-surface/90 dark:bg-white/5 border border-border/70 dark:border-white/10 backdrop-blur-md shadow-sm">
+        <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-white/15 bg-black/35 p-1 shadow-sm backdrop-blur-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-1.5 sm:backdrop-blur-md">
           {slides.map((slide, index) => {
             const isActive = index === currentIndex;
             return (
@@ -96,10 +96,10 @@ export function HeroSliderPagination({
                 onClick={() => onSelectSlide(index)}
                 aria-label={tr(`Slide ${slide.number} - ${slide.name}`, `Folie ${slide.number} - ${slide.name}`)}
                 className={cn(
-                  "px-3 py-1 rounded-full text-xs font-mono transition-all duration-300 cursor-pointer flex items-center gap-1.5",
+                  "flex min-h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] transition-all duration-300 sm:px-3 sm:text-xs",
                   isActive
                     ? "bg-brand text-white font-bold shadow-[0_0_12px_rgba(27,77,255,0.5)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10"
+                    : "text-white/65 hover:bg-white/10 hover:text-white"
                 )}
               >
                 <span>{slide.number}</span>
