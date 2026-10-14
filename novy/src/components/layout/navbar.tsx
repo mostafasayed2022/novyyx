@@ -326,7 +326,7 @@ export function Navbar() {
                             : "text-foreground hover:text-brand"
                         )}
                       >
-                        <span>Peptides &amp; Skin Boosters</span>
+                        <span>Peptides</span>
                         <ChevronDown
                           className={cn(
                             "h-4 w-4 transition-transform duration-200",
