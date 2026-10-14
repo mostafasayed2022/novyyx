@@ -166,7 +166,7 @@ export function Navbar() {
                             transition={{ type: "spring", stiffness: 380, damping: 32 }}
                           />
                         )}
-                        <span>Peptides &amp; Skin Boosters</span>
+                        <span>Peptides</span>
                         <ChevronDown
                           className={cn(
                             "h-3.5 w-3.5 transition-transform duration-200",
