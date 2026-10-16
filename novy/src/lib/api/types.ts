@@ -144,7 +144,7 @@ export interface Product {
   certificates: (Certificate | ProductCertificate)[];
   specifications: Record<string, string>;
   documents?: ProductDocument[];
-  translations?: { de?: ProductTranslation };
+  translations?: { de?: ProductTranslation; fr?: ProductTranslation };
   createdAt?: string;
   updatedAt?: string;
 }

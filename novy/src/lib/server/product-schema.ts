@@ -12,7 +12,7 @@ const translationSchema = z.object({
 
 export const productSchema = z.object({
   id: z.preprocess((value) => value === "" ? undefined : value, z.string().min(1).optional()),
-  slug: z.string().min(2).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only.").refine((value) => !["peptides", "skin-boosters"].includes(value), "This slug is reserved for a catalog page."),
+  slug: z.string().min(2).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only.").refine((value) => !["peptides", "skin-boosters", "novyx"].includes(value), "This slug is reserved for a dedicated page."),
   name: z.string().min(2),
   scientificName: z.string().min(2),
   category: z.enum(["longevity", "metabolic", "cellular-repair", "cognitive", "immunology", "custom-synthesis"]),
@@ -36,7 +36,7 @@ export const productSchema = z.object({
   imageUrl: imageSourceSchema.default(""),
   certificates: z.array(z.any()).default([]),
   specifications: z.record(z.string(), z.string()).default({}),
-  translations: z.object({ de: translationSchema.optional() }).optional(),
+  translations: z.object({ de: translationSchema.optional(), fr: translationSchema.optional() }).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });

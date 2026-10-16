@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { motion, AnimatePresence } from "framer-motion";
 import { HeroSlide } from "./hero-slide-data";
 import { ROUTES } from "@/lib/constants/routes";
@@ -28,11 +28,11 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
           {/* Eyebrow Pill + Scientific Category */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-mono text-[10px] min-[390px]:text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.24em] uppercase text-[#7DD3FC] font-semibold drop-shadow-sm">
-              {locale === "de" ? slide.eyebrowDe : slide.eyebrow}
+              {locale === "fr" && slide.eyebrowFr ? slide.eyebrowFr : tr(slide.eyebrow, slide.eyebrowDe)}
             </span>
             <span className="opacity-30 text-xs font-mono">•</span>
             <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono tracking-wider bg-black/30 text-[#7DD3FC] border border-white/15 font-bold uppercase">
-              {locale === "de" ? slide.badgeDe : slide.badge}
+              {locale === "fr" && slide.badgeFr ? slide.badgeFr : tr(slide.badge, slide.badgeDe)}
             </span>
           </div>
 
@@ -47,14 +47,14 @@ export function HeroSlideContent({ slide }: HeroSlideContentProps) {
                 {slide.name}
               </span>
               <span className="text-[clamp(1.15rem,5.8vw,2.15rem)] sm:text-4xl xl:text-5xl font-light text-white/90 mt-1 tracking-wide transition-colors duration-300">
-                {locale === "de" ? slide.headlineSubDe : slide.headlineSub}
+                {locale === "fr" && slide.headlineSubFr ? slide.headlineSubFr : tr(slide.headlineSub, slide.headlineSubDe)}
               </span>
             </h1>
           </div>
 
           {/* Narrative Statement */}
           <p className="max-w-xl text-sm font-normal leading-7 text-white/80 transition-colors duration-300 sm:text-lg sm:leading-relaxed">
-            {locale === "de" ? slide.descriptionDe : slide.description}
+            {locale === "fr" && slide.descriptionFr ? slide.descriptionFr : tr(slide.description, slide.descriptionDe)}
           </p>
 
           {/* Live Telemetry Metrics Pills */}

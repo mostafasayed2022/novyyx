@@ -1,4 +1,4 @@
-import type { Locale } from "./config";
+import { tr, type Locale } from "./config";
 
 interface ProductGermanCopy {
   scientificName?: string;
@@ -82,17 +82,28 @@ const SPECIFICATION_LABELS_DE: Record<string, string> = {
   Format: "Format",
 };
 
+const SPECIFICATION_LABELS_FR: Record<string, string> = {
+  "Purity (HPLC)": "Pureté (HPLC)",
+  Appearance: "Aspect",
+  Storage: "Conservation",
+  Format: "Format",
+};
+
 export function localizeProductField(
   locale: Locale,
   slug: string,
   field: keyof ProductGermanCopy,
   fallback: string,
   dynamicGerman?: string,
+  dynamicFrench?: string,
 ) {
-  if (locale !== "de") return fallback;
-  return dynamicGerman || GERMAN_PRODUCTS[slug]?.[field] || fallback;
+  if (locale === "de") return dynamicGerman || GERMAN_PRODUCTS[slug]?.[field] || fallback;
+  if (locale === "fr") return dynamicFrench || tr(locale, fallback, fallback);
+  return fallback;
 }
 
 export function localizeSpecificationLabel(locale: Locale, label: string) {
-  return locale === "de" ? SPECIFICATION_LABELS_DE[label] || label : label;
+  if (locale === "de") return SPECIFICATION_LABELS_DE[label] || label;
+  if (locale === "fr") return SPECIFICATION_LABELS_FR[label] || label;
+  return label;
 }

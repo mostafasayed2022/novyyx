@@ -7,7 +7,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
   const { translation } = await searchParams;
   const products = await listAllProducts();
   return <>
-    {translation === "unavailable" && <p role="status" className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">English content saved. German translation was unavailable; previous German copy was preserved. Review it before publishing.</p>}
-    <AdminProductList products={products} title="Products" subtitle="English-only CMS. German copy is generated and stored when automatic translation is available." />
+    {translation === "unavailable" && <p role="status" className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">English content saved. Automatic German or French translation was unavailable. Existing translated copy was preserved where available; review both languages before publishing.</p>}
+    <AdminProductList products={products} title="Products" subtitle="English-only CMS. German and French copy is generated and stored when automatic translation is available." />
   </>;
 }

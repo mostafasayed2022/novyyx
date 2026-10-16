@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { PageWrapper } from "@/components/layout/page-wrapper";
 import { Container } from "@/components/layout/container";
 import { PeptideCalculator } from "@/components/calculator/peptide-calculator";
@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants/routes";
 import { HelpCircle, ArrowRight, Mail } from "lucide-react";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates } from "@/i18n/paths";
 import { tr } from "@/i18n/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
+    alternates: localizedAlternates("/calculator", locale),
     title: tr(locale, "Peptide Reconstitution & Dilution Calculator", "Peptid-Rekonstitutions- & Verdünnungsrechner"),
     description: tr(locale,
       "Scientific reconstitution tool for in-vitro laboratory research. Calculate required diluent solvent volume (mL/µL) from lyophilized peptide mass and target stock concentration.",

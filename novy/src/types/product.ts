@@ -78,5 +78,5 @@ export interface PeptideProduct {
   imageUrl: string;
   certificates: ProductCertificate[];
   specifications: Record<string, string>;
-  translations?: { de?: ProductTranslation };
+  translations?: { de?: ProductTranslation; fr?: ProductTranslation };
 }

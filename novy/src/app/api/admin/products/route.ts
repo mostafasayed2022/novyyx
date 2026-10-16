@@ -4,7 +4,7 @@ import { isAdminAuthenticated } from "@/lib/server/admin-auth";
 import { createProduct, listAllProducts } from "@/lib/server/content-store";
 import { productSchema } from "@/lib/server/product-schema";
 import type { Product } from "@/lib/api/types";
-import { translateProductToGerman, optionalTranslation } from "@/lib/server/codecraft";
+import { translateProductToGerman, translateProductToFrench, optionalTranslation } from "@/lib/server/codecraft";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,10 +35,14 @@ export async function POST(request: Request) {
       ...parsed.data,
       id: parsed.data.id || randomUUID(),
     } as Product;
-    const { translation: german, translationWarning } = await optionalTranslation(() => translateProductToGerman(draft), draft.translations?.de || {});
+    const [germanResult, frenchResult] = await Promise.all([
+      optionalTranslation(() => translateProductToGerman(draft), draft.translations?.de || {}),
+      optionalTranslation(() => translateProductToFrench(draft), draft.translations?.fr || {}, "French"),
+    ]);
+    const translationWarning = [germanResult.translationWarning, frenchResult.translationWarning].filter(Boolean).join(" ") || undefined;
     const product = await createProduct({
       ...draft,
-      translations: { ...(draft.translations || {}), de: german },
+      translations: { ...(draft.translations || {}), de: germanResult.translation, fr: frenchResult.translation },
     });
     return NextResponse.json({ ...product, translationWarning }, { status: 201 });
   } catch (error) {

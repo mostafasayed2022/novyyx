@@ -1,37 +1,29 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import { DEFAULT_LOCALE, LOCALE_COOKIE, type Locale, tr } from "./config";
+import { usePathname } from "next/navigation";
+import { DEFAULT_LOCALE, type Locale, tr } from "./config";
+import { localeFromPathname } from "./paths";
 
 type LocaleContextValue = {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
   tr: (english: string, german: string) => string;
 };
 
 const LocaleContext = React.createContext<LocaleContextValue | null>(null);
 
 export function LocaleProvider({ children, initialLocale = DEFAULT_LOCALE }: { children: React.ReactNode; initialLocale?: Locale }) {
-  const [locale, setLocaleState] = React.useState<Locale>(initialLocale);
-  const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname ? localeFromPathname(pathname) : initialLocale;
 
   React.useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  const setLocale = React.useCallback((nextLocale: Locale) => {
-    setLocaleState(nextLocale);
-    document.cookie = `${LOCALE_COOKIE}=${nextLocale}; Path=/; Max-Age=31536000; SameSite=Lax`;
-    document.documentElement.lang = nextLocale;
-    router.refresh();
-  }, [router]);
-
   const value = React.useMemo<LocaleContextValue>(() => ({
     locale,
-    setLocale,
     tr: (english, german) => tr(locale, english, german),
-  }), [locale, setLocale]);
+  }), [locale]);
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }

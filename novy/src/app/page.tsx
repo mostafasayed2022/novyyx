@@ -8,12 +8,14 @@ import {
 } from "@/components/home";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates } from "@/i18n/paths";
 import { tr } from "@/i18n/config";
 import { listHeroSlides } from "@/lib/server/content-store";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
+    alternates: localizedAlternates("/", locale),
     title: tr(locale,
       "NOVYX — Engineered for Longevity | Molecular Biotechnology & Peptide Synthesis",
       "NOVYX — Entwickelt für Langlebigkeit | Molekulare Biotechnologie & Peptidsynthese"

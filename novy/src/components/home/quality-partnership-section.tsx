@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { useVisualActivity } from "@/hooks/use-visual-capabilities";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { Container } from "@/components/layout/container";
 import { motion } from "framer-motion";
 import { useLocale } from "@/i18n/locale-provider";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { findProductBySlug } from "@/lib/server/content-store";
 import { ROUTES } from "@/lib/constants/routes";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates, openGraphLocale } from "@/i18n/paths";
 import { tr, type Locale } from "@/i18n/config";
 import { localizeProductField } from "@/i18n/product-localization";
 import { getProductPresentation } from "@/config/product-presentation";
@@ -20,6 +21,15 @@ interface ProductPageProps {
 export const dynamic = "force-dynamic";
 
 function getCategoryLabel(category: Product["category"], locale: Locale) {
+  const french: Record<Product["category"], string> = {
+    longevity: "Peau et longévité",
+    metabolic: "Métabolisme",
+    "cellular-repair": "Réparation cellulaire",
+    cognitive: "Cognition",
+    immunology: "Immunologie",
+    "custom-synthesis": "Synthèse sur mesure",
+  };
+  if (locale === "fr") return french[category];
   const labels: Record<Product["category"], [string, string]> = {
     longevity: ["Skin & Longevity", "Haut & Langlebigkeit"],
     metabolic: ["Metabolic", "Stoffwechsel"],
@@ -59,12 +69,15 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     "description",
     product.description,
     product.translations?.de?.description,
+    product.translations?.fr?.description,
   );
 
   return {
-    title: `${product.name} | NOVYX`,
+    alternates: localizedAlternates(`/products/${slug}`, locale),
+    title: product.name,
     description,
     openGraph: {
+      locale: openGraphLocale(locale),
       title: `${product.name} | NOVYX`,
       description,
       ...(product.imageUrl ? { images: [{ url: product.imageUrl, alt: product.name }] } : {}),
@@ -86,6 +99,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "description",
     product.description,
     product.translations?.de?.description,
+    product.translations?.fr?.description,
   );
   const scientificName = localizeProductField(
     locale,
@@ -93,6 +107,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "scientificName",
     product.scientificName,
     product.translations?.de?.scientificName,
+    product.translations?.fr?.scientificName,
   );
   const tagline = localizeProductField(
     locale,
@@ -100,6 +115,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "tagline",
     product.tagline,
     product.translations?.de?.tagline,
+    product.translations?.fr?.tagline,
   );
   const form = localizeProductField(
     locale,
@@ -107,6 +123,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "form",
     product.form,
     product.translations?.de?.form,
+    product.translations?.fr?.form,
   );
   const storage = localizeProductField(
     locale,
@@ -114,6 +131,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "storageConditions",
     product.storageConditions,
     product.translations?.de?.storageConditions,
+    product.translations?.fr?.storageConditions,
   );
   const reconstitutionNotes = localizeProductField(
     locale,
@@ -121,6 +139,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     "reconstitutionNotes",
     product.reconstitutionNotes,
     product.translations?.de?.reconstitutionNotes,
+    product.translations?.fr?.reconstitutionNotes,
   );
 
   const specifications = Object.entries(product.specifications || {});

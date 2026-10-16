@@ -4,6 +4,7 @@ import { AlertCircle, ArrowRight, ChevronDown, Loader2 } from "lucide-react";
 import { ContactSuccess } from "@/features/contact/contact-success";
 import { useContactForm } from "@/features/contact/use-contact-form";
 import { useLocale } from "@/i18n/locale-provider";
+import type { Locale } from "@/i18n/config";
 
 interface FieldErrorProps {
   id: string;
@@ -22,9 +23,23 @@ const germanValidationMessages: Record<string, string> = {
   "An unexpected error occurred. Please try again.": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
 };
 
-function translateValidationMessage(message: string | undefined, locale: "en" | "de") {
-  if (!message || locale !== "de") return message;
-  return germanValidationMessages[message] || message;
+const frenchValidationMessages: Record<string, string> = {
+  "First name must be at least 2 characters": "Le prénom doit comporter au moins 2 caractères.",
+  "Last name must be at least 2 characters": "Le nom doit comporter au moins 2 caractères.",
+  "Please enter a valid institutional email address": "Veuillez saisir une adresse e-mail professionnelle valide.",
+  "Organization name is required": "Le nom de l’organisation est obligatoire.",
+  "Valid phone number is required": "Un numéro de téléphone valide est obligatoire.",
+  "Country is required": "Le pays est obligatoire.",
+  "Message must be at least 10 characters": "Le message doit comporter au moins 10 caractères.",
+  "The inquiry could not be recorded.": "La demande n’a pas pu être enregistrée.",
+  "An unexpected error occurred. Please try again.": "Une erreur inattendue s’est produite. Veuillez réessayer.",
+};
+
+function translateValidationMessage(message: string | undefined, locale: Locale) {
+  if (!message) return message;
+  if (locale === "de") return germanValidationMessages[message] || message;
+  if (locale === "fr") return frenchValidationMessages[message] || message;
+  return message;
 }
 
 function FieldError({ id, message }: FieldErrorProps) {

@@ -9,11 +9,13 @@ import {
   ProfessionalsSection,
 } from "@/components/home";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates } from "@/i18n/paths";
 import { tr } from "@/i18n/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
+    alternates: localizedAlternates("/about", locale),
     title: tr(locale,
       "About NOVYX — Philosophy, Standards & Scientific Heritage",
       "Über NOVYX — Philosophie, Standards & wissenschaftliche Herkunft"

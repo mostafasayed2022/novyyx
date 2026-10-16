@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ interface PipelineCompound {
 }
 
 export function ComingSoonSection() {
-  const { locale, tr } = useLocale();
+  const { tr } = useLocale();
 
   const pipelineCompounds: PipelineCompound[] = [
     {
@@ -119,17 +119,17 @@ export function ComingSoonSection() {
                     {c.targetPurity} {tr("Target", "Ziel")}
                   </Badge>
                 </div>
-                <p className="font-mono text-xs text-brand">{locale === "de" ? c.categoryDe : c.category}</p>
+                <p className="font-mono text-xs text-brand">{tr(c.category, c.categoryDe)}</p>
               </div>
 
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-elevated border border-border text-[10px] font-mono text-muted-foreground shrink-0">
                 <Clock className="w-3 h-3 text-[#00D2FF]" />
-                <span>{locale === "de" ? c.stageDe : c.stage}</span>
+                <span>{tr(c.stage, c.stageDe)}</span>
               </div>
             </div>
 
             <p className="text-xs text-muted-foreground leading-relaxed font-light">
-              {locale === "de" ? c.descriptionDe : c.description}
+              {tr(c.description, c.descriptionDe)}
             </p>
 
             <div className="pt-2 border-t border-border/70 flex items-center justify-between text-[11px] font-mono">

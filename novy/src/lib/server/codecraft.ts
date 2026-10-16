@@ -53,9 +53,9 @@ export async function codeCraftJson(prompt: string, maxTokens = 900): Promise<Re
   return extractJson(content);
 }
 
-export async function translateProductToGerman(product: Product): Promise<ProductTranslation> {
+async function translateProduct(product: Product, language: "German" | "French"): Promise<ProductTranslation> {
   const result = await codeCraftJson(
-    `Translate the following NOVYX product website fields from English to professional German. Preserve product names, chemical identifiers, units, trademarks, and scientific notation. Do not add medical, therapeutic, diagnostic, efficacy, weight-loss, treatment, or human-use claims. Keep the wording suitable for a research-only biotechnology website.\n\nReturn ONLY this JSON shape:\n{\n  "scientificName": "...",\n  "tagline": "...",\n  "description": "...",\n  "form": "...",\n  "storageConditions": "...",\n  "reconstitutionNotes": "..."\n}\n\nEnglish source:\n${JSON.stringify({
+    `Translate the following NOVYX product website fields from English to professional ${language}. Preserve product names, chemical identifiers, units, trademarks, and scientific notation. Do not add medical, therapeutic, diagnostic, efficacy, weight-loss, treatment, or human-use claims. Keep the wording suitable for a research-only biotechnology website.\n\nReturn ONLY this JSON shape:\n{\n  "scientificName": "...",\n  "tagline": "...",\n  "description": "...",\n  "form": "...",\n  "storageConditions": "...",\n  "reconstitutionNotes": "..."\n}\n\nEnglish source:\n${JSON.stringify({
       scientificName: product.scientificName,
       tagline: product.tagline,
       description: product.description,
@@ -75,6 +75,9 @@ export async function translateProductToGerman(product: Product): Promise<Produc
     reconstitutionNotes: String(result.reconstitutionNotes || product.reconstitutionNotes),
   };
 }
+
+export const translateProductToGerman = (product: Product) => translateProduct(product, "German");
+export const translateProductToFrench = (product: Product) => translateProduct(product, "French");
 
 export async function translateHeroSlideToGerman(slide: {
   eyebrow: string;
@@ -97,13 +100,33 @@ export async function translateHeroSlideToGerman(slide: {
   };
 }
 
-export async function optionalTranslation<T>(translate: () => Promise<T>, fallback: T): Promise<{ translation: T; translationWarning?: string }> {
+export async function translateHeroSlideToFrench(slide: {
+  eyebrow: string;
+  headlineSub: string;
+  category: string;
+  description: string;
+  badge: string;
+}) {
+  const result = await codeCraftJson(
+    `Translate the following NOVYX hero-slide website copy from English to premium, concise French. Preserve product names, scientific abbreviations, chemical terms, units, percentages, and trademarks. Do not add medical, therapeutic, diagnostic, efficacy, weight-loss, treatment, or human-use claims. Return ONLY a JSON object with keys eyebrowFr, headlineSubFr, categoryFr, descriptionFr, badgeFr. English source: ${JSON.stringify(slide)}`,
+    900,
+  );
+  return {
+    eyebrowFr: String(result.eyebrowFr || slide.eyebrow),
+    headlineSubFr: String(result.headlineSubFr || slide.headlineSub),
+    categoryFr: String(result.categoryFr || slide.category),
+    descriptionFr: String(result.descriptionFr || slide.description),
+    badgeFr: String(result.badgeFr || slide.badge),
+  };
+}
+
+export async function optionalTranslation<T>(translate: () => Promise<T>, fallback: T, language = "German"): Promise<{ translation: T; translationWarning?: string }> {
   if (!process.env.CODECRAFT_API_KEY?.trim()) {
-    return { translation: fallback, translationWarning: "English content was saved. Automatic German translation is not configured; existing German copy was preserved." };
+    return { translation: fallback, translationWarning: `English content was saved. Automatic ${language} translation is not configured; existing ${language} copy was preserved.` };
   }
   try {
     return { translation: await translate() };
   } catch {
-    return { translation: fallback, translationWarning: "English content was saved. Automatic German translation is temporarily unavailable; existing German copy was preserved." };
+    return { translation: fallback, translationWarning: `English content was saved. Automatic ${language} translation is temporarily unavailable; existing ${language} copy was preserved.` };
   }
 }

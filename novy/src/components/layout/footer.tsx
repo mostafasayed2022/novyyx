@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { Container } from "./container";
 import { NovyxLogo } from "@/components/ui/novax-logo";
 import { useLocale } from "@/i18n/locale-provider";
@@ -29,7 +29,7 @@ export function Footer() {
                     href={item.href}
                     className="transition-colors hover:text-foreground"
                   >
-                    {locale === "de" ? item.titleDe || item.title : item.title}
+                    {locale === "de" ? item.titleDe || item.title : locale === "fr" ? item.titleFr || item.title : item.title}
                   </Link>
                 </li>
               ))}

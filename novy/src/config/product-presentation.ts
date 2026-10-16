@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { tr } from "@/i18n/config";
 import type { Product } from "@/lib/api/types";
 
 export const CATALOG_PRODUCT_SLUGS = [
@@ -69,13 +70,10 @@ export function getProductPresentation(product: Omit<Product, "price">, locale: 
   const presentation = PRESENTATION[product.slug];
 
   return {
-    eyebrow:
-      locale === "de"
-        ? presentation?.eyebrowDe || "NOVYX · Forschungspeptid"
-        : presentation?.eyebrowEn || "NOVYX · Research Peptide",
-    pack:
-      locale === "de"
-        ? presentation?.packDe || `Packung: ${product.vialSizeMg} mg Forschungsformat`
-        : presentation?.packEn || `Pack: ${product.vialSizeMg} mg research format`,
+    eyebrow: tr(locale, presentation?.eyebrowEn || "NOVYX · Research Peptide", presentation?.eyebrowDe || "NOVYX · Forschungspeptid"),
+    pack: presentation ? tr(locale, presentation.packEn, presentation.packDe) :
+      locale === "fr" ? `Conditionnement : ${product.vialSizeMg} mg, format recherche` :
+      locale === "de" ? `Packung: ${product.vialSizeMg} mg Forschungsformat` :
+      `Pack: ${product.vialSizeMg} mg research format`,
   };
 }

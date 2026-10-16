@@ -3,12 +3,14 @@ import { PageWrapper } from "@/components/layout/page-wrapper";
 import { Container } from "@/components/layout/container";
 import { ContactForm } from "@/components/contact/contact-form";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates } from "@/i18n/paths";
 import { tr } from "@/i18n/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
 
   return {
+    alternates: localizedAlternates("/contact", locale),
     title: tr(locale, "Contact NOVYX Sciences", "NOVYX Sciences kontaktieren"),
     description: tr(
       locale,

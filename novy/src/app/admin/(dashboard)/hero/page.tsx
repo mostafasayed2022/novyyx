@@ -11,9 +11,9 @@ export default async function AdminHeroPage({ searchParams }: { searchParams: Pr
   const slides = await listHeroSlides(true);
   return (
     <div className="space-y-6">
-      {translation === "unavailable" && <p role="status" className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">English slide saved. German translation was unavailable; previous German copy was preserved. Review it before publishing.</p>}
+      {translation === "unavailable" && <p role="status" className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">English slide saved. Automatic German or French translation was unavailable. Existing translated copy was preserved where available; review both languages before publishing.</p>}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div><p className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-brand">Homepage / Hero</p><h1 className="mt-2 text-3xl font-semibold tracking-tight">Hero slides</h1><p className="mt-2 text-sm text-muted-foreground">Draft/published control with automatic German translation on save.</p></div>
+        <div><p className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-brand">Homepage / Hero</p><h1 className="mt-2 text-3xl font-semibold tracking-tight">Hero slides</h1><p className="mt-2 text-sm text-muted-foreground">Draft/published control with automatic German and French translation on save.</p></div>
         <Link href="/admin/hero/new" className="inline-flex h-10 items-center gap-2 self-start rounded-xl bg-brand px-4 text-xs font-semibold text-white"><Plus className="h-4 w-4" /> Add slide</Link>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

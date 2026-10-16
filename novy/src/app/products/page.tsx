@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/container";
 import { ProductCatalog } from "@/components/products";
 import { listProducts } from "@/lib/server/content-store";
 import { getServerLocale } from "@/i18n/server";
+import { localizedAlternates } from "@/i18n/paths";
 import { tr } from "@/i18n/config";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
+    alternates: localizedAlternates("/products", locale),
     title: tr(locale, "NOVYX Research Products", "NOVYX Forschungsprodukte"),
     description: tr(
       locale,

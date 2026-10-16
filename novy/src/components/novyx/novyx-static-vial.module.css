@@ -1,0 +1,23 @@
+.float {
+  animation: novyx-vial-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes novyx-vial-float {
+  0%,
+  100% {
+    transform: translate3d(0, 1.5%, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -1.5%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}

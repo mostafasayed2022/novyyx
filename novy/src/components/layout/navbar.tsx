@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MAIN_NAVIGATION } from "@/lib/constants/navigation";
@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { useLocale } from "@/i18n/locale-provider";
+import { stripLocalePrefix } from "@/i18n/paths";
+import type { Locale } from "@/i18n/config";
+import type { NavItem } from "@/types/navigation";
 import { cn } from "@/lib/utils/cn";
 import { NovyxLogo } from "@/components/ui/novax-logo";
 import {
@@ -22,8 +25,17 @@ import {
   ChevronDown,
 } from "lucide-react";
 
+function navTitle(item: NavItem, locale: Locale) {
+  return locale === "de" ? item.titleDe || item.title : locale === "fr" ? item.titleFr || item.title : item.title;
+}
+
+function navDescription(item: NavItem, locale: Locale) {
+  return locale === "de" ? item.descriptionDe || item.description : locale === "fr" ? item.descriptionFr || item.description : item.description;
+}
+
 export function Navbar() {
   const pathname = usePathname();
+  const cleanPath = stripLocalePrefix(pathname);
   const { locale, tr } = useLocale();
   const [isOpen, setIsOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
@@ -38,7 +50,7 @@ export function Navbar() {
     (item) => item.href !== ROUTES.peptides && item.href !== ROUTES.skinBoosters
   );
   const isProductsActive = productItems.some(
-    (item) => pathname === item.href || pathname.startsWith(`${item.href}/`)
+    (item) => cleanPath === item.href || cleanPath.startsWith(`${item.href}/`)
   );
 
   React.useEffect(() => {
@@ -97,8 +109,8 @@ export function Navbar() {
           >
             {primaryItems.map((item) => {
               const isActive =
-                pathname === item.href ||
-                (item.href !== "/" && pathname.startsWith(item.href));
+                cleanPath === item.href ||
+                (item.href !== "/" && cleanPath.startsWith(item.href));
               const isHovered = hoveredHref === item.href;
 
               return (
@@ -107,7 +119,7 @@ export function Navbar() {
                     href={item.href}
                     onMouseEnter={() => setHoveredHref(item.href)}
                     className={cn(
-                      "px-4 py-1.5 rounded-full text-[11.5px] font-mono uppercase tracking-[0.14em] transition-all duration-300 relative whitespace-nowrap z-10 flex items-center gap-1.5 select-none font-medium",
+                      "px-2.5 2xl:px-4 py-1.5 rounded-full text-[11.5px] font-mono uppercase tracking-[0.14em] transition-all duration-300 relative whitespace-nowrap z-10 flex items-center gap-1.5 select-none font-medium",
                       isActive
                         ? "text-brand font-bold"
                         : "text-muted-foreground hover:text-foreground hover:tracking-[0.16em]"
@@ -127,7 +139,7 @@ export function Navbar() {
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
-                    <span>{locale === "de" ? item.titleDe || item.title : item.title}</span>
+                    <span>{navTitle(item, locale)}</span>
                     {item.badge && (
                       <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-brand/20 text-brand font-mono font-bold tracking-normal border border-brand/30">
                         {item.badge}
@@ -153,7 +165,7 @@ export function Navbar() {
                         aria-haspopup="menu"
                         aria-expanded={productsOpen}
                         className={cn(
-                          "px-4 py-1.5 rounded-full text-[11.5px] font-mono uppercase tracking-[0.14em] transition-all duration-300 relative whitespace-nowrap z-10 flex items-center gap-1.5 select-none font-medium",
+                          "px-2.5 2xl:px-4 py-1.5 rounded-full text-[11.5px] font-mono uppercase tracking-[0.14em] transition-all duration-300 relative whitespace-nowrap z-10 flex items-center gap-1.5 select-none font-medium",
                           isProductsActive
                             ? "text-brand font-bold"
                             : "text-muted-foreground hover:text-foreground hover:tracking-[0.16em]"
@@ -187,8 +199,8 @@ export function Navbar() {
                           >
                             {productItems.map((productItem) => {
                               const active =
-                                pathname === productItem.href ||
-                                pathname.startsWith(`${productItem.href}/`);
+                                cleanPath === productItem.href ||
+                                cleanPath.startsWith(`${productItem.href}/`);
                               return (
                                 <Link
                                   key={productItem.href}
@@ -204,13 +216,11 @@ export function Navbar() {
                                 >
                                   <div>
                                     <div className="text-xs font-mono font-semibold uppercase tracking-[0.12em]">
-                                      {productItem.title}
+                                      {navTitle(productItem, locale)}
                                     </div>
                                     {productItem.description && (
                                       <div className="mt-1 text-[10px] normal-case leading-relaxed text-muted-foreground line-clamp-2">
-                                        {locale === "de"
-                                          ? productItem.descriptionDe || productItem.description
-                                          : productItem.description}
+                                        {navDescription(productItem, locale)}
                                       </div>
                                     )}
                                   </div>
@@ -300,12 +310,12 @@ export function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className={cn(
                       "px-4 py-3 rounded-xl text-xs font-mono uppercase tracking-wider transition-colors flex items-center justify-between",
-                      pathname === item.href
+                      cleanPath === item.href
                         ? "bg-brand/10 text-brand font-bold border border-brand/20 shadow-sm"
                         : "text-foreground hover:bg-surface-elevated hover:text-brand",
                     )}
                   >
-                    <span>{locale === "de" ? item.titleDe || item.title : item.title}</span>
+                    <span>{navTitle(item, locale)}</span>
                     {item.badge && (
                       <span className="px-2 py-0.5 rounded-full text-[9px] bg-brand/15 text-brand font-mono font-bold">
                         {item.badge}
@@ -354,12 +364,12 @@ export function Navbar() {
                                   }}
                                   className={cn(
                                     "flex items-center justify-between rounded-lg px-3 py-3 text-xs font-mono uppercase tracking-wider transition-colors",
-                                    pathname === productItem.href || pathname.startsWith(`${productItem.href}/`)
+                                    cleanPath === productItem.href || cleanPath.startsWith(`${productItem.href}/`)
                                       ? "bg-brand/10 text-brand font-bold"
                                       : "text-muted-foreground hover:bg-surface-elevated hover:text-brand"
                                   )}
                                 >
-                                  <span>{productItem.title}</span>
+                                  <span>{navTitle(productItem, locale)}</span>
                                   <ArrowUpRight className="h-3.5 w-3.5" />
                                 </Link>
                               ))}
@@ -384,7 +394,7 @@ export function Navbar() {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block mb-2 px-1">
                   {tr("Language", "Sprache")}
                 </span>
-                <LanguageSwitcher className="w-full justify-center" />
+                <LanguageSwitcher className="w-full" onSelect={() => setIsOpen(false)} />
               </div>
 
               {/* Mobile Action Buttons */}

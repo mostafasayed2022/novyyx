@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants/routes";

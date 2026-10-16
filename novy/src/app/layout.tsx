@@ -3,18 +3,24 @@ import { Providers } from "@/providers";
 import { SiteShell } from "@/components/layout/site-shell";
 import { siteConfig } from "@/config/site.config";
 import { getServerLocale } from "@/i18n/server";
+import { openGraphLocale } from "@/i18n/paths";
+import { tr } from "@/i18n/config";
 import "./globals.css";
 
 // Fonts are provided through resilient CSS font stacks in globals.css.
 // This avoids Turbopack build-time next/font/google network resolution failures.
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const tagline = tr(locale, siteConfig.tagline, "Entwickelt für Langlebigkeit");
+  const description = tr(locale, siteConfig.description, "Klare Wissenschaft. Beständige Leistung. Präzise Peptidbiotechnologie für Langlebigkeit, analytische Reinheit und deutsche Qualitätsstandards.");
+  return {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    default: `${siteConfig.name} — ${tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  description,
   keywords: [
     "peptides",
     "biotechnology",
@@ -30,33 +36,30 @@ export const metadata: Metadata = {
   authors: [{ name: "NOVYX Peptide Sciences Inc." }],
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: siteConfig.url,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    locale: openGraphLocale(locale),
+    title: `${siteConfig.name} — ${tagline}`,
+    description,
     siteName: siteConfig.name,
     images: [
       {
         url: siteConfig.ogImage,
         width: 1000,
         height: 566,
-        alt: `${siteConfig.name} — ${siteConfig.tagline}`,
+        alt: `${siteConfig.name} — ${tagline}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
-    description: siteConfig.description,
+    description,
     images: [siteConfig.ogImage],
   },
   icons: {
     icon: "/favicon.ico",
   },
-  alternates: {
-    canonical: "./",
-  },
-};
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",

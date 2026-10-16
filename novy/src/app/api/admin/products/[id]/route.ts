@@ -3,7 +3,7 @@ import { isAdminAuthenticated } from "@/lib/server/admin-auth";
 import { deleteProduct, updateProduct, findProductById } from "@/lib/server/content-store";
 import { productSchema } from "@/lib/server/product-schema";
 import type { Product } from "@/lib/api/types";
-import { translateProductToGerman, optionalTranslation } from "@/lib/server/codecraft";
+import { translateProductToGerman, translateProductToFrench, optionalTranslation } from "@/lib/server/codecraft";
 
 export const runtime = "nodejs";
 
@@ -29,10 +29,14 @@ export async function PUT(
     const draft = { ...parsed.data, id } as Product;
     const existing = await findProductById(id);
     if (!existing) return NextResponse.json({ detail: "Product not found." }, { status: 404 });
-    const { translation: german, translationWarning } = await optionalTranslation(() => translateProductToGerman(draft), existing.translations?.de || {});
+    const [germanResult, frenchResult] = await Promise.all([
+      optionalTranslation(() => translateProductToGerman(draft), existing.translations?.de || {}),
+      optionalTranslation(() => translateProductToFrench(draft), existing.translations?.fr || {}, "French"),
+    ]);
+    const translationWarning = [germanResult.translationWarning, frenchResult.translationWarning].filter(Boolean).join(" ") || undefined;
     const product = await updateProduct(id, {
       ...draft,
-      translations: { ...(draft.translations || {}), de: german },
+      translations: { ...(draft.translations || {}), de: germanResult.translation, fr: frenchResult.translation },
     });
     if (!product) return NextResponse.json({ detail: "Product not found." }, { status: 404 });
     return NextResponse.json({ ...product, translationWarning });

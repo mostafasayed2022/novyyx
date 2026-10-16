@@ -35,9 +35,17 @@ after(async () => {
 });
 
 test('public routes render, unknown product returns 404 and public prices stay private', async () => {
-  for (const route of ['/', '/about', '/products', '/products/peptides', '/products/skin-boosters', '/calculator', '/contact', '/admin/login', '/robots.txt', '/sitemap.xml']) {
+  for (const route of ['/', '/about', '/products', '/products/peptides', '/products/skin-boosters', '/products/novyx', '/calculator', '/contact', '/admin/login', '/robots.txt', '/sitemap.xml']) {
     assert.equal((await fetch(`${base}${route}`)).status, 200, route);
   }
+  const novyxPage = await (await fetch(`${base}/products/novyx`)).text();
+  assert.match(novyxPage, /Skin Booster/);
+  assert.doesNotMatch(novyxPage, /Peptide Skin/i);
+  assert.match(novyxPage, /novyx-skin-illustration-before\.webp/);
+  assert.match(novyxPage, /novyx-skin-illustration-after\.webp/);
+  assert.match(novyxPage, /NOVYX GHK-Cu Skin Booster/);
+  const skinBoostersPage = await (await fetch(`${base}/products/skin-boosters`)).text();
+  assert.match(skinBoostersPage, /href="\/products\/novyx"/);
   const missing = await fetch(`${base}/products/not-a-real-product`);
   assert.ok([200, 404].includes(missing.status));
   assert.match(await missing.text(), /name="robots" content="noindex"/); // Next.js streaming status semantics
@@ -53,33 +61,85 @@ test('public routes render, unknown product returns 404 and public prices stay p
   assert.equal((await fetch(`${base}/api/products?ordering=invalid`)).status, 400);
 });
 
+test('each language has a crawlable URL, matching content, canonical and reciprocal alternates', async () => {
+  const cases = [
+    { path: '/products/novyx', lang: 'en', marker: 'Professional formula' },
+    { path: '/de/products/novyx', lang: 'de', marker: 'Professionelle Formel' },
+    { path: '/fr/products/novyx', lang: 'fr', marker: 'Formule professionnelle' },
+  ];
+  for (const { path, lang, marker } of cases) {
+    const response = await fetch(`${base}${path}`);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    assert.match(html, new RegExp(`<html[^>]+lang="${lang}"`));
+    assert.ok(html.toLowerCase().includes(marker.toLowerCase()), `${path} has ${lang} copy`);
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+    assert.equal(new URL(canonical).pathname, path);
+    for (const alternate of ['en', 'de', 'fr', 'x-default']) {
+      assert.ok(html.includes(`hrefLang="${alternate}"`), `${path} advertises ${alternate}`);
+    }
+  }
+  const oldEnglish = await fetch(`${base}/en/products/novyx`, { redirect: 'manual' });
+  assert.equal(oldEnglish.status, 308);
+  assert.equal(new URL(oldEnglish.headers.get('location'), base).pathname, '/products/novyx');
+  const sitemap = await (await fetch(`${base}/sitemap.xml`)).text();
+  assert.ok(sitemap.includes('/de/products/novyx'));
+  assert.ok(sitemap.includes('/fr/products/novyx'));
+});
+
 test('invalid login is handled, unauthenticated writes are rejected and signed sessions expire on the server', async () => {
   assert.equal((await fetch(`${base}/api/admin/session`, json({ password: 123 }))).status, 401);
   assert.equal((await fetch(`${base}/api/admin/products`)).status, 401);
+  const unauthenticatedDashboard = await fetch(`${base}/admin`, { redirect: 'manual' });
+  assert.ok([200, 307].includes(unauthenticatedDashboard.status)); // Next.js can stream the redirect in HTML.
+  if (unauthenticatedDashboard.status === 200) assert.match(await unauthenticatedDashboard.text(), /admin\/login/);
   const login = await fetch(`${base}/api/admin/session`, json({ password: 'regression-password' }));
   assert.equal(login.status, 200);
   cookie = login.headers.get('set-cookie').split(';')[0];
   assert.equal((await fetch(`${base}/api/admin/products`, { headers: { Cookie: cookie } })).status, 200);
+  const dashboard = await fetch(`${base}/admin`, { headers: { Cookie: cookie } });
+  assert.equal(dashboard.status, 200);
+  assert.match(await dashboard.text(), /Dashboard overview/);
   const payload = `${Math.floor(Date.now() / 1000) - 1}.${'a'.repeat(32)}`;
   const signature = createHmac('sha256', secret).update(`novyx-admin-v2:${payload}`).digest('hex');
   assert.equal((await fetch(`${base}/api/admin/products`, { headers: { Cookie: `novyx_admin_session=${payload}.${signature}` } })).status, 401);
 });
 
-test('saving product/hero works without a translation service and rejects invalid media and reserved slugs', async () => {
+test('dashboard product and hero CRUD works without a translation service and rejects invalid input', async () => {
   const [existing] = await (await fetch(`${base}/api/admin/products`, { headers: { Cookie: cookie } })).json();
-  const product = { ...existing, id: undefined, name: 'Regression product', slug: 'regression-product' };
+  const product = { ...existing, id: undefined, name: 'Regression product', slug: 'regression-product', imageUrl: '/products/novyx_ghk_cu_transparent.webp' };
   const created = await fetch(`${base}/api/admin/products`, json(product, cookie));
   assert.equal(created.status, 201);
   const saved = await created.json();
   assert.ok(saved.translationWarning);
+  const updatedProduct = await fetch(`${base}/api/admin/products/${saved.id}`, {
+    ...json({ ...saved, name: 'Regression product updated' }, cookie),
+    method: 'PUT',
+  });
+  assert.equal(updatedProduct.status, 200);
+  assert.equal((await updatedProduct.json()).name, 'Regression product updated');
   const badImage = await fetch(`${base}/api/admin/products`, json({ ...product, slug: 'regression-image', imageUrl: 'javascript:alert(1)' }, cookie));
   assert.equal(badImage.status, 400);
   assert.equal((await fetch(`${base}/api/admin/products`, json({ ...product, slug: 'peptides' }, cookie))).status, 400);
+  assert.equal((await fetch(`${base}/api/admin/products`, json({ ...product, slug: 'novyx' }, cookie))).status, 400);
   const [slide] = await (await fetch(`${base}/api/admin/hero`, { headers: { Cookie: cookie } })).json();
-  const hero = await fetch(`${base}/api/admin/hero`, json({ ...slide, id: 'regression-hero', number: '99' }, cookie));
+  const hero = await fetch(`${base}/api/admin/hero`, json({ ...slide, id: 'regression-hero', number: '99', image: '/products/novyx_ghk_cu_transparent.webp' }, cookie));
   assert.equal(hero.status, 201);
-  assert.ok((await hero.json()).translationWarning);
+  const savedHero = await hero.json();
+  assert.ok(savedHero.translationWarning);
+  const updatedHero = await fetch(`${base}/api/admin/hero/${savedHero.id}`, {
+    ...json({ ...savedHero, name: 'Regression hero updated' }, cookie),
+    method: 'PUT',
+  });
+  assert.equal(updatedHero.status, 200);
+  assert.equal((await updatedHero.json()).name, 'Regression hero updated');
   assert.equal((await fetch(`${base}/api/admin/hero`, json({ ...slide, id: 'bad-link', productLink: 'javascript:alert(1)' }, cookie))).status, 400);
+  assert.equal((await fetch(`${base}/api/admin/products/${saved.id}`, { method: 'DELETE', headers: { Cookie: cookie } })).status, 200);
+  assert.equal((await fetch(`${base}/api/admin/hero/${savedHero.id}`, { method: 'DELETE', headers: { Cookie: cookie } })).status, 200);
+  const currentProducts = await (await fetch(`${base}/api/admin/products`, { headers: { Cookie: cookie } })).json();
+  const currentSlides = await (await fetch(`${base}/api/admin/hero`, { headers: { Cookie: cookie } })).json();
+  assert.ok(!currentProducts.some((item) => item.id === saved.id));
+  assert.ok(!currentSlides.some((item) => item.id === savedHero.id));
 });
 
 test('concurrent contact requests persist and do not report success on invalid input', async () => {

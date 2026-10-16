@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/layout/localized-link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PublicProduct as Product } from "@/lib/utils/public-product";
 import { useProductCatalog } from "@/features/products/use-product-catalog";
 import { useLocale } from "@/i18n/locale-provider";
 import { localizeProductField } from "@/i18n/product-localization";
+import { stripLocalePrefix } from "@/i18n/paths";
 import { ROUTES } from "@/lib/constants/routes";
 import {
   CATALOG_PRODUCT_SLUGS,
@@ -53,6 +54,7 @@ function getPaginationItems(currentPage: number, totalPages: number) {
 
 export function ProductCatalog({ initialProducts, productType }: ProductCatalogProps) {
   const pathname = usePathname();
+  const cleanPath = stripLocalePrefix(pathname);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { locale, tr } = useLocale();
@@ -126,7 +128,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
             { label: "Peptides", href: ROUTES.peptides },
             { label: "Skin Boosters", href: ROUTES.skinBoosters },
           ].map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active = cleanPath === item.href || cleanPath.startsWith(`${item.href}/`);
 
             return (
               <Link
@@ -223,6 +225,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
               "description",
               product.description,
               product.translations?.de?.description,
+              product.translations?.fr?.description,
             );
             const presentation = getProductPresentation(product, locale);
             const isBlend = product.specifications?.Series === "NOVYX Blend Series";

@@ -30,7 +30,7 @@ export function PageWrapper({
 
   // Support normal routes + optional EN / DE locale prefixes
   const cleanPath =
-    pathname.replace(/^\/(en|de)(?=\/|$)/, "") || "/";
+    pathname.replace(/^\/(en|de|fr)(?=\/|$)/, "") || "/";
 
   const isHome = cleanPath === "/";
 
