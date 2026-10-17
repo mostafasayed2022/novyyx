@@ -96,10 +96,8 @@ export function ProceduralVial({
     ctx.lineTo(320, startY + 98);
     ctx.stroke();
 
-    // Volume & Unit format
+    // Label footer microcopy
     ctx.fillStyle = "#334155";
-    ctx.font = "500 18px sans-serif";
-    ctx.fillText("5 mL x 5 Vials", 120, startY + 126);
     ctx.font = "bold 14px monospace";
     ctx.fillText("IVI L", 120, startY + 150);
 

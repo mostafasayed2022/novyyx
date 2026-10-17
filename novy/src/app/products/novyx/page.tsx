@@ -109,7 +109,7 @@ export default async function NovyxSkinBoosterPage() {
     [t("Presentation", "Darreichung"), t("Sterile, ready-to-use liquid", "Sterile, gebrauchsfertige Flüssigkeit")],
     [t("Vial size", "Fläschchengröße"), "5 mL"],
     [t("Box", "Packung"), t("5 single-use vials", "5 Einwegfläschchen")],
-    [t("Origin", "Herkunft"), t("Engineered and made in Korea", "In Korea entwickelt und hergestellt")],
+    [t("Origin", "Herkunft"), t("Engineered and made in Germany", "In Korea entwickelt und hergestellt")],
     [t("Production", "Produktion"), t("GMP and ISO-certified production, as stated in the product brochure", "GMP- und ISO-zertifizierte Produktion laut Produktbroschüre")],
     [t("Storage", "Lagerung"), t("Room temperature, per product brochure", "Raumtemperatur laut Produktbroschüre")],
     [t("Shelf life", "Haltbarkeit"), t("2 years, per product brochure", "2 Jahre laut Produktbroschüre")],
@@ -134,7 +134,7 @@ export default async function NovyxSkinBoosterPage() {
     {
       question: t("How is the NOVYX skin booster presented?", "In welcher Form wird der NOVYX Skin Booster angeboten?"),
       answer: t(
-        "The brochure describes a sterile, ready-to-use liquid made in Korea and supplied as five single-use 5 mL vials. Refer to the supplied labeling for handling and use.",
+        "The brochure describes a sterile, ready-to-use liquid made in Germany and supplied as five single-use 5 mL vials. Refer to the supplied labeling for handling and use.",
         "Die Broschüre beschreibt eine sterile, gebrauchsfertige Flüssigkeit aus Korea in fünf Einwegfläschchen à 5 mL. Für Handhabung und Anwendung gelten die Produktangaben.",
       ),
     },

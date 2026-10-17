@@ -7,6 +7,7 @@ import { randomUUID } from "node:crypto";
 import type { InquiryStatus, Product, ProductQueryParams } from "@/lib/api/types";
 import { MOCK_PRODUCTS } from "@/data/mock-products";
 import { BLEND_PRODUCTS } from "@/lib/server/blend-seed";
+import { VIAL_IMAGE_REPLACEMENTS } from "@/lib/server/vial-image-replacements";
 import { HERO_SLIDES, type HeroSlide } from "@/components/home/hero-slide-data";
 
 export interface StoredInquiry {
@@ -24,7 +25,7 @@ interface ContentStore {
   inquiries: StoredInquiry[];
 }
 
-const CURRENT_STORE_VERSION = 5;
+const CURRENT_STORE_VERSION = 6;
 
 type HranaValue =
   | { type: "null" }
@@ -160,6 +161,15 @@ function normalizeStore(parsed: Partial<ContentStore>): ContentStore {
     );
 
     products = [...products, ...missingBlends];
+  }
+
+  // Version 6 swaps only the known vial renders with pack-count-free artwork.
+  // Match the original URL so any newer dashboard upload is left in place.
+  if (parsedVersion < 6) {
+    products = products.map((product) => {
+      const replacement = product.imageUrl && VIAL_IMAGE_REPLACEMENTS[product.imageUrl];
+      return replacement ? { ...product, imageUrl: replacement } : product;
+    });
   }
 
   return {
