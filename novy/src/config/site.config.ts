@@ -1,8 +1,8 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novyx-labs.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novyx.com";
 
 export const siteConfig = {
-  name: "NOVYX",
-  legalName: "NOVYX Biotherapeutics & Peptide Sciences Inc.",
+  name: "NŌVYX",
+  legalName: "NŌVYX Biotherapeutics & Peptide Sciences Inc.",
   tagline: "Engineered for Longevity",
   description:
     "Clean Science. Timeless Performance. Precision peptide biotechnology engineered for longevity, clinical purity, and German-quality standards.",
@@ -11,9 +11,9 @@ export const siteConfig = {
   contact: {
     email: "inquiries@novyx-labs.com",
     complianceEmail: "quality@novyx-labs.com",
-    phone: "+1 (800) 892-NOVYX",
+    phone: "+1 (800) 892-NŌVYX",
     headquarters: "Cambridge Innovation Center, Kendall Square, Cambridge, MA",
-    laboratory: "NOVYX Analytical Facilities, Research Triangle Park, NC",
+    laboratory: "NŌVYX Analytical Facilities, Research Triangle Park, NC",
   },
   accreditations: ["ISO 9001:2015", "cGMP Compliant", "Independent 3rd-Party Verified", "HPLC & LC-MS Certified"],
   social: {

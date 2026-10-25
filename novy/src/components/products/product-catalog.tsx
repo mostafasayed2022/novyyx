@@ -228,7 +228,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
               product.translations?.fr?.description,
             );
             const presentation = getProductPresentation(product, locale);
-            const isBlend = product.specifications?.Series === "NOVYX Blend Series";
+            const isBlend = product.specifications?.Series === "NŌVYX Blend Series";
 
             return (
               <Link
@@ -248,7 +248,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
                     <>
                       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_50%_0%,rgba(42,103,255,0.20),transparent_72%)]" />
                       <div className="absolute left-4 top-4 z-10 rounded-full border border-brand/20 bg-white/85 px-3 py-1 text-[8px] font-mono font-bold uppercase tracking-[0.16em] text-brand backdrop-blur dark:bg-black/30">
-                        NOVYX Blend Series
+                        NŌVYX Blend Series
                       </div>
                     </>
                   ) : null}
@@ -257,7 +257,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
                     {product.imageUrl ? (
                       <Image
                         src={product.imageUrl}
-                        alt={`${product.name} — NOVYX research product`}
+                        alt={`${product.name} — NŌVYX research product`}
                         fill
                         loading="lazy"
                         quality={80}
@@ -269,7 +269,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
                     ) : (
                       <div className="flex h-full items-center justify-center">
                         <div className="rounded-full border border-brand/15 bg-brand/[0.05] px-4 py-2 text-[9px] font-mono font-semibold uppercase tracking-[0.16em] text-brand">
-                          NOVYX · Artwork pending
+                          NŌVYX · Artwork pending
                         </div>
                       </div>
                     )}
@@ -277,7 +277,7 @@ export function ProductCatalog({ initialProducts, productType }: ProductCatalogP
 
                   <div className="relative flex flex-1 flex-col items-center px-6 pb-7 pt-2 text-center">
                     <p className="mb-2 text-[9px] font-mono font-semibold uppercase tracking-[0.16em] text-brand">
-                      {isBlend ? "NOVYX · Blend Research" : presentation.eyebrow}
+                      {isBlend ? "NŌVYX · Blend Research" : presentation.eyebrow}
                     </p>
                     <h2 className={`font-medium tracking-[-0.01em] text-foreground ${isBlend ? "text-[16px] leading-6" : "text-[17px]"}`}>
                       {product.name}

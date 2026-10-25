@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     alternates: localizedAlternates("/", locale),
     title: tr(locale,
-      "NOVYX — Engineered for Longevity | Molecular Biotechnology & Peptide Synthesis",
-      "NOVYX — Entwickelt für Langlebigkeit | Molekulare Biotechnologie & Peptidsynthese"
+      "NŌVYX — Engineered for Longevity | Molecular Biotechnology & Peptide Synthesis",
+      "NŌVYX — Entwickelt für Langlebigkeit | Molekulare Biotechnologie & Peptidsynthese"
     ),
     description: tr(locale,
       "Setting the global benchmark in ultra-high purity peptide research. Engineered through automated solid-phase synthesis, preparative multi-gradient HPLC, and transparent batch-level analytics.",

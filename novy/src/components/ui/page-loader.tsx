@@ -41,7 +41,7 @@ export function PageLoader() {
         <div className="relative h-16 w-44 sm:h-20 sm:w-56">
           <Image
             src="/logos/novyx_logo_platinum_light.webp"
-            alt="NOVYX"
+            alt="NŌVYX"
             fill
             priority
             sizes="224px"

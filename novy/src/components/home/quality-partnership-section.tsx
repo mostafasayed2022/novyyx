@@ -43,7 +43,7 @@ export function QualityPartnershipSection() {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative w-full max-w-[480px] sm:max-w-[540px] aspect-[4/3] flex items-center justify-center group">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/5 to-brand/10 dark:via-brand/15 dark:to-brand/10 ambient-glow rounded-3xl blur-2xl transform scale-90 -z-10" />
               <motion.div animate={active ? { y: [-5, 5, -5] } : { y: 0 }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="relative w-full h-full flex items-center justify-center">
-                <Image src="/products/Novyx Labs GHK-Cu Product Set.png" alt="NOVYX Labs Box and Vial — GHK-Cu Peptide Skin Booster" fill quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px" className="object-contain filter drop-shadow-[0_22px_32px_rgba(15,23,42,0.14)] dark:drop-shadow-[0_28px_44px_rgba(0,0,0,0.65)] select-none transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Image src="/products/Novyx_Labs.png" alt="NŌVYX Labs Box and Vial — GHK-Cu Peptide Skin Booster" fill quality={75} loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px" className="object-contain filter drop-shadow-[0_22px_32px_rgba(15,23,42,0.14)] dark:drop-shadow-[0_28px_44px_rgba(0,0,0,0.65)] select-none transition-transform duration-500 group-hover:scale-[1.02]" />
               </motion.div>
               <div className="absolute bottom-2 left-2 sm:left-4 bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-md border border-brand/10 dark:border-brand/20 px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
@@ -64,8 +64,8 @@ export function QualityPartnershipSection() {
 
             <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="text-base sm:text-lg text-[#475467] dark:text-[#94A3B8] font-normal leading-relaxed max-w-xl">
               {tr(
-                "At NOVYX, quality isn't an afterthought. It's the foundation. We believe confidence in any peptide begins with knowing exactly what you're working with. That's why our approach centers on high-purity peptide products, independent third-party verification and transparent analytical documentation.",
-                "Bei NOVYX ist Qualität kein nachträglicher Gedanke, sondern die Grundlage. Vertrauen in ein Peptid beginnt damit, exakt zu wissen, womit man arbeitet. Deshalb setzen wir auf hochreine Produkte, unabhängige Drittverifizierung und transparente analytische Dokumentation."
+                "At NŌVYX, quality isn't an afterthought. It's the foundation. We believe confidence in any peptide begins with knowing exactly what you're working with. That's why our approach centers on high-purity peptide products, independent third-party verification and transparent analytical documentation.",
+                "Bei NŌVYX ist Qualität kein nachträglicher Gedanke, sondern die Grundlage. Vertrauen in ein Peptid beginnt damit, exakt zu wissen, womit man arbeitet. Deshalb setzen wir auf hochreine Produkte, unabhängige Drittverifizierung und transparente analytische Dokumentation."
               )}
             </motion.p>
 
@@ -82,10 +82,10 @@ export function QualityPartnershipSection() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap items-center gap-4 pt-3">
-              <Link href="/about#verification" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0A0F1D] dark:bg-white text-white dark:text-[#0A0F1D] font-sans text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-[#1B4DFF] dark:hover:bg-[#00D2FF] dark:hover:text-black shadow-sm group">
+              <Link href="/about" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0A0F1D] dark:bg-white text-white dark:text-[#0A0F1D] font-sans text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-[#1B4DFF] dark:hover:bg-[#00D2FF] dark:hover:text-black shadow-sm group">
                 <span>{tr("Explore Analytical Rigor", "Analytische Präzision entdecken")}</span><ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
-              <Link href="/products/novax-cutis" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border/80 dark:border-white/15 bg-black/[0.02] dark:bg-white/[0.04] text-[#0F172A] dark:text-white font-sans text-xs sm:text-sm font-semibold tracking-wide hover:border-brand/35 hover:bg-brand/5 dark:hover:bg-brand/10 transition-all duration-200">
+              <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border/80 dark:border-white/15 bg-black/[0.02] dark:bg-white/[0.04] text-[#0F172A] dark:text-white font-sans text-xs sm:text-sm font-semibold tracking-wide hover:border-brand/35 hover:bg-brand/5 dark:hover:bg-brand/10 transition-all duration-200">
                 <span>{tr("View Product Dossier", "Produktdossier ansehen")}</span>
               </Link>
             </motion.div>

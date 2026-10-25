@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import Link from "@/components/layout/localized-link";
@@ -66,7 +66,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-        scrolled ? "pt-2 pb-2 xl:pt-3 xl:pb-3" : "pt-2 pb-2 xl:pt-5 xl:pb-3"
+        scrolled ? "pt-2 pb-2 xl:pt-2.5 xl:pb-2.5" : "pt-2 pb-2 xl:pt-3 xl:pb-3"
       )}
     >
       <Container size="xl" className="px-3 sm:px-6 lg:px-8">
@@ -92,13 +92,13 @@ export function Navbar() {
           <Link
             href={ROUTES.home}
             className="flex items-center group select-none shrink-0 relative transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]"
-            aria-label="NOVYX Home"
+            aria-label="NŌVYX Home"
           >
             <span className="xl:hidden">
-              <NovyxLogo variant="full" height={54} priority />
+              <NovyxLogo variant="full" height={45} priority />
             </span>
             <span className="hidden xl:inline-flex">
-              <NovyxLogo variant="full" height={96} priority />
+              <NovyxLogo variant="full" height={65} priority />
             </span>
           </Link>
 

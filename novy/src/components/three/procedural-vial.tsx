@@ -17,7 +17,7 @@ interface ProceduralVialProps {
  * butyl septum stopper, internal peptide matrix, and pharmaceutical label.
  */
 export function ProceduralVial({
-  productName = "NOVYX Labs™",
+  productName = "NŌVYX Labs™",
   purity = 99.82,
   lotId = "NVX-2026-CUT-0042",
   glowColor = "#00D2FF",
@@ -73,10 +73,10 @@ export function ProceduralVial({
     ctx.fillStyle = "#0B1528";
     ctx.font = "bold 44px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("NOVYX", logoX, 200);
+    ctx.fillText("NŌVYX", logoX, 200);
 
     ctx.font = "900 42px sans-serif";
-    ctx.fillText(productName.replace(/^NOVYX\s*/i, ""), logoX, 246);
+    ctx.fillText(productName.replace(/^(?:NŌVYX|NOVYX)\s*/i, ""), logoX, 246);
 
     // 3. Formula Active Ingredients List
     ctx.textAlign = "left";

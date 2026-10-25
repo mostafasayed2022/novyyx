@@ -19,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     alternates: localizedAlternates("/products/skin-boosters", locale),
-    title: tr(locale, "NOVYX Skin Boosters", "NOVYX Skin Booster"),
-    description: tr(locale, "Explore NOVYX skin-booster research presentations.", "Entdecken Sie NOVYX Skin-Booster-Forschungspräsentationen."),
+    title: tr(locale, "NŌVYX Skin Boosters", "NŌVYX Skin Booster"),
+    description: tr(locale, "Explore NŌVYX skin-booster research presentations.", "Entdecken Sie NŌVYX Skin-Booster-Forschungspräsentationen."),
   };
 }
 
@@ -29,7 +29,7 @@ export default async function SkinBoostersPage() {
   const initialProducts = await listProducts({ productType: "skin-booster" });
   return (
     <PageWrapper
-      badge={tr(locale, "NOVYX Products", "NOVYX Produkte")}
+      badge={tr(locale, "NŌVYX Products", "NŌVYX Produkte")}
       title={tr(locale, "Skin Boosters", "Skin Booster")}
       subtitle={tr(locale, "Premium dermal-research presentations managed independently from the peptide catalog.", "Premium-Präsentationen für die Hautforschung, getrennt vom Peptidkatalog verwaltet.")}
       visualSection="products"
@@ -41,17 +41,17 @@ export default async function SkinBoostersPage() {
         >
           <div className="relative z-10 flex flex-col justify-center p-7 sm:p-10">
             <span className="micro-label text-brand">{tr(locale, "Featured professional formula", "Professionelle Formel im Fokus")}</span>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">NOVYX™</h2>
+            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">NŌVYX™</h2>
             <p className="mt-2 font-mono text-xs uppercase tracking-widest text-brand">GHK-Cu Skin Booster</p>
             <p className="mt-5 max-w-lg text-sm leading-7 text-muted-foreground">
               {tr(locale, "A GHK-Cu-led formula for visible skin renewal and long-term skin-quality care.", "Eine Formel mit GHK-Cu für sichtbare Hauterneuerung und langfristige Pflege der Hautqualität.")}
             </p>
             <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand">
-              {tr(locale, "Explore NOVYX", "NOVYX entdecken")}
+              {tr(locale, "Explore NŌVYX", "NŌVYX entdecken")}
               <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
             </span>
           </div>
-          <div role="img" aria-label={tr(locale, "NOVYX GHK-Cu vial", "NOVYX GHK-Cu Fläschchen")} className="relative flex min-h-60 items-center justify-center bg-brand/5 sm:min-h-72">
+          <div role="img" aria-label={tr(locale, "NŌVYX GHK-Cu vial", "NŌVYX GHK-Cu Fläschchen")} className="relative flex min-h-60 items-center justify-center bg-brand/5 sm:min-h-72">
             <NovyxStaticVial className="h-56 transition-transform duration-500 group-hover:scale-105 sm:h-64" sizes="(max-width: 768px) 180px, 220px" />
           </div>
         </Link>

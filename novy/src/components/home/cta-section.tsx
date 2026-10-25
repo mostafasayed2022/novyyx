@@ -21,7 +21,7 @@ export function CtaSection() {
           <div className="inline-flex items-center gap-2 relative z-10"><Badge variant="brand" className="font-mono text-xs">{tr("─ Let’s Collaborate", "Zugang für Unternehmenskooperationen")}</Badge></div>
           <div className="space-y-4 relative z-10">
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground font-sans editorial-headline">
-              {tr("PARTNER WITH", "PARTNERSCHAFT MIT")} <br /><span className="text-brand">NOVYX LABS</span>
+              {tr("PARTNER WITH", "PARTNERSCHAFT MIT")} <br /><span className="text-brand">NŌVYX LABS</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
               {tr("For product specifications, wholesale enquiries, distribution opportunities and analytical documentation,contact your Peptigen representative", "Ob zertifizierte Produktionschargen reserviert, individuelle Peptide entwickelt oder institutionelle Vertriebskanäle aufgebaut werden — unser wissenschaftliches Beratungsteam steht bereit.")}

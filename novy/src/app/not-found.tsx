@@ -36,7 +36,7 @@ export default async function NotFound() {
           <Link href={ROUTES.home}>
             <Button variant="outline" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
-              <span>{tr(locale, "Return to NOVYX Home", "Zur NOVYX-Startseite")}</span>
+              <span>{tr(locale, "Return to NŌVYX Home", "Zur NŌVYX-Startseite")}</span>
             </Button>
           </Link>
         </div>

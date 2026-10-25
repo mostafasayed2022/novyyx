@@ -77,7 +77,7 @@ export function InteractiveHeroProduct() {
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-brand animate-ping" />
               <span className="font-mono text-[10px] tracking-widest uppercase text-foreground font-semibold">
-                NOVYX LABS // GENEVA
+                NŌVYX LABS // GENEVA
               </span>
             </div>
             <Badge variant="brand" className="text-[9px] py-0 font-mono">
@@ -94,7 +94,7 @@ export function InteractiveHeroProduct() {
             <div className="relative w-full h-full flex items-center justify-center">
               <Image
                 src={imageSrc}
-                alt="NOVYX LABS™ Dual Borosilicate Glass Vials"
+                alt="NŌVYX LABS™ Dual Borosilicate Glass Vials"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 450px"
@@ -113,7 +113,7 @@ export function InteractiveHeroProduct() {
               <span>{tr("FLAGSHIP CLINICAL DUAL-VIAL MATRIX", "KLINISCHE DUAL-VIAL-FLAGGSCHIFFMATRIX")}</span>
             </div>
             <h3 className="text-xl font-bold text-foreground font-mono tracking-tight">
-              NOVYX Labs™
+              NŌVYX Labs™
             </h3>
             <p className="text-[11px] font-mono text-muted-foreground leading-relaxed">
               GHK-Cu • PN • PDRN • Acetyl Octapeptide-3

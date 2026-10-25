@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -53,7 +53,7 @@ function ProductContainer({
     <group ref={groupRef}>
       {/* 3D Laboratory Physical Glass Vial */}
       <ProceduralVial
-        productName="NOVYX Labs™"
+        productName="NŌVYX Labs™"
         purity={99.82}
         lotId="NVX-2026-CUT-0042"
       />

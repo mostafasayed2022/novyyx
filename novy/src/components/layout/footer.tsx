@@ -16,7 +16,7 @@ export function Footer() {
           <Link
             href="/"
             className="inline-flex items-center justify-center"
-            aria-label="NOVYX Home"
+            aria-label="NŌVYX Home"
           >
             <NovyxLogo variant="stacked" height={96} />
           </Link>
@@ -38,7 +38,7 @@ export function Footer() {
 
           <div className="mt-7 w-full max-w-2xl border-t border-border/70 pt-5">
             <p className="text-[11px] text-muted-foreground sm:text-xs">
-              © 2023 NOVYX. {tr("All rights reserved.", "Alle Rechte vorbehalten.")}
+              © 2023 NŌVYX. {tr("All rights reserved.", "Alle Rechte vorbehalten.")}
             </p>
           </div>
         </div>

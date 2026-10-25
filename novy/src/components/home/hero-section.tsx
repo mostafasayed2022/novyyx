@@ -329,7 +329,7 @@ export function HeroSection({
                 >
                   <Image
                     src={activeSlide.image}
-                    alt={`NOVYX ${activeSlide.name}`}
+                    alt={`NŌVYX ${activeSlide.name}`}
                     fill
                     priority={
                       currentSlideIndex === 0

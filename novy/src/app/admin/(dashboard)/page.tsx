@@ -22,7 +22,7 @@ export default async function AdminOverviewPage() {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-brand">NOVYX / Admin</p>
+          <p className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-brand">NŌVYX / Admin</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Dashboard overview</h1>
           <p className="mt-2 text-sm text-muted-foreground">Everything here is powered by the same Next.js application.</p>
         </div>

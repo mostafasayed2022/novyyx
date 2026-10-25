@@ -87,7 +87,7 @@ export function PeptideCalculator() {
               </Badge>
               <div className="space-y-3">
                 <h3 className="text-[clamp(1.85rem,9vw,3rem)] font-medium leading-[1.02] tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                  <span className="font-semibold text-[#0d2d73] dark:text-white">NOVYX</span>{" "}
+                  <span className="font-semibold text-[#0d2d73] dark:text-white">NŌVYX</span>{" "}
                   {tr("Reconstitution Calculator", "Rekonstitutionsrechner")}
                 </h3>
                 <p className="max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:text-lg sm:leading-relaxed">

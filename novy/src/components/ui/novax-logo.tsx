@@ -9,18 +9,18 @@ interface NovyxLogoProps {
 }
 
 const FULL_LOGO = {
-  width: 777,
-  height: 635,
+  width: 500,
+  height: 420,
   lightSrc: "/logos/novyx_logo_platinum_light.webp",
   darkSrc: "/logos/novyx_logo_platinum_dark.webp",
-  alt: "NOVYX — Engineered for Longevity",
+  alt: "NŌVYX — Engineered for Longevity",
 };
 
 const SYMBOL_LOGO = {
   width: 384,
   height: 483,
   src: "/logos/novyx_logo_mark.webp",
-  alt: "NOVYX symbol",
+  alt: "NŌVYX symbol",
 };
 
 export function NovyxLogo({

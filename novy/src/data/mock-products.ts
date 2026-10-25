@@ -16,12 +16,12 @@ export const MOCK_PRODUCTS: PeptideProduct[] = [
   createProduct({
     id: "nx-cutis",
     slug: "novax-cutis",
-    name: "NOVYX Labs™",
+    name: "NŌVYX Labs™",
     scientificName: "Professional peptide skin research system",
     category: "longevity",
-    tagline: "NOVYX flagship peptide presentation for professional research environments.",
+    tagline: "NŌVYX flagship peptide presentation for professional research environments.",
     description:
-      "A focused NOVYX research presentation combining premium product design with a clean, professional laboratory format.",
+      "A focused NŌVYX research presentation combining premium product design with a clean, professional laboratory format.",
     sequence: "Research specification available on request",
     casNumber: "—",
     molecularFormula: "—",

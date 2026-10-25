@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     description,
     openGraph: {
       locale: openGraphLocale(locale),
-      title: `${product.name} | NOVYX`,
+      title: `${product.name} | NŌVYX`,
       description,
       ...(product.imageUrl ? { images: [{ url: product.imageUrl, alt: product.name }] } : {}),
     },
@@ -143,7 +143,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   );
 
   const specifications = Object.entries(product.specifications || {});
-  const isBlend = product.specifications?.Series === "NOVYX Blend Series";
+  const isBlend =
+    product.specifications?.Series === "NOVYX Blend Series" ||
+    product.specifications?.Series === "NŌVYX Blend Series";
   const productGroup =
     product.productType === "skin-booster"
       ? tr(locale, "Skin Booster", "Skin Booster")
@@ -151,7 +153,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   const category = getCategoryLabel(product.category, locale);
   const eyebrow =
     product.productType === "skin-booster"
-      ? tr(locale, "NOVYX · Skin Booster", "NOVYX · Skin Booster")
+      ? tr(locale, "NŌVYX · Skin Booster", "NŌVYX · Skin Booster")
       : presentation.eyebrow;
   const backHref =
     product.productType === "skin-booster" ? "/products/skin-boosters" : "/products/peptides";
@@ -181,12 +183,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[radial-gradient(circle_at_50%_0%,rgba(48,108,255,0.22),transparent_72%)]" />
             ) : null}
             <div className="absolute left-5 top-5 z-10 rounded-full border border-brand/15 bg-white/80 px-3 py-1.5 text-[9px] font-mono font-bold uppercase tracking-[0.18em] text-brand backdrop-blur dark:bg-black/30">
-              {isBlend ? "NOVYX BLEND SERIES" : "NOVYX"}
+              {isBlend ? "NŌVYX BLEND SERIES" : "NŌVYX"}
             </div>
             {product.imageUrl ? (
               <Image
                 src={product.imageUrl}
-                alt={`${product.name} — NOVYX research product`}
+                alt={`${product.name} — NŌVYX research product`}
                 fill
                 priority
                 quality={75}
@@ -198,7 +200,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             ) : (
               <div className="absolute inset-0 flex items-center justify-center px-8 text-center">
                 <div>
-                  <p className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-brand">NOVYX</p>
+                  <p className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-brand">NŌVYX</p>
                   <p className="mt-3 text-sm text-muted-foreground">
                     {tr(
                       locale,
@@ -333,7 +335,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 {specifications.map(([label, value]) => (
                   <div key={label} className="grid gap-1 bg-background/55 px-4 py-3 sm:grid-cols-[220px_1fr] sm:gap-6">
                     <p className="text-xs font-semibold text-muted-foreground">{label}</p>
-                    <p className="text-sm text-foreground">{value || "—"}</p>
+                    <p className="text-sm text-foreground">
+                      {typeof value === "string" ? value.replace(/\bNOVYX\b/g, "NŌVYX") : value || "—"}
+                    </p>
                   </div>
                 ))}
               </div>

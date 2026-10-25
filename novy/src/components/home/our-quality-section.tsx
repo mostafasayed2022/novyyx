@@ -47,8 +47,8 @@ const qualitySteps = [
   {
     title: tr("Consistency by Design", "Konsistenz durch Design"),
     desc: tr(
-      "Our quality standards are built around one simple principle: every batch should earn the NOVYX name.",
-      "Unsere Qualitätsstandards basieren auf einem einfachen Prinzip: Jede Charge sollte den Namen NOVYX verdienen."
+      "Our quality standards are built around one simple principle: every batch should earn the NŌVYX name.",
+      "Unsere Qualitätsstandards basieren auf einem einfachen Prinzip: Jede Charge sollte den Namen NŌVYX verdienen."
     ),
     icon: BadgeCheck,
   },
@@ -70,8 +70,8 @@ const qualitySteps = [
 
                 <p className="max-w-xl text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
                   {tr(
-                    "Good quality should be easy to understand. NOVYX focuses on three essentials: a controlled environment, a precise process, and careful handling.",
-                    "Gute Qualität sollte leicht verständlich sein. NOVYX konzentriert sich auf drei Grundlagen: kontrollierte Umgebung, präzise Prozesse und sorgfältige Handhabung."
+                    "Good quality should be easy to understand. NŌVYX focuses on three essentials: a controlled environment, a precise process, and careful handling.",
+                    "Gute Qualität sollte leicht verständlich sein. NŌVYX konzentriert sich auf drei Grundlagen: kontrollierte Umgebung, präzise Prozesse und sorgfältige Handhabung."
                   )}
                 </p>
               </div>
@@ -118,7 +118,7 @@ const qualitySteps = [
                     {/* <div className="mt-auto pt-6">
                       <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.14em] text-brand">
                         <CheckCircle2 className="h-3.5 w-3.5" />
-                        <span>{tr("NOVYX quality standard", "NOVYX Qualitätsstandard")}</span>
+                        <span>{tr("NŌVYX quality standard", "NŌVYX Qualitätsstandard")}</span>
                       </div>
                     </div> */}
                   </div>

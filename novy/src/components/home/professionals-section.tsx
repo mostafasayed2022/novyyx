@@ -99,8 +99,8 @@ export function ProfessionalsSection() {
 
             <p className="mt-5 max-w-xl text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
               {tr(
-                "NOVYX supports clinics, laboratories, distributors, and biotechnology organizations with structured access, reliable supply planning, and clear documentation.",
-                "NOVYX unterstützt Kliniken, Labore, Distributoren und Biotechnologieunternehmen mit strukturiertem Zugang, zuverlässiger Versorgungsplanung und klarer Dokumentation."
+                "NŌVYX supports clinics, laboratories, distributors, and biotechnology organizations with structured access, reliable supply planning, and clear documentation.",
+                "NŌVYX unterstützt Kliniken, Labore, Distributoren und Biotechnologieunternehmen mit strukturiertem Zugang, zuverlässiger Versorgungsplanung und klarer Dokumentation."
               )}
             </p>
 
@@ -141,7 +141,7 @@ export function ProfessionalsSection() {
             className="relative isolate flex aspect-[4/5] w-full flex-col overflow-hidden rounded-[28px] border border-border/70 bg-[radial-gradient(ellipse_at_50%_52%,#d7e6ff_0%,#edf3fb_48%,#f8fafc_85%)] text-slate-900 dark:bg-[radial-gradient(ellipse_at_50%_52%,#142b50_0%,#0a172a_48%,#060d19_85%)] dark:text-white sm:rounded-[32px] lg:aspect-auto lg:min-h-[610px]"
           >
             <div className="relative z-10 px-6 pt-8 text-center sm:pt-10">
-              <p className="text-xl font-semibold tracking-[0.35em] sm:text-2xl">NOVYX</p>
+              <p className="text-xl font-semibold tracking-[0.35em] sm:text-2xl">NŌVYX</p>
               <p className="mx-auto mt-3 max-w-[28em] font-mono text-[9px] uppercase leading-relaxed tracking-[0.18em] text-slate-500 dark:text-blue-100/55 sm:text-[10px]">
                 {tr("Engineered for longevity", "Entwickelt für Langlebigkeit")}
               </p>
@@ -152,7 +152,7 @@ export function ProfessionalsSection() {
               <div className="absolute inset-x-[13%] bottom-[22%] h-[7%] origin-bottom [transform:skewX(-14deg)] rounded-t-[3px] border-t border-slate-400/60 bg-[linear-gradient(135deg,#596474,#2b3645)] dark:border-blue-100/25 dark:bg-[linear-gradient(135deg,#455267,#263347)]" />
               <div className="absolute inset-x-[14%] bottom-[21%] top-[2%]">
                 <Image
-                  src="/products/Novyx Labs GHK-Cu Product Set.png"
+                  src="/products/Novyx_Labs.png"
                   alt=""
                   fill
                   sizes="(max-width: 639px) 72vw, (max-width: 1023px) 60vw, 480px"
@@ -163,7 +163,7 @@ export function ProfessionalsSection() {
             </div>
 
             <figcaption className="relative z-10 px-5 pb-8 pt-4 text-center sm:pb-10">
-              <p className="font-mono text-sm font-medium tracking-[0.22em] sm:text-base">NOVYX LABS</p>
+              <p className="font-mono text-sm font-medium tracking-[0.22em] sm:text-base">NŌVYX LABS</p>
               <p className="mt-2 text-xs tracking-wide text-slate-500 dark:text-blue-100/55 sm:text-sm">
                 {tr("Precision. Purity. Confidence.", "Präzision. Reinheit. Vertrauen.")}
               </p>
@@ -178,11 +178,10 @@ export function ProfessionalsSection() {
               return (
                 <div
                   key={item.label}
-                  className={`flex min-h-[132px] flex-col items-center justify-center px-5 py-6 text-center ${
-                    index !== supplySignals.length - 1
-                      ? "border-b border-white/10 sm:border-b-0 sm:border-r"
-                      : ""
-                  }`}
+                  className={`flex min-h-[132px] flex-col items-center justify-center px-5 py-6 text-center ${index !== supplySignals.length - 1
+                    ? "border-b border-white/10 sm:border-b-0 sm:border-r"
+                    : ""
+                    }`}
                 >
                   <Icon className="h-6 w-6 text-[#67A6FF]" strokeWidth={1.8} />
                   <p className="mt-3 font-mono text-sm uppercase tracking-[0.2em] text-white">

@@ -5,7 +5,7 @@ export const heroSlideSchema = z.object({
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens only."),
   number: z.string().min(1),
   name: z.string().min(1),
-  brand: z.string().min(1).default("NOVYX"),
+  brand: z.string().min(1).default("NŌVYX"),
   eyebrow: z.string().min(2),
   eyebrowDe: z.string().optional().default(""),
   eyebrowFr: z.string().optional(),

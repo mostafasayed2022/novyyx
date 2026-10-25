@@ -10,7 +10,7 @@ const emptySlide: HeroSlide = {
   id: "",
   number: "01",
   name: "",
-  brand: "NOVYX",
+  brand: "NŌVYX",
   eyebrow: "",
   eyebrowDe: "",
   headlineMain: "SCIENCE",
@@ -25,7 +25,7 @@ const emptySlide: HeroSlide = {
   badgeDe: "",
   metrics: [
     { label: "PURITY", value: "99.8%" },
-    { label: "STANDARD", value: "NOVYX" },
+    { label: "STANDARD", value: "NŌVYX" },
   ],
   productLink: "/products",
   published: true,

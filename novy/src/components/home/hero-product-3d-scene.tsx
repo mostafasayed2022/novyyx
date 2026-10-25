@@ -151,7 +151,7 @@ export function HeroProduct3DScene({
                 {/* Crisp Foreground Transparent Product */}
                 <Image
                   src={slide.image}
-                  alt={`NOVYX ${slide.name}`}
+                  alt={`NŌVYX ${slide.name}`}
                   fill
                   preload={slide.id === HERO_SLIDES[0].id}
                   sizes={slide.isWideComposite ? "(max-width: 640px) 85vw, (max-width: 768px) 440px, 500px" : "(max-width: 640px) 240px, (max-width: 768px) 300px, 340px"}

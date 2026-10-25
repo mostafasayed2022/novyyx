@@ -61,8 +61,8 @@ export function NovyxBeforeAfter() {
       </div>
       <figcaption id={captionId} className="border-t border-border px-5 py-4 text-xs leading-6 text-muted-foreground sm:px-6">
         {tr(
-          "Illustrative, digitally generated portraits. This is not a clinical before-and-after result or evidence of NOVYX product efficacy.",
-          "Illustrative, digital erstellte Porträts. Dies ist kein klinisches Vorher-Nachher-Ergebnis und kein Beleg für die Wirksamkeit des NOVYX Produkts.",
+          "Illustrative, digitally generated portraits. This is not a clinical before-and-after result or evidence of NŌVYX product efficacy.",
+          "Illustrative, digital erstellte Porträts. Dies ist kein klinisches Vorher-Nachher-Ergebnis und kein Beleg für die Wirksamkeit des NŌVYX Produkts.",
         )}
       </figcaption>
     </figure>

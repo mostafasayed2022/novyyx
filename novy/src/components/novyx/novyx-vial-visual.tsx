@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useLocale } from "@/i18n/locale-provider";
 import { NovyxStaticVial } from "./novyx-static-vial";
@@ -9,7 +9,7 @@ export function NovyxVialVisual() {
   return (
     <div
       role="img"
-      aria-label={tr("NOVYX GHK-Cu professional skin booster vial", "NOVYX GHK-Cu Fläschchen für professionelle Anwendung")}
+      aria-label={tr("NŌVYX GHK-Cu professional skin booster vial", "NŌVYX GHK-Cu Fläschchen für professionelle Anwendung")}
       className="relative mx-auto aspect-[4/5] w-full max-w-[500px] translate-y-4 sm:translate-y-6 lg:translate-y-10"
     >
       <div aria-hidden="true" className="absolute inset-x-[7%] bottom-[4%] h-[13%] rounded-[50%] bg-brand/20 blur-2xl" />

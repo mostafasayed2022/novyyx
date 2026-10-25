@@ -19,13 +19,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Skin Booster",
     description: tr(
       locale,
-      "Discover the NOVYX GHK-Cu skin booster, a professional formula developed around skin renewal and long-term skin quality.",
-      "Entdecken Sie den NOVYX GHK-Cu Skin Booster, eine professionelle Formel für sichtbare Hauterneuerung und langfristige Hautqualität.",
+      "Discover the NŌVYX GHK-Cu skin booster, a professional formula developed around skin renewal and long-term skin quality.",
+      "Entdecken Sie den NŌVYX GHK-Cu Skin Booster, eine professionelle Formel für sichtbare Hauterneuerung und langfristige Hautqualität.",
     ),
     openGraph: {
       locale: openGraphLocale(locale),
-      title: "Skin Booster | NOVYX",
-      images: [{ url: "/products/novyx-ghk-cu-vial.png", alt: "NOVYX GHK-Cu vial" }],
+      title: "Skin Booster | NŌVYX",
+      images: [{ url: "/products/novyx-ghk-cu-vial.png", alt: "NŌVYX GHK-Cu vial" }],
     },
   };
 }
@@ -105,7 +105,7 @@ export default async function NovyxSkinBoosterPage() {
   ];
 
   const specifications = [
-    [t("Product", "Produkt"), "NOVYX GHK-Cu Skin Booster"],
+    [t("Product", "Produkt"), "NŌVYX GHK-Cu Skin Booster"],
     [t("Presentation", "Darreichung"), t("Sterile, ready-to-use liquid", "Sterile, gebrauchsfertige Flüssigkeit")],
     [t("Vial size", "Fläschchengröße"), "5 mL"],
     [t("Box", "Packung"), t("5 single-use vials", "5 Einwegfläschchen")],
@@ -118,7 +118,7 @@ export default async function NovyxSkinBoosterPage() {
 
   const questions = [
     {
-      question: t("What defines the NOVYX formula?", "Was zeichnet die NOVYX Formel aus?"),
+      question: t("What defines the NŌVYX formula?", "Was zeichnet die NŌVYX Formel aus?"),
       answer: t(
         "It has a defined ingredient hierarchy led by GHK-Cu, with SNAP-8, a PN and micro-PDRN matrix, growth factors and supporting actives rather than an undifferentiated ingredient blend.",
         "Die Inhaltsstoffe folgen einer klaren Hierarchie: GHK-Cu steht im Mittelpunkt, ergänzt durch SNAP-8, eine PN- und micro-PDRN-Matrix, Wachstumsfaktoren und weitere Wirkstoffe.",
@@ -127,12 +127,12 @@ export default async function NovyxSkinBoosterPage() {
     {
       question: t("Why is GHK-Cu central to the formula?", "Warum steht GHK-Cu im Mittelpunkt der Formel?"),
       answer: t(
-        "GHK-Cu is a naturally occurring copper-binding compound studied in skin biology. The NOVYX formula places it at the center of its skin-focused ingredient system.",
-        "GHK-Cu ist eine natürlich vorkommende, kupferbindende Verbindung, die in der Hautbiologie untersucht wird. Die NOVYX Formel stellt sie in den Mittelpunkt ihres hautorientierten Systems.",
+        "GHK-Cu is a naturally occurring copper-binding compound studied in skin biology. The NŌVYX formula places it at the center of its skin-focused ingredient system.",
+        "GHK-Cu ist eine natürlich vorkommende, kupferbindende Verbindung, die in der Hautbiologie untersucht wird. Die NŌVYX Formel stellt sie in den Mittelpunkt ihres hautorientierten Systems.",
       ),
     },
     {
-      question: t("How is the NOVYX skin booster presented?", "In welcher Form wird der NOVYX Skin Booster angeboten?"),
+      question: t("How is the NŌVYX skin booster presented?", "In welcher Form wird der NŌVYX Skin Booster angeboten?"),
       answer: t(
         "The brochure describes a sterile, ready-to-use liquid made in Germany and supplied as five single-use 5 mL vials. Refer to the supplied labeling for handling and use.",
         "Die Broschüre beschreibt eine sterile, gebrauchsfertige Flüssigkeit aus Korea in fünf Einwegfläschchen à 5 mL. Für Handhabung und Anwendung gelten die Produktangaben.",
@@ -141,8 +141,8 @@ export default async function NovyxSkinBoosterPage() {
     {
       question: t("Who is the product intended for?", "Für wen ist das Produkt vorgesehen?"),
       answer: t(
-        "The NOVYX skin booster is presented for professional use in facial skin-quality care, with a focus on visible texture, firmness and early signs of ageing.",
-        "Der NOVYX Skin Booster ist für die professionelle Pflege der Gesichtshautqualität vorgesehen, mit Fokus auf sichtbare Textur, Festigkeit und frühe Zeichen der Hautalterung.",
+        "The NŌVYX skin booster is presented for professional use in facial skin-quality care, with a focus on visible texture, firmness and early signs of ageing.",
+        "Der NŌVYX Skin Booster ist für die professionelle Pflege der Gesichtshautqualität vorgesehen, mit Fokus auf sichtbare Textur, Festigkeit und frühe Zeichen der Hautalterung.",
       ),
     },
   ];
@@ -158,7 +158,7 @@ export default async function NovyxSkinBoosterPage() {
         <Container size="xl" className="relative grid items-center gap-8 pb-16 lg:grid-cols-[1.04fr_0.96fr] lg:gap-4 lg:pb-24">
           <div className="relative z-10 min-w-0 max-w-2xl">
             <div className="mb-7 flex flex-wrap items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand sm:text-xs">
-              <Link href={ROUTES.skinBoosters} className="rounded-full border border-brand/25 bg-brand/10 px-3 py-1.5 transition hover:bg-brand/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">NOVYX / Skin Boosters</Link>
+              <Link href={ROUTES.skinBoosters} className="rounded-full border border-brand/25 bg-brand/10 px-3 py-1.5 transition hover:bg-brand/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">NŌVYX / Skin Boosters</Link>
               <span className="text-muted-foreground">{t("Professional formula", "Professionelle Formel")}</span>
             </div>
             <h1 className="max-w-2xl font-display text-[clamp(2.75rem,5.8vw,5rem)] font-extrabold leading-[0.96] tracking-[-0.065em] text-foreground">
@@ -166,7 +166,7 @@ export default async function NovyxSkinBoosterPage() {
               <span className="block text-brand">Booster</span>
             </h1>
             <p className="mt-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground-secondary sm:text-xs">
-              NOVYX / GHK-Cu
+              NŌVYX / GHK-Cu
             </p>
             <h2 className="mt-9 max-w-xl font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
               {t("Skin renewal.", "Hauterneuerung.")} <span className="text-brand">{t("Skin longevity.", "Langfristige Hautqualität.")}</span>
@@ -213,8 +213,8 @@ export default async function NovyxSkinBoosterPage() {
           </h2>
           <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground">
             {t(
-              "The NOVYX formula connects visible skin renewal with a long-term approach to facial skin quality.",
-              "Die NOVYX Formel verbindet sichtbare Hauterneuerung mit einem langfristigen Ansatz für die Qualität der Gesichtshaut.",
+              "The NŌVYX formula connects visible skin renewal with a long-term approach to facial skin quality.",
+              "Die NŌVYX Formel verbindet sichtbare Hauterneuerung mit einem langfristigen Ansatz für die Qualität der Gesichtshaut.",
             )}
           </p>
           <div className="mt-12 grid gap-4 md:grid-cols-2">
@@ -303,8 +303,8 @@ export default async function NovyxSkinBoosterPage() {
             </h2>
             <p className="mt-6 max-w-lg text-base leading-8 text-muted-foreground">
               {t(
-                "Explore a creative comparison of skin appearance. Drag the portrait to inspect the visual direction behind NOVYX.",
-                "Entdecken Sie einen kreativen Vergleich des Hautbilds. Bewegen Sie den Regler, um die visuelle Ausrichtung hinter NOVYX zu betrachten.",
+                "Explore a creative comparison of skin appearance. Drag the portrait to inspect the visual direction behind NŌVYX.",
+                "Entdecken Sie einen kreativen Vergleich des Hautbilds. Bewegen Sie den Regler, um die visuelle Ausrichtung hinter NŌVYX zu betrachten.",
               )}
             </p>
             <p className="mt-8 inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-brand">
@@ -337,7 +337,7 @@ export default async function NovyxSkinBoosterPage() {
             </p>
             <div
               role="img"
-              aria-label={t("NOVYX GHK-Cu Skin Booster vial", "NOVYX GHK-Cu Skin Booster Fläschchen")}
+              aria-label={t("NŌVYX GHK-Cu Skin Booster vial", "NŌVYX GHK-Cu Skin Booster Fläschchen")}
               className="relative mt-8 flex h-72 items-center justify-center overflow-hidden rounded-xl border border-brand/10 bg-[radial-gradient(circle_at_50%_55%,rgba(27,77,255,0.12),transparent_67%)] lg:h-64"
             >
               <div aria-hidden="true" className="pointer-events-none absolute inset-x-[18%] bottom-4 h-9 rounded-full bg-brand/15 blur-xl" />
@@ -346,7 +346,7 @@ export default async function NovyxSkinBoosterPage() {
           </div>
           <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-[var(--card-shadow)]">
             <table className="w-full border-collapse text-left text-sm">
-              <caption className="sr-only">{t("NOVYX product specifications", "NOVYX Produktspezifikationen")}</caption>
+              <caption className="sr-only">{t("NŌVYX product specifications", "NŌVYX Produktspezifikationen")}</caption>
               <tbody>
                 {specifications.map(([label, value]) => (
                   <tr key={label} className="border-b border-border last:border-b-0">
@@ -382,16 +382,16 @@ export default async function NovyxSkinBoosterPage() {
         <Container size="lg" data-novyx-reveal>
           <div className="surface-card flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="micro-label text-brand">NOVYX / GHK-CU</p>
+              <p className="micro-label text-brand">NŌVYX / GHK-CU</p>
               <h2 className="mt-4 max-w-xl font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
                 {t("Explore the professional dossier.", "Professionelle Produktunterlagen anfragen.")}
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">
-                {t("Contact NOVYX for product information and professional inquiries.", "Kontaktieren Sie NOVYX für Produktinformationen und professionelle Anfragen.")}
+                {t("Contact NŌVYX for product information and professional inquiries.", "Kontaktieren Sie NŌVYX für Produktinformationen und professionelle Anfragen.")}
               </p>
             </div>
             <Link href={ROUTES.contact} className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2">
-              {t("Contact NOVYX", "NOVYX kontaktieren")} <ArrowRight className="size-4" aria-hidden="true" />
+              {t("Contact NŌVYX", "NŌVYX kontaktieren")} <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
         </Container>

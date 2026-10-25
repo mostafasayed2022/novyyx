@@ -13,8 +13,8 @@ export function BrandPillarsSection() {
     {
       title: tr("Science Driven", "Wissenschaftlich geführt"),
       desc: tr(
-        "Research-first thinking guides how NOVYX develops and presents every product.",
-        "Forschungsorientiertes Denken bestimmt, wie NOVYX jedes Produkt entwickelt und präsentiert."
+        "Research-first thinking guides how NŌVYX develops and presents every product.",
+        "Forschungsorientiertes Denken bestimmt, wie NŌVYX jedes Produkt entwickelt und präsentiert."
       ),
       icon: Atom,
     },
@@ -29,8 +29,8 @@ export function BrandPillarsSection() {
     {
       title: tr("German Quality", "Deutsche Qualität"),
       desc: tr(
-        "Clean execution, reliable handling, and a clear quality mindset shape the NOVYX standard.",
-        "Saubere Ausführung, verlässliche Handhabung und ein klares Qualitätsverständnis prägen den NOVYX-Standard."
+        "Clean execution, reliable handling, and a clear quality mindset shape the NŌVYX standard.",
+        "Saubere Ausführung, verlässliche Handhabung und ein klares Qualitätsverständnis prägen den NŌVYX-Standard."
       ),
       icon: ShieldCheck,
     },
@@ -51,12 +51,12 @@ export function BrandPillarsSection() {
           <div className="space-y-4">
             <Badge variant="brand">{tr("Brand Pillars", "Markenpfeiler")}</Badge>
             <h2 className="editorial-headline font-sans text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-              {tr("WHAT", "WAS")} <span className="text-brand">NOVYX</span> {tr("STANDS FOR", "AUSZEICHNET")}
+              {tr("WHAT", "WAS")} <span className="text-brand">NŌVYX</span> {tr("STANDS FOR", "AUSZEICHNET")}
             </h2>
             <p className="mx-auto max-w-2xl text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
               {tr(
-                "Four simple ideas shape the NOVYX identity — science-led, quality-focused, and built for modern peptide research.",
-                "Vier einfache Ideen prägen die Identität von NOVYX — wissenschaftlich geführt, qualitätsorientiert und für moderne Peptidforschung entwickelt."
+                "Four simple ideas shape the NŌVYX identity — science-led, quality-focused, and built for modern peptide research.",
+                "Vier einfache Ideen prägen die Identität von NŌVYX — wissenschaftlich geführt, qualitätsorientiert und für moderne Peptidforschung entwickelt."
               )}
             </p>
           </div>

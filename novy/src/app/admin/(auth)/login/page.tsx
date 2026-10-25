@@ -5,7 +5,7 @@ import { NovyxLogo } from "@/components/ui/novax-logo";
 import { isAdminAuthenticated } from "@/lib/server/admin-auth";
 
 export const metadata: Metadata = {
-  title: "Admin Login | NOVYX",
+  title: "Admin Login | NŌVYX",
   robots: { index: false, follow: false },
 };
 
@@ -20,7 +20,7 @@ export default async function AdminLoginPage() {
           <span className="rounded-full border border-border px-3 py-1 text-[9px] font-mono font-semibold uppercase tracking-[0.16em] text-muted-foreground">Admin</span>
         </div>
         <h1 className="mt-8 text-3xl font-semibold tracking-tight">Control Center</h1>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">Manage NOVYX products, media, inquiries, and AI-assisted content from the Next.js dashboard.</p>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">Manage NŌVYX products, media, inquiries, and AI-assisted content from the Next.js dashboard.</p>
         <LoginForm />
       </div>
     </main>

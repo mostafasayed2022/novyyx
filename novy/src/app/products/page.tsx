@@ -16,11 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     alternates: localizedAlternates("/products", locale),
-    title: tr(locale, "NOVYX Research Products", "NOVYX Forschungsprodukte"),
+    title: tr(locale, "NŌVYX Research Products", "NŌVYX Forschungsprodukte"),
     description: tr(
       locale,
-      "Explore the focused NOVYX research product range.",
-      "Entdecken Sie das fokussierte NOVYX Sortiment für Forschungsprodukte.",
+      "Explore the focused NŌVYX research product range.",
+      "Entdecken Sie das fokussierte NŌVYX Sortiment für Forschungsprodukte.",
     ),
   };
 }
@@ -31,7 +31,7 @@ export default async function ProductsPage() {
 
   return (
     <PageWrapper
-      badge={tr(locale, "NOVYX Products", "NOVYX Produkte")}
+      badge={tr(locale, "NŌVYX Products", "NŌVYX Produkte")}
       title={tr(locale, "Research Product Collection", "Forschungsprodukt-Kollektion")}
       subtitle={tr(
         locale,

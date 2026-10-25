@@ -4,7 +4,7 @@ import { AdminShell } from "@/components/admin/admin-shell";
 import { isAdminAuthenticated } from "@/lib/server/admin-auth";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | NOVYX",
+  title: "Admin Dashboard | NŌVYX",
   robots: { index: false, follow: false },
 };
 

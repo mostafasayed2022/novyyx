@@ -274,8 +274,8 @@ export function ContactForm() {
         <div className="mt-7 flex flex-col gap-5 border-t border-border/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-lg text-[11px] leading-5 text-muted-foreground">
             {tr(
-              "By submitting this form, you agree that NOVYX may use the information provided to respond to your inquiry.",
-              "Mit dem Absenden dieses Formulars stimmen Sie zu, dass NOVYX die angegebenen Informationen zur Bearbeitung Ihrer Anfrage verwendet.",
+              "By submitting this form, you agree that NŌVYX may use the information provided to respond to your inquiry.",
+              "Mit dem Absenden dieses Formulars stimmen Sie zu, dass NŌVYX die angegebenen Informationen zur Bearbeitung Ihrer Anfrage verwendet.",
             )}
           </p>
 

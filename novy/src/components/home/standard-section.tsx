@@ -165,7 +165,7 @@ export function StandardSection() {
             <div className="lg:col-span-5 xl:col-span-5 space-y-6 text-left">
               {/* Eyebrow */}
               <div className="font-mono text-xs sm:text-sm font-semibold tracking-[0.24em] text-[#1B4DFF] dark:text-[#00D2FF] uppercase">
-                {tr("THE NOVYX STANDARD", "DER NOVYX STANDARD")}
+                {tr("THE NŌVYX STANDARD", "DER NŌVYX STANDARD")}
               </div>
 
               {/* Master Headline */}
@@ -176,7 +176,7 @@ export function StandardSection() {
 
               {/* Narrative Statement */}
               <p className="text-sm sm:text-base text-[#475467] dark:text-[#94A3B8] font-normal leading-relaxed max-w-xl">
-                {tr("At NOVYX, we believe better tomorrows begin with higher standards today. Our peptides are developed with a relentless focus on quality, purity and verification — backed by transparent analytical documentation so you can move forward with confidence.", "Bei NOVYX glauben wir, dass eine bessere Zukunft mit höheren Standards heute beginnt. Unsere Peptide werden mit konsequentem Fokus auf Qualität, Reinheit und Verifizierung entwickelt — unterstützt durch transparente analytische Dokumentation.")}
+                {tr("At NŌVYX, we believe better tomorrows begin with higher standards today. Our peptides are developed with a relentless focus on quality, purity and verification — backed by transparent analytical documentation so you can move forward with confidence.", "Bei NŌVYX glauben wir, dass eine bessere Zukunft mit höheren Standards heute beginnt. Unsere Peptide werden mit konsequentem Fokus auf Qualität, Reinheit und Verifizierung entwickelt — unterstützt durch transparente analytische Dokumentation.")}
               </p>
 
               {/* Tagline Subtext */}
@@ -227,7 +227,7 @@ export function StandardSection() {
               >
                 <div
                   role="img"
-                  aria-label="NOVYX crystalline DNA double helix"
+                  aria-label="NŌVYX crystalline DNA double helix"
                   className="absolute inset-0 flex items-center justify-center rounded-[2rem] bg-gradient-to-b from-white/80 via-[#DCE6F5]/45 to-transparent dark:from-white/5 dark:via-[#1B4DFF]/10 dark:to-transparent border border-[#DCE6F5]/70 dark:border-white/10 shadow-[0_18px_60px_rgba(27,77,255,0.12)]"
                 >
                   <Dna className="h-[78%] w-[78%] stroke-[1.1] text-[#1B4DFF] dark:text-[#7DD3FC] drop-shadow-[0_4px_22px_rgba(27,77,255,0.28)]" />

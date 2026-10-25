@@ -66,7 +66,7 @@ export function AboutHeroBanner({ badge, title, subtitle, scienceLabel, peptideL
               <div className="absolute inset-9 rounded-full bg-[radial-gradient(circle,rgba(22,93,255,0.52),rgba(5,12,24,0.08)_68%)] blur-xl" />
               <Image
                 src="/novyx-icon.webp"
-                alt="NOVYX"
+                alt="NŌVYX"
                 width={260}
                 height={260}
                 priority

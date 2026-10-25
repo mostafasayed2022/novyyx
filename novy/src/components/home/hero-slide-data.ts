@@ -1,4 +1,4 @@
-import { ROUTES } from "@/lib/constants/routes";
+﻿import { ROUTES } from "@/lib/constants/routes";
 
 export interface HeroSlideMetric {
   label: string;
@@ -37,7 +37,7 @@ export interface HeroSlide {
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
-    id: "cutis", number: "01", name: "Labs™", brand: "NOVYX",
+    id: "cutis", number: "01", name: "Labs™", brand: "NŌVYX",
     eyebrow: "ENGINEERED FOR LONGEVITY", eyebrowDe: "ENTWICKELT FÜR LANGLEBIGKEIT",
     headlineMain: "SCIENCE", headlineSub: "BEYOND TIME", headlineSubDe: "JENSEITS DER ZEIT",
     category: "DERMAL BIOTECHNOLOGY", categoryDe: "DERMALE BIOTECHNOLOGIE",
@@ -49,7 +49,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     productLink: ROUTES.products,
   },
   {
-    id: "ghk-cu", number: "02", name: "GHK-Cu", brand: "NOVYX",
+    id: "ghk-cu", number: "02", name: "GHK-Cu", brand: "NŌVYX",
     eyebrow: "CELLULAR ARCHITECTURE", eyebrowDe: "ZELLULÄRE ARCHITEKTUR",
     headlineMain: "REPAIR", headlineSub: "MATRIX REBIRTH", headlineSubDe: "MATRIX-REGENERATION",
     category: "COPPER TRIPEPTIDE COMPLEX", categoryDe: "KUPFER-TRIPEPTID-KOMPLEX",
@@ -61,7 +61,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     productLink: ROUTES.products,
   },
   {
-    id: "bpc-157", number: "03", name: "BPC-157", brand: "NOVYX",
+    id: "bpc-157", number: "03", name: "BPC-157", brand: "NŌVYX",
     eyebrow: "SYSTEMIC BIO-INTEGRITY", eyebrowDe: "SYSTEMISCHE BIO-INTEGRITÄT",
     headlineMain: "HEALING", headlineSub: "VASCULAR FLOW", headlineSubDe: "VASKULÄRER FLUSS",
     category: "CYTOPROTECTIVE SEQUENCE", categoryDe: "ZYTOPROTEKTIVE SEQUENZ",
@@ -73,7 +73,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     productLink: ROUTES.products,
   },
   {
-    id: "retatrutide", number: "04", name: "Retatrutide", brand: "NOVYX",
+    id: "retatrutide", number: "04", name: "Retatrutide", brand: "NŌVYX",
     eyebrow: "METABOLIC MODULATION", eyebrowDe: "METABOLISCHE MODULATION",
     headlineMain: "ENERGY", headlineSub: "TRIPLE AGONIST", headlineSubDe: "TRIPLE-AGONIST",
     category: "GIP / GLP-1 / GLUCAGON", categoryDe: "GIP / GLP-1 / GLUKAGON",

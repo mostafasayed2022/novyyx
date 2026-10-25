@@ -11,11 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     alternates: localizedAlternates("/contact", locale),
-    title: tr(locale, "Contact NOVYX Sciences", "NOVYX Sciences kontaktieren"),
+    title: tr(locale, "Contact NŌVYX Sciences", "NŌVYX Sciences kontaktieren"),
     description: tr(
       locale,
-      "Contact NOVYX Sciences through our secure inquiry form.",
-      "Kontaktieren Sie NOVYX Sciences über unser sicheres Anfrageformular.",
+      "Contact NŌVYX Sciences through our secure inquiry form.",
+      "Kontaktieren Sie NŌVYX Sciences über unser sicheres Anfrageformular.",
     ),
   };
 }
@@ -26,7 +26,7 @@ export default async function ContactPage() {
   return (
     <PageWrapper
       badge={tr(locale, "Direct Inquiries", "Direkte Anfragen")}
-      title={tr(locale, "Contact NOVYX Sciences", "NOVYX Sciences kontaktieren")}
+      title={tr(locale, "Contact NŌVYX Sciences", "NŌVYX Sciences kontaktieren")}
       subtitle={tr(
         locale,
         "Have questions about chromatographic lot certificates, custom synthesis feasibility, or institutional procurement? Our scientific team is available.",

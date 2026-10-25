@@ -90,7 +90,7 @@ const steps = [
 
       <Container size="xl" className="relative z-10">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge variant="brand">{tr("The NOVYX Process", "Der NOVYX-Prozess")}</Badge>
+          <Badge variant="brand">{tr("The NŌVYX Process", "Der NŌVYX-Prozess")}</Badge>
 
           <h2 className="editorial-headline mt-5 font-sans text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
             {tr("THE 4-STAGE", "DIE 4-STUFIGE")} <br />

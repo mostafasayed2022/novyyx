@@ -17,12 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     alternates: localizedAlternates("/about", locale),
     title: tr(locale,
-      "About NOVYX — Philosophy, Standards & Scientific Heritage",
-      "Über NOVYX — Philosophie, Standards & wissenschaftliche Herkunft"
+      "About NŌVYX — Philosophy, Standards & Scientific Heritage",
+      "Über NŌVYX — Philosophie, Standards & wissenschaftliche Herkunft"
     ),
     description: tr(locale,
-      "Learn about the foundational biotechnology philosophy, ISO 9001:2015 cleanroom infrastructure, and transparent analytical standards of NOVYX Peptide Sciences.",
-      "Erfahren Sie mehr über die biotechnologische Philosophie, Reinrauminfrastruktur und transparenten analytischen Standards von NOVYX Peptide Sciences."
+      "Learn about the foundational biotechnology philosophy, ISO 9001:2015 cleanroom infrastructure, and transparent analytical standards of NŌVYX Peptide Sciences.",
+      "Erfahren Sie mehr über die biotechnologische Philosophie, Reinrauminfrastruktur und transparenten analytischen Standards von NŌVYX Peptide Sciences."
     ),
   };
 }
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 /**
  * ABOUT PAGE
  * About Sections:
- * 1. Quality & Partnership (NOVYX Standard)
+ * 1. Quality & Partnership (NŌVYX Standard)
  * 2. Brand Pillars
  * 3. Quality / Process
  * 4. Professional Partners + CTA
@@ -39,9 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function AboutPage() {
   const locale = await getServerLocale();
   return (
-    <PageWrapper className="pt-24">
+    <PageWrapper className="pt-32 sm:pt-36 lg:pt-40">
       <AboutHeroBanner
-        badge={tr(locale, "About NOVYX", "Über NOVYX")}
+        badge={tr(locale, "About NŌVYX", "Über NŌVYX")}
         title={tr(locale, "Engineered for Longevity", "Entwickelt für Langlebigkeit")}
         subtitle={tr(
           locale,

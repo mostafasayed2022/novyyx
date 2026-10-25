@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return {
     alternates: localizedAlternates("/products/peptides", locale),
-    title: tr(locale, "NOVYX Peptides", "NOVYX Peptide"),
-    description: tr(locale, "Explore NOVYX peptide research products.", "Entdecken Sie NOVYX Peptid-Forschungsprodukte."),
+    title: tr(locale, "NŌVYX Peptides", "NŌVYX Peptide"),
+    description: tr(locale, "Explore NŌVYX peptide research products.", "Entdecken Sie NŌVYX Peptid-Forschungsprodukte."),
   };
 }
 
@@ -25,9 +25,9 @@ export default async function PeptidesPage() {
   const initialProducts = await listProducts({ productType: "peptide" });
   return (
     <PageWrapper
-      badge={tr(locale, "NOVYX Products", "NOVYX Produkte")}
+      badge={tr(locale, "NŌVYX Products", "NŌVYX Produkte")}
       title={tr(locale, "Peptides", "Peptide")}
-      subtitle={tr(locale, "Focused peptide research formats and the NOVYX Blend Series, presented with clear technical specifications.", "Fokussierte Peptid-Forschungsformate und die NOVYX Blend Series mit klaren technischen Spezifikationen.")}
+      subtitle={tr(locale, "Focused peptide research formats and the NŌVYX Blend Series, presented with clear technical specifications.", "Fokussierte Peptid-Forschungsformate und die NŌVYX Blend Series mit klaren technischen Spezifikationen.")}
       visualSection="products"
     >
       <Container size="xl">

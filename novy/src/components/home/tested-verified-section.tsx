@@ -111,8 +111,8 @@ export function TestedVerifiedSection() {
               </h2>
               <p className="max-w-xl text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
                 {tr(
-                  "A simpler way to understand how NOVYX supports product confidence: every lot is reviewed, recorded, and independently checked before it reaches researchers.",
-                  "Ein einfacherer Überblick darüber, wie NOVYX Produktsicherheit unterstützt: Jede Charge wird geprüft, dokumentiert und unabhängig kontrolliert, bevor sie Forschende erreicht."
+                  "A simpler way to understand how NŌVYX supports product confidence: every lot is reviewed, recorded, and independently checked before it reaches researchers.",
+                  "Ein einfacherer Überblick darüber, wie NŌVYX Produktsicherheit unterstützt: Jede Charge wird geprüft, dokumentiert und unabhängig kontrolliert, bevor sie Forschende erreicht."
                 )}
               </p>
             </div>
